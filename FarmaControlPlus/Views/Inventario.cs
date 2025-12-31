@@ -1,20 +1,33 @@
-﻿using System;
+﻿using FarmaControlPlus;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Globalization;
-using System.Drawing.Printing;
 
 namespace TuProyecto.Views
 {
     public partial class Inventario : UserControl
     {
         private bool soloCriticos = false;
+
+        private void AgregarMedicamentoAGrid(Medicamento med)
+        {
+            dataGridViewInventario.Rows.Add(
+                med.Nombre,
+                med.Codigo,
+                med.Categoria,
+                med.Stock,
+                med.PrecioUnitario.ToString("N2"),
+                med.FechaVencimiento.ToShortDateString()
+            );
+        }
 
         public Inventario()
         {
@@ -272,10 +285,12 @@ namespace TuProyecto.Views
 
         private void btnNuevoMedicamento_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Funcionalidad para agregar nuevo medicamento",
-                "Nuevo Medicamento",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            FrmAgregarMedicamento frm = new FrmAgregarMedicamento();
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                AgregarMedicamentoAGrid(frm.MedicamentoCreado);
+            }
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
