@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Npgsql;
 namespace TuProyecto.Views
 {
     public partial class Inventario : UserControl
@@ -29,6 +29,64 @@ namespace TuProyecto.Views
             );
         }
 
+        private void GuardarMedicamentoBD(Medicamento med)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(ConexionBD.CadenaConexion))
+            {
+                conn.Open();
+
+                string sql = @"INSERT INTO medicamentos
+                       (nombre, codigo, categoria, stock, precio_unitario, fecha_vencimiento)
+                       VALUES
+                       (@nombre, @codigo, @categoria, @stock, @precio, @fecha)";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", med.Nombre);
+                    cmd.Parameters.AddWithValue("@codigo", med.Codigo);
+                    cmd.Parameters.AddWithValue("@categoria", med.Categoria);
+                    cmd.Parameters.AddWithValue("@stock", med.Stock);
+                    cmd.Parameters.AddWithValue("@precio", med.PrecioUnitario);
+                    cmd.Parameters.AddWithValue("@fecha", med.FechaVencimiento);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void CargarMedicamentos()
+        {
+            dataGridViewInventario.Rows.Clear();
+            using (NpgsqlConnection conn = new NpgsqlConnection(ConexionBD.CadenaConexion))
+            {
+                conn.Open();
+                string sql = "SELECT nombre, codigo, categoria, stock, precio_unitario, fecha_vencimiento FROM medicamentos";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conn))
+                {
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string nombre = reader.GetString(0);
+                            string codigo = reader.GetString(1);
+                            string categoria = reader.GetString(2);
+                            int stock = reader.GetInt32(3);
+                            decimal precio = reader.GetDecimal(4);
+                            DateTime fechaVencimiento = reader.GetDateTime(5);
+                            dataGridViewInventario.Rows.Add(
+                                nombre,
+                                codigo,
+                                categoria,
+                                stock,
+                                precio.ToString("N2"),
+                                fechaVencimiento.ToShortDateString()
+                            );
+                        }
+                    }
+                }
+            }
+            AplicarFormatoCelda();
+        }
         public Inventario()
         {
             InitializeComponent();
@@ -289,6 +347,7 @@ namespace TuProyecto.Views
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
+                GuardarMedicamentoBD(frm.MedicamentoCreado);
                 AgregarMedicamentoAGrid(frm.MedicamentoCreado);
             }
         }
@@ -539,6 +598,11 @@ namespace TuProyecto.Views
         private void lblPorVencerGuia_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Inventario_Load(object sender, EventArgs e)
+        {
+            CargarMedicamentos();
         }
     }
 }

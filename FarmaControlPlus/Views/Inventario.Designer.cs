@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelBusqueda = new System.Windows.Forms.Panel();
             this.btnLimpiarBusqueda = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
@@ -39,6 +39,12 @@
             this.panelContenido = new System.Windows.Forms.Panel();
             this.groupBoxInventario = new System.Windows.Forms.GroupBox();
             this.dataGridViewInventario = new System.Windows.Forms.DataGridView();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaVencimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelBotones = new System.Windows.Forms.Panel();
             this.btnExportar = new System.Windows.Forms.Button();
             this.btnReporte = new System.Windows.Forms.Button();
@@ -66,12 +72,6 @@
             this.lblDetalles = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Stock = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FechaVencimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelBusqueda.SuspendLayout();
             this.panelContenido.SuspendLayout();
             this.groupBoxInventario.SuspendLayout();
@@ -166,19 +166,19 @@
             // 
             this.dataGridViewInventario.AllowUserToAddRows = false;
             this.dataGridViewInventario.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.AliceBlue;
-            this.dataGridViewInventario.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue;
+            this.dataGridViewInventario.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewInventario.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewInventario.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewInventario.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.SteelBlue;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewInventario.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewInventario.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewInventario.ColumnHeadersHeight = 40;
             this.dataGridViewInventario.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Nombre,
@@ -187,14 +187,14 @@
             this.Stock,
             this.Precio,
             this.FechaVencimiento});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.LightSteelBlue;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewInventario.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightSteelBlue;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewInventario.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewInventario.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewInventario.EnableHeadersVisualStyles = false;
             this.dataGridViewInventario.Location = new System.Drawing.Point(10, 24);
@@ -206,6 +206,46 @@
             this.dataGridViewInventario.Size = new System.Drawing.Size(764, 437);
             this.dataGridViewInventario.TabIndex = 0;
             this.dataGridViewInventario.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewInventario_CellClick);
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre del Medicamento";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            this.Nombre.Width = 250;
+            // 
+            // Codigo
+            // 
+            this.Codigo.HeaderText = "Código";
+            this.Codigo.Name = "Codigo";
+            this.Codigo.ReadOnly = true;
+            this.Codigo.Width = 90;
+            // 
+            // Categoria
+            // 
+            this.Categoria.HeaderText = "Categoría";
+            this.Categoria.Name = "Categoria";
+            this.Categoria.ReadOnly = true;
+            // 
+            // Stock
+            // 
+            this.Stock.HeaderText = "Stock";
+            this.Stock.Name = "Stock";
+            this.Stock.ReadOnly = true;
+            this.Stock.Width = 70;
+            // 
+            // Precio
+            // 
+            this.Precio.HeaderText = "Precio Unitario";
+            this.Precio.Name = "Precio";
+            this.Precio.ReadOnly = true;
+            // 
+            // FechaVencimiento
+            // 
+            this.FechaVencimiento.HeaderText = "Fecha de Vencimiento";
+            this.FechaVencimiento.Name = "FechaVencimiento";
+            this.FechaVencimiento.ReadOnly = true;
+            this.FechaVencimiento.Width = 160;
             // 
             // panelBotones
             // 
@@ -538,46 +578,6 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "Medicamento Seleccionado";
             // 
-            // Nombre
-            // 
-            this.Nombre.HeaderText = "Nombre del Medicamento";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            this.Nombre.Width = 250;
-            // 
-            // Codigo
-            // 
-            this.Codigo.HeaderText = "Código";
-            this.Codigo.Name = "Codigo";
-            this.Codigo.ReadOnly = true;
-            this.Codigo.Width = 90;
-            // 
-            // Categoria
-            // 
-            this.Categoria.HeaderText = "Categoría";
-            this.Categoria.Name = "Categoria";
-            this.Categoria.ReadOnly = true;
-            // 
-            // Stock
-            // 
-            this.Stock.HeaderText = "Stock";
-            this.Stock.Name = "Stock";
-            this.Stock.ReadOnly = true;
-            this.Stock.Width = 70;
-            // 
-            // Precio
-            // 
-            this.Precio.HeaderText = "Precio Unitario";
-            this.Precio.Name = "Precio";
-            this.Precio.ReadOnly = true;
-            // 
-            // FechaVencimiento
-            // 
-            this.FechaVencimiento.HeaderText = "Fecha de Vencimiento";
-            this.FechaVencimiento.Name = "FechaVencimiento";
-            this.FechaVencimiento.ReadOnly = true;
-            this.FechaVencimiento.Width = 160;
-            // 
             // Inventario
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -587,6 +587,7 @@
             this.Controls.Add(this.panelBusqueda);
             this.Name = "Inventario";
             this.Size = new System.Drawing.Size(984, 571);
+            this.Load += new System.EventHandler(this.Inventario_Load);
             this.panelBusqueda.ResumeLayout(false);
             this.panelBusqueda.PerformLayout();
             this.panelContenido.ResumeLayout(false);
