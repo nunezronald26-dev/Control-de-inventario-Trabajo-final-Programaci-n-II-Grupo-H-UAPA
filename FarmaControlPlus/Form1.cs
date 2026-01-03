@@ -113,10 +113,10 @@ namespace FarmaControlPlus
             lblTitulo.Text = "Configuración";
         }
 
-        private void btnUsuarios_Click(object sender, EventArgs e)
+        public void btnUsuarios_Click(object sender, EventArgs e)
         {
             MostrarVista(usuariosView);
-            lblTitulo.Text = "Gestión de Usuarios";
+            lblTitulo.Text = "Gestión de Empleados";
         }
     }
 }

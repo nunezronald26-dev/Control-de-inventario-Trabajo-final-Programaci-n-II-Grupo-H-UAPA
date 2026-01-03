@@ -27,7 +27,7 @@ namespace FarmaControlPlus.Forms
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             // Validación básica
-            if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtApellidos.Text))
+            if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtPass.Text))
             {
                 MessageBox.Show("Nombre y Apellidos son obligatorios.",
                     "Validación",
@@ -41,9 +41,9 @@ namespace FarmaControlPlus.Forms
             EmpleadoCreado = new Empleado
             {
                 Nombre = txtNombre.Text.Trim(),
-                Apellidos = txtApellidos.Text.Trim(),
-                Direccion = txtDireccion.Text.Trim(),
-                Ciudad = txtCiudad.Text.Trim(),
+                Apellidos = txtPass.Text.Trim(),
+                Direccion = txtRepeatPass.Text.Trim(),
+                Ciudad = txtDir.Text.Trim(),
                 Telefono = txtTelefono.Text.Trim()
             };
 
@@ -72,6 +72,16 @@ namespace FarmaControlPlus.Forms
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCiudad_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

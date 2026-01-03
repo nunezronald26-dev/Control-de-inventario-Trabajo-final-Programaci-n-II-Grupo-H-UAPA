@@ -10,37 +10,52 @@ namespace TuProyecto.Views
     {
         private List<Empleado> empleados;
         private List<Empleado> empleadosFiltrados;
-        private Color colorCabecera = Color.FromArgb(52, 152, 219);
-        private Color colorBoton = Color.FromArgb(46, 204, 113);
-        private Color colorBotonBuscar = Color.FromArgb(52, 152, 219);
-        private Color colorBotonLimpiar = Color.FromArgb(149, 165, 166);
-        private Color colorTexto = Color.FromArgb(52, 73, 94);
-        private Color colorFondoBusqueda = Color.FromArgb(245, 246, 250);
-        private Color colorBotonModificar = Color.FromArgb(52, 152, 219); // Azul para modificar
-        private Color colorBotonEliminar = Color.FromArgb(231, 76, 60);   // Rojo para eliminar
 
         public Usuarios()
         {
             InitializeComponent();
+            ConfigurarEstilos();
             ConfigurarGrid();
             CargarEmpleados();
-            ConfigurarEstilos();
         }
 
         private void ConfigurarEstilos()
         {
-            // Configurar estilos del DataGridView
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.BackColor = colorFondoBusqueda;
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.ForeColor = colorTexto;
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            //panelHeader.BackColor = Color.FromArgb(70, 130, 180); // Azul acero
+            //lblTitulo.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+            //lblTitulo.ForeColor = Color.White;
 
-            dgvUsuarios.DefaultCellStyle.ForeColor = colorTexto;
-            dgvUsuarios.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            panelBusqueda.BackColor = Color.FromArgb(248, 249, 250);
 
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.SelectionBackColor = colorFondoBusqueda;
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.SelectionForeColor = colorTexto;
+            btnNuevoUsuario.BackColor = Color.FromArgb(46, 204, 113); // Verde
+            btnNuevoUsuario.FlatStyle = FlatStyle.Flat;
+            btnNuevoUsuario.FlatAppearance.BorderSize = 0;
+            btnNuevoUsuario.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            btnNuevoUsuario.ForeColor = Color.White;
 
-            //dgvUsuarios.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
+            btnBuscar.BackColor = Color.FromArgb(70, 130, 180);
+            btnBuscar.FlatStyle = FlatStyle.Flat;
+            btnBuscar.FlatAppearance.BorderSize = 0;
+            btnBuscar.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            btnBuscar.ForeColor = Color.White;
+
+            btnLimpiar.BackColor = Color.FromArgb(108, 117, 125);
+            btnLimpiar.FlatStyle = FlatStyle.Flat;
+            btnLimpiar.FlatAppearance.BorderSize = 0;
+            btnLimpiar.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            btnLimpiar.ForeColor = Color.White;
+
+            // DataGridView estilo Inventario
+            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvUsuarios.RowTemplate.Height = 35;
+            //dgvUsuarios.DefaultCellStyle.Font = new Font("Arial", 8);
+            //dgvUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180);
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvUsuarios.DefaultCellStyle.Padding = new Padding(6, 4, 6, 4);
+            dgvUsuarios.DefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 120, 255);
+            dgvUsuarios.DefaultCellStyle.SelectionForeColor = Color.White;
+
         }
 
         private void ConfigurarGrid()
@@ -48,7 +63,7 @@ namespace TuProyecto.Views
             dgvUsuarios.AutoGenerateColumns = false;
             dgvUsuarios.Columns.Clear();
 
-            // ID
+            // Columnas con estilo unificado
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "ID",
@@ -57,11 +72,10 @@ namespace TuProyecto.Views
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    Font = new Font("Segoe UI", 10, FontStyle.Regular)
+                    Font = new Font("Segoe UI", 9)
                 }
             });
 
-            // Nombre
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "NOMBRE",
@@ -69,7 +83,6 @@ namespace TuProyecto.Views
                 Width = 120
             });
 
-            // Apellidos
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "APELLIDOS",
@@ -77,7 +90,6 @@ namespace TuProyecto.Views
                 Width = 150
             });
 
-            // Dirección
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "DIRECCIÓN",
@@ -85,7 +97,6 @@ namespace TuProyecto.Views
                 Width = 180
             });
 
-            // Ciudad
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "CIUDAD",
@@ -93,7 +104,6 @@ namespace TuProyecto.Views
                 Width = 100
             });
 
-            // Teléfono
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "TELÉFONO",
@@ -101,39 +111,40 @@ namespace TuProyecto.Views
                 Width = 120
             });
 
-            // Botón Modificar - SIN COLOR DE FONDO
-            var btnModificar = new DataGridViewImageColumn
+            // Botón Modificar
+            var btnModificar = new DataGridViewButtonColumn
             {
                 Name = "Modificar",
                 HeaderText = "Modificar",
-                Image = global::FarmaControlPlus.Properties.Resources._333_usuarios, // Asegúrate de que este recurso existe
-                Width = 70,
+                Text = "✏️",
+                UseColumnTextForButtonValue = true,
+                Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    BackColor = Color.FromArgb(255,109,0),
+                    BackColor = Color.FromArgb(52, 152, 219),
+                    ForeColor = Color.White,
+                    Font = new Font("Segoe UI", 9, FontStyle.Bold)
                 }
             };
-
             dgvUsuarios.Columns.Add(btnModificar);
 
-            // Botón Eliminar - SIN COLOR DE FONDO
-            var btnEliminar = new DataGridViewImageColumn
+            // Botón Eliminar
+            var btnEliminar = new DataGridViewButtonColumn
             {
                 Name = "Eliminar",
                 HeaderText = "Eliminar",
-                Image = global::FarmaControlPlus.Properties.Resources._333_reportes,
-                Width = 70,
+                Text = "🗑️",
+                UseColumnTextForButtonValue = true,
+                Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    BackColor = Color.FromArgb(255, 0, 0),
-
-                    Padding = new Padding(10),
+                    BackColor = Color.FromArgb(231, 76, 60),
+                    ForeColor = Color.White,
+                    Font = new Font("Segoe UI", 9, FontStyle.Bold)
                 }
             };
-
-
             dgvUsuarios.Columns.Add(btnEliminar);
         }
 
@@ -217,16 +228,14 @@ namespace TuProyecto.Views
                 if (formNuevo.ShowDialog() == DialogResult.OK)
                 {
                     var nuevoEmpleado = formNuevo.EmpleadoCreado;
-
-                    // Generar ID incremental
                     nuevoEmpleado.ID = empleados.Count > 0 ? empleados.Max(o => o.ID) + 1 : 1;
 
-                    // Actualizar listas y Grid
                     empleados.Add(nuevoEmpleado);
                     empleadosFiltrados.Add(nuevoEmpleado);
                     ActualizarDataGridView();
 
-                    MessageBox.Show($"Empleado {nuevoEmpleado.Nombre} agregado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Empleado {nuevoEmpleado.Nombre} agregado.", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -284,151 +293,10 @@ namespace TuProyecto.Views
             }
         }
 
-        // Formulario para nuevo empleado
-        //private class FormNuevoEmpleado : Form
-        //{
-        //    public Empleado EmpleadoCreado { get; private set; }
-        //    private TextBox txtNombre, txtApellidos, txtDireccion, txtCiudad, txtTelefono;
-        //    private Button btnGuardar, btnCancelar;
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
 
-        //    public FormNuevoEmpleado()
-        //    {
-        //        InitializeComponent();
-        //        this.StartPosition = FormStartPosition.CenterParent;
-        //        this.FormBorderStyle = FormBorderStyle.FixedDialog;
-        //        this.MaximizeBox = false;
-        //        this.MinimizeBox = false;
-        //    }
-
-        //    private void InitializeComponent()
-        //    {
-        //        this.Text = "Nuevo Empleado";
-        //        this.Size = new Size(400, 350);
-        //        this.BackColor = Color.White;
-        //        this.Padding = new Padding(20);
-
-        //        var panelContenido = new Panel
-        //        {
-        //            Dock = DockStyle.Fill,
-        //            BackColor = Color.White
-        //        };
-
-        //        // Etiquetas y campos
-        //        var lblTitulo = new Label
-        //        {
-        //            Text = "Nuevo Empleado",
-        //            Font = new Font("Segoe UI", 14, FontStyle.Bold),
-        //            ForeColor = Color.FromArgb(52, 73, 94),
-        //            Location = new Point(0, 0),
-        //            Size = new Size(360, 30),
-        //            TextAlign = ContentAlignment.MiddleCenter
-        //        };
-
-        //        // Campos de entrada
-        //        int yPos = 40;
-        //        txtNombre = CrearCampo("Nombre:", yPos);
-        //        yPos += 40;
-        //        txtApellidos = CrearCampo("Apellidos:", yPos);
-        //        yPos += 40;
-        //        txtDireccion = CrearCampo("Dirección:", yPos);
-        //        yPos += 40;
-        //        txtCiudad = CrearCampo("Ciudad:", yPos);
-        //        yPos += 40;
-        //        txtTelefono = CrearCampo("Teléfono:", yPos);
-
-        //        // Botones
-        //        btnGuardar = new Button
-        //        {
-        //            Text = "Guardar",
-        //            BackColor = Color.FromArgb(46, 204, 113),
-        //            ForeColor = Color.White,
-        //            FlatStyle = FlatStyle.Flat,
-        //            Font = new Font("Segoe UI", 10, FontStyle.Bold),
-        //            Size = new Size(120, 35),
-        //            Location = new Point(60, 260)
-        //        };
-        //        btnGuardar.Click += BtnGuardar_Click;
-
-        //        btnCancelar = new Button
-        //        {
-        //            Text = "Cancelar",
-        //            BackColor = Color.FromArgb(149, 165, 166),
-        //            ForeColor = Color.White,
-        //            FlatStyle = FlatStyle.Flat,
-        //            Font = new Font("Segoe UI", 10, FontStyle.Bold),
-        //            Size = new Size(120, 35),
-        //            Location = new Point(200, 260)
-        //        };
-        //        btnCancelar.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; this.Close(); };
-
-        //        panelContenido.Controls.Add(lblTitulo);
-        //        panelContenido.Controls.Add(txtNombre);
-        //        panelContenido.Controls.Add(txtApellidos);
-        //        panelContenido.Controls.Add(txtDireccion);
-        //        panelContenido.Controls.Add(txtCiudad);
-        //        panelContenido.Controls.Add(txtTelefono);
-        //        panelContenido.Controls.Add(btnGuardar);
-        //        panelContenido.Controls.Add(btnCancelar);
-
-        //        this.Controls.Add(panelContenido);
-        //    }
-
-        //    private TextBox CrearCampo(string etiqueta, int posY)
-        //    {
-        //        var lbl = new Label
-        //        {
-        //            Text = etiqueta,
-        //            Font = new Font("Segoe UI", 10, FontStyle.Regular),
-        //            ForeColor = Color.FromArgb(52, 73, 94),
-        //            Location = new Point(0, posY),
-        //            Size = new Size(100, 25)
-        //        };
-
-        //        var txt = new TextBox
-        //        {
-        //            Font = new Font("Segoe UI", 10),
-        //            BorderStyle = BorderStyle.FixedSingle,
-        //            Location = new Point(110, posY),
-        //            Size = new Size(250, 25)
-        //        };
-
-        //        var panel = new Panel
-        //        {
-        //            Location = new Point(0, posY),
-        //            Size = new Size(360, 30)
-        //        };
-        //        panel.Controls.Add(lbl);
-        //        panel.Controls.Add(txt);
-
-        //        this.Controls.Add(panel);
-        //        return txt;
-        //    }
-
-        //    private void BtnGuardar_Click(object sender, EventArgs e)
-        //    {
-        //        if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
-        //            string.IsNullOrWhiteSpace(txtApellidos.Text))
-        //        {
-        //            MessageBox.Show("Nombre y Apellidos son obligatorios.",
-        //                "Datos incompletos",
-        //                MessageBoxButtons.OK,
-        //                MessageBoxIcon.Warning);
-        //            return;
-        //        }
-
-        //        EmpleadoCreado = new Empleado
-        //        {
-        //            Nombre = txtNombre.Text.Trim(),
-        //            Apellidos = txtApellidos.Text.Trim(),
-        //            Direccion = txtDireccion.Text.Trim(),
-        //            Ciudad = txtCiudad.Text.Trim(),
-        //            Telefono = txtTelefono.Text.Trim()
-        //        };
-
-        //        this.DialogResult = DialogResult.OK;
-        //        this.Close();
-        //    }
-        //}
+        }
     }
 
     public class Empleado

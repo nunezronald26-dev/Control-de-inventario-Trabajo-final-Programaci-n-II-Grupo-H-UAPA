@@ -153,6 +153,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NuevoEmpleado.resx">
+      <DependentUpon>NuevoEmpleado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmAgregarMedicamento.resx">
       <DependentUpon>FrmAgregarMedicamento.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Inventario.resx">
       <DependentUpon>Inventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Reportes.resx">
+      <DependentUpon>Reportes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Usuarios.resx">
       <DependentUpon>Usuarios.cs</DependentUpon>

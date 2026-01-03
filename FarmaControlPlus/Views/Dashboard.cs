@@ -50,5 +50,14 @@ namespace TuProyecto.Views
                 padre.btnInventario_Click(null, null);
             }
         }
+
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            var padre = this.ParentForm as Form1;
+            if (padre != null)
+            {
+                padre.btnUsuarios_Click(null, null);
+            }
+        }
     }
 }
