@@ -1,4 +1,5 @@
 ﻿using FarmaControlPlus;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Npgsql;
+
 namespace TuProyecto.Views
 {
     public partial class Inventario : UserControl
@@ -87,11 +88,12 @@ namespace TuProyecto.Views
             }
             AplicarFormatoCelda();
         }
+
         public Inventario()
         {
             InitializeComponent();
             ConfigurarEstilos();
-            CargarDatosEjemplo();
+            //CargarDatosEjemplo();
             AplicarFormatoCelda();
 
             // Place the guide under lblDetalles but keep readable sizes and horizontal rectangular boxes.
@@ -157,28 +159,28 @@ namespace TuProyecto.Views
             }
         }
 
-        private void CargarDatosEjemplo()
-        {
-            // Limpiar datos existentes
-            dataGridViewInventario.Rows.Clear();
+        //private void CargarDatosEjemplo()
+        //{
+        //    // Limpiar datos existentes
+        //    dataGridViewInventario.Rows.Clear();
 
-            DateTime hoy = DateTime.Now;
+        //    DateTime hoy = DateTime.Now;
 
-            // Datos de ejemplo
-            AgregarMedicamento("Paracetamol 500mg", "PAR001", "Analgésico", 25, "$8.50", hoy.AddDays(15));
-            AgregarMedicamento("Amoxicilina 500mg", "AMX002", "Antibiótico", 8, "$18.50", hoy.AddDays(60));
-            AgregarMedicamento("Ibuprofeno 400mg", "IBU003", "Antiinflamatorio", 42, "$12.00", hoy.AddDays(120));
-            AgregarMedicamento("Omeprazol 20mg", "OME004", "Gastrointestinal", 0, "$15.75", hoy.AddDays(200));
-            AgregarMedicamento("Loratadina 10mg", "LOR005", "Antialérgico", 3, "$9.80", hoy.AddDays(180));
-            AgregarMedicamento("Aspirina 100mg", "ASP006", "Analgésico", 15, "$5.20", hoy.AddDays(-10));
-            AgregarMedicamento("Ranitidina 150mg", "RAN007", "Gastrointestinal", 12, "$10.30", hoy.AddDays(45));
-            AgregarMedicamento("Metformina 850mg", "MET008", "Diabetes", 0, "$22.90", hoy.AddDays(300));
-            AgregarMedicamento("Atorvastatina 20mg", "ATO009", "Colesterol", 28, "$45.50", hoy.AddDays(5));
-            AgregarMedicamento("Losartán 50mg", "LOS010", "Hipertensión", 6, "$28.75", hoy.AddDays(250));
+        //    // Datos de ejemplo
+        //    AgregarMedicamento("Paracetamol 500mg", "PAR001", "Analgésico", 25, "$8.50", hoy.AddDays(15));
+        //    AgregarMedicamento("Amoxicilina 500mg", "AMX002", "Antibiótico", 8, "$18.50", hoy.AddDays(60));
+        //    AgregarMedicamento("Ibuprofeno 400mg", "IBU003", "Antiinflamatorio", 42, "$12.00", hoy.AddDays(120));
+        //    AgregarMedicamento("Omeprazol 20mg", "OME004", "Gastrointestinal", 0, "$15.75", hoy.AddDays(200));
+        //    AgregarMedicamento("Loratadina 10mg", "LOR005", "Antialérgico", 3, "$9.80", hoy.AddDays(180));
+        //    AgregarMedicamento("Aspirina 100mg", "ASP006", "Analgésico", 15, "$5.20", hoy.AddDays(-10));
+        //    AgregarMedicamento("Ranitidina 150mg", "RAN007", "Gastrointestinal", 12, "$10.30", hoy.AddDays(45));
+        //    AgregarMedicamento("Metformina 850mg", "MET008", "Diabetes", 0, "$22.90", hoy.AddDays(300));
+        //    AgregarMedicamento("Atorvastatina 20mg", "ATO009", "Colesterol", 28, "$45.50", hoy.AddDays(5));
+        //    AgregarMedicamento("Losartán 50mg", "LOS010", "Hipertensión", 6, "$28.75", hoy.AddDays(250));
 
-            // Actualizar estadísticas
-            ActualizarEstadisticas();
-        }
+        //    // Actualizar estadísticas
+        //    ActualizarEstadisticas();
+        //}
 
         // Add rows matching the DataGridView columns (do NOT add an extra 'Estado' cell)
         private void AgregarMedicamento(string nombre, string codigo, string categoria, int stock, string precio, DateTime vencimiento)
@@ -305,7 +307,6 @@ namespace TuProyecto.Views
                         AplicarEstiloFila(row, Color.FromArgb(245, 245, 245 ),
                             Color.FromArgb(150, 150, 150), fontStrikeout);
                         break;
-                    case "A PUNTO DE VENCER":
                     case "POR VENCER":
                         // Yellow background with black text
                         AplicarEstiloFila(row, Color.FromArgb(255, 255, 200),
@@ -340,6 +341,8 @@ namespace TuProyecto.Views
             row.DefaultCellStyle.SelectionBackColor = selectionBack;
             row.DefaultCellStyle.SelectionForeColor = foreColor;
         }
+
+
 
         private void btnNuevoMedicamento_Click(object sender, EventArgs e)
         {
@@ -386,10 +389,10 @@ namespace TuProyecto.Views
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            CargarDatosEjemplo();
+            CargarMedicamentos();  // Este método ya carga desde PostgreSQL
             txtBuscar.Clear();
             AplicarFormatoCelda();
-            MessageBox.Show("Datos actualizados correctamente",
+            MessageBox.Show("Datos actualizados desde la base de datos",
                 "Actualización",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -514,7 +517,7 @@ namespace TuProyecto.Views
             // Choose a readable width inside the right panel (leave some padding)
             int padding = 5;
             int desiredWidth = Math.Max(180, lblDetalles.Width);
-            desiredWidth = Math.Min(desiredWidth, Math.Max(200, panelDetalles.ClientSize.Width - padding));
+            desiredWidth = Math.Min(desiredWidth, Math.Max(225, panelDetalles.ClientSize.Width - padding));
             groupBoxGuia.Width = desiredWidth;
 
             // Vertical stacking: top-down single column
@@ -565,6 +568,8 @@ namespace TuProyecto.Views
             }
         }
 
+
+
         private void label4_Click(object sender, EventArgs e)
         {
 
@@ -600,6 +605,10 @@ namespace TuProyecto.Views
 
         }
 
+        private void flowLayoutPanelGuia_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
         private void Inventario_Load(object sender, EventArgs e)
         {
             CargarMedicamentos();

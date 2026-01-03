@@ -95,7 +95,7 @@ namespace FarmaControlPlus
             lblTitulo.Text = "Inicio";
         }
 
-        private void btnInventario_Click(object sender, EventArgs e)
+        public void btnInventario_Click(object sender, EventArgs e)
         {
             MostrarVista(inventarioView);
             lblTitulo.Text = "Inventario";

@@ -17,12 +17,12 @@
 
             private void InitializeComponent()
             {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelUsuario = new System.Windows.Forms.Panel();
             this.lblRangoUsuario = new System.Windows.Forms.Label();
             this.lblNombreUsuario = new System.Windows.Forms.Label();
             this.btnUsuarios = new System.Windows.Forms.Button();
-            this.btnConfiguracion = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnInventario = new System.Windows.Forms.Button();
             this.btnDashboard = new System.Windows.Forms.Button();
@@ -58,7 +58,6 @@
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(53)))), ((int)(((byte)(65)))));
             this.panelMenu.Controls.Add(this.panelUsuario);
             this.panelMenu.Controls.Add(this.btnUsuarios);
-            this.panelMenu.Controls.Add(this.btnConfiguracion);
             this.panelMenu.Controls.Add(this.btnReportes);
             this.panelMenu.Controls.Add(this.btnInventario);
             this.panelMenu.Controls.Add(this.btnDashboard);
@@ -110,32 +109,18 @@
             this.btnUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUsuarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUsuarios.ForeColor = System.Drawing.Color.White;
-            this.btnUsuarios.Location = new System.Drawing.Point(0, 300);
+            this.btnUsuarios.Image = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.Image")));
+            this.btnUsuarios.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUsuarios.Location = new System.Drawing.Point(0, 250);
             this.btnUsuarios.Name = "btnUsuarios";
             this.btnUsuarios.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.btnUsuarios.Size = new System.Drawing.Size(220, 50);
             this.btnUsuarios.TabIndex = 5;
-            this.btnUsuarios.Text = "   Usuarios";
+            this.btnUsuarios.Text = "   Empleados";
             this.btnUsuarios.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUsuarios.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnUsuarios.UseVisualStyleBackColor = false;
             this.btnUsuarios.Click += new System.EventHandler(this.btnUsuarios_Click);
-            // 
-            // btnConfiguracion
-            // 
-            this.btnConfiguracion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnConfiguracion.FlatAppearance.BorderSize = 0;
-            this.btnConfiguracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConfiguracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfiguracion.ForeColor = System.Drawing.Color.White;
-            this.btnConfiguracion.Location = new System.Drawing.Point(0, 250);
-            this.btnConfiguracion.Name = "btnConfiguracion";
-            this.btnConfiguracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.btnConfiguracion.Size = new System.Drawing.Size(220, 50);
-            this.btnConfiguracion.TabIndex = 4;
-            this.btnConfiguracion.Text = "   Configuración";
-            this.btnConfiguracion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnConfiguracion.UseVisualStyleBackColor = true;
-            this.btnConfiguracion.Click += new System.EventHandler(this.btnConfiguracion_Click);
             // 
             // btnReportes
             // 
@@ -144,6 +129,8 @@
             this.btnReportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReportes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReportes.ForeColor = System.Drawing.Color.White;
+            this.btnReportes.Image = ((System.Drawing.Image)(resources.GetObject("btnReportes.Image")));
+            this.btnReportes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnReportes.Location = new System.Drawing.Point(0, 200);
             this.btnReportes.Name = "btnReportes";
             this.btnReportes.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -151,6 +138,7 @@
             this.btnReportes.TabIndex = 3;
             this.btnReportes.Text = "   Reportes";
             this.btnReportes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReportes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnReportes.UseVisualStyleBackColor = true;
             this.btnReportes.Click += new System.EventHandler(this.btnReportes_Click);
             // 
@@ -161,6 +149,8 @@
             this.btnInventario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInventario.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInventario.ForeColor = System.Drawing.Color.White;
+            this.btnInventario.Image = ((System.Drawing.Image)(resources.GetObject("btnInventario.Image")));
+            this.btnInventario.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnInventario.Location = new System.Drawing.Point(0, 150);
             this.btnInventario.Name = "btnInventario";
             this.btnInventario.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -168,6 +158,7 @@
             this.btnInventario.TabIndex = 2;
             this.btnInventario.Text = "   Inventario";
             this.btnInventario.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInventario.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnInventario.UseVisualStyleBackColor = true;
             this.btnInventario.Click += new System.EventHandler(this.btnInventario_Click);
             // 
@@ -178,6 +169,8 @@
             this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDashboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDashboard.ForeColor = System.Drawing.Color.White;
+            this.btnDashboard.Image = ((System.Drawing.Image)(resources.GetObject("btnDashboard.Image")));
+            this.btnDashboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDashboard.Location = new System.Drawing.Point(0, 100);
             this.btnDashboard.Name = "btnDashboard";
             this.btnDashboard.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -185,6 +178,7 @@
             this.btnDashboard.TabIndex = 1;
             this.btnDashboard.Text = "   Inicio";
             this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDashboard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnDashboard.UseVisualStyleBackColor = true;
             this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
@@ -386,14 +380,12 @@
 
             private System.Windows.Forms.Panel panelMenu;
             private System.Windows.Forms.Button btnUsuarios;
-            private System.Windows.Forms.Button btnConfiguracion;
             private System.Windows.Forms.Button btnReportes;
             private System.Windows.Forms.Button btnInventario;
             private System.Windows.Forms.Button btnDashboard;
             private System.Windows.Forms.Panel panelLogo;
             private System.Windows.Forms.Label lblLogo;
             private System.Windows.Forms.Panel panelSuperior;
-            private System.Windows.Forms.Button btnCerrar;
             private System.Windows.Forms.Label lblTitulo;
             private System.Windows.Forms.Panel panelUsuario;
             private System.Windows.Forms.Label lblRangoUsuario;

@@ -26,39 +26,14 @@ namespace FarmaControlPlus
 
         private void FrmAgregarMedicamento_Load(object sender, EventArgs e)
         {
-            cmbCategoria.Items.AddRange(new string[]
-            {
-        "Analgésicos",
-        "Anestésicos",
-        "Antialérgicos",
-        "Antibióticos",
-        "Antifúngicos",
-        "Antiinflamatorios",
-        "Antiparasitarios",
-        "Antipiréticos",
-        "Antisépticos",
-        "Antivirales",
-        "Cardiovasculares",
-        "Corticoides",
-        "Dermatológicos",
-        "Digestivos",
-        "Endocrinos",
-        "Gastroprotectores",
-        "Hematológicos",
-        "Inmunológicos",
-        "Inyectables",
-        "Jarabes",
-        "Oftálmicos",
-        "Otológicos",
-        "Pediátricos",
-        "Respiratorios",
-        "Suplementos",
-        "Urológicos",
-        "Vacunas",
-        "Vitaminas"
-            });
-
             cmbCategoria.SelectedIndex = 0;
+
+            // Configurar fecha mínima para vencimiento (mañana)
+            dtpVencimiento.MinDate = DateTime.Today.AddDays(1);
+
+            // Establecer valores iniciales
+            numStock.Value = 1;
+            numPrecio.Value = 0;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -68,6 +43,16 @@ namespace FarmaControlPlus
             {
                 MessageBox.Show(
                     "Debe completar el nombre y el código del medicamento",
+                    "Validación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numPrecio.Value <= 0)
+            {
+                MessageBox.Show(
+                    "El precio debe ser mayor a cero",
                     "Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -90,6 +75,7 @@ namespace FarmaControlPlus
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }
