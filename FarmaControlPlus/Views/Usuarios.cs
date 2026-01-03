@@ -78,15 +78,15 @@ namespace TuProyecto.Views
 
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "NOMBRE",
-                DataPropertyName = "Nombre",
-                Width = 120
+                HeaderText = "NOMBRE COMPLETO",
+                DataPropertyName = "Nombre", // Solo tenemos nombre completo
+                Width = 180
             });
 
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "APELLIDOS",
-                DataPropertyName = "Apellidos",
+                HeaderText = "CORREO",
+                DataPropertyName = "Correo", // Nueva columna para correo
                 Width = 150
             });
 
@@ -99,16 +99,16 @@ namespace TuProyecto.Views
 
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "CIUDAD",
-                DataPropertyName = "Ciudad",
-                Width = 100
+                HeaderText = "TELÉFONO",
+                DataPropertyName = "Telefono",
+                Width = 120
             });
 
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "TELÉFONO",
-                DataPropertyName = "Telefono",
-                Width = 120
+                HeaderText = "SUCURSAL",
+                DataPropertyName = "Sucursal", // Nueva columna para sucursal
+                Width = 100
             });
 
             // Botón Modificar
@@ -151,16 +151,18 @@ namespace TuProyecto.Views
         private void CargarEmpleados()
         {
             empleados = new List<Empleado>
-            {
-                new Empleado { ID = 1, Nombre = "Manuel", Apellidos = "Ramon Menarguez", Direccion = "Ramon Menarguez 56", Ciudad = "Murcia", Telefono = "2344444333" },
-                new Empleado { ID = 2, Nombre = "Francisco", Apellidos = "Juper", Direccion = "Nacida 23", Ciudad = "Bilbao", Telefono = "34567845678" },
-                new Empleado { ID = 3, Nombre = "Marta", Apellidos = "Cases", Direccion = "Lopez García 23", Ciudad = "Madrid", Telefono = "737763632" },
-                new Empleado { ID = 4, Nombre = "Miguel Angel", Apellidos = "Jumilla", Direccion = "Gemesía Sol 23", Ciudad = "Alicante", Telefono = "34567834567" },
-                new Empleado { ID = 5, Nombre = "Ana", Apellidos = "García López", Direccion = "Principal 45", Ciudad = "Barcelona", Telefono = "934567890" },
-                new Empleado { ID = 6, Nombre = "Carlos", Apellidos = "Martínez Ruiz", Direccion = "Secundaria 78", Ciudad = "Valencia", Telefono = "963456789" },
-                new Empleado { ID = 7, Nombre = "Laura", Apellidos = "Fernández Gómez", Direccion = "Central 12", Ciudad = "Sevilla", Telefono = "954321098" },
-                new Empleado { ID = 8, Nombre = "David", Apellidos = "Sánchez Pérez", Direccion = "Norte 34", Ciudad = "Zaragoza", Telefono = "976543210" }
-            };
+    {
+        new Empleado { ID = 1, Nombre = "Manuel Ramon Menarguez", Correo = "manuel@email.com",
+                      Direccion = "Ramon Menarguez 56", Ciudad = "Murcia",
+                      Telefono = "2344444333", Sucursal = "Central", Contrasena = "manuel123" },
+        new Empleado { ID = 2, Nombre = "Francisco Juper", Correo = "francisco@email.com",
+                      Direccion = "Nacida 23", Ciudad = "Bilbao",
+                      Telefono = "34567845678", Sucursal = "Norte", Contrasena = "francisco123" },
+        new Empleado { ID = 3, Nombre = "Marta Cases", Correo = "marta@email.com",
+                      Direccion = "Lopez García 23", Ciudad = "Madrid",
+                      Telefono = "737763632", Sucursal = "Centro", Contrasena = "marta123" },
+        // ... añade los demás empleados con la nueva estructura
+    };
 
             empleadosFiltrados = new List<Empleado>(empleados);
             ActualizarDataGridView();
@@ -188,17 +190,58 @@ namespace TuProyecto.Views
 
         private void ModificarEmpleado(Empleado empleado)
         {
-            MessageBox.Show(
-                $"Modificar empleado:\n\n" +
-                $"ID: {empleado.ID}\n" +
-                $"Nombre: {empleado.Nombre}\n" +
-                $"Apellidos: {empleado.Apellidos}\n" +
-                $"Dirección: {empleado.Direccion}\n" +
-                $"Ciudad: {empleado.Ciudad}\n" +
-                $"Teléfono: {empleado.Telefono}",
-                "Modificar Empleado",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            using (var formModificar = new FarmaControlPlus.Forms.NuevoEmpleado())
+            {
+                // Configurar el formulario para modo edición
+                formModificar.ModoEdicion = true;
+                formModificar.EmpleadoAEditar = empleado;
+                formModificar.Text = "Modificar Empleado"; // Cambiar título
+
+                if (formModificar.ShowDialog() == DialogResult.OK)
+                {
+                    // Actualizar el empleado en las listas
+                    var empleadoModificado = formModificar.EmpleadoCreado;
+
+                    // Encontrar y actualizar el empleado original
+                    var empleadoOriginal = empleados.FirstOrDefault(e => e.ID == empleado.ID);
+                    if (empleadoOriginal != null)
+                    {
+                        empleadoOriginal.Nombre = empleadoModificado.Nombre;
+                        empleadoOriginal.Correo = empleadoModificado.Correo;
+                        empleadoOriginal.Direccion = empleadoModificado.Direccion;
+                        empleadoOriginal.Telefono = empleadoModificado.Telefono;
+                        empleadoOriginal.Sucursal = empleadoModificado.Sucursal;
+
+                        // Si se actualizó la contraseña (no es la placeholder)
+                        if (!string.IsNullOrEmpty(empleadoModificado.Contrasena) &&
+                            empleadoModificado.Contrasena != "••••••••")
+                        {
+                            empleadoOriginal.Contrasena = empleadoModificado.Contrasena;
+                        }
+                    }
+
+                    // Actualizar también en la lista filtrada
+                    var empleadoFiltrado = empleadosFiltrados.FirstOrDefault(e => e.ID == empleado.ID);
+                    if (empleadoFiltrado != null)
+                    {
+                        empleadoFiltrado.Nombre = empleadoModificado.Nombre;
+                        empleadoFiltrado.Correo = empleadoModificado.Correo;
+                        empleadoFiltrado.Direccion = empleadoModificado.Direccion;
+                        empleadoFiltrado.Telefono = empleadoModificado.Telefono;
+                        empleadoFiltrado.Sucursal = empleadoModificado.Sucursal;
+
+                        if (!string.IsNullOrEmpty(empleadoModificado.Contrasena) &&
+                            empleadoModificado.Contrasena != "••••••••")
+                        {
+                            empleadoFiltrado.Contrasena = empleadoModificado.Contrasena;
+                        }
+                    }
+
+                    ActualizarDataGridView();
+                    MessageBox.Show("Empleado modificado correctamente.", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void EliminarEmpleado(Empleado empleado)
@@ -206,7 +249,7 @@ namespace TuProyecto.Views
             DialogResult r = MessageBox.Show(
                 $"¿Deseas eliminar al empleado?\n\n" +
                 $"ID: {empleado.ID}\n" +
-                $"Nombre: {empleado.Nombre} {empleado.Apellidos}",
+                $"Nombre: {empleado.Nombre}",
                 "Confirmar Eliminación",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -257,10 +300,10 @@ namespace TuProyecto.Views
             {
                 empleadosFiltrados = empleados.Where(emp =>
                     emp.Nombre.ToLower().Contains(textoBusqueda) ||
-                    emp.Apellidos.ToLower().Contains(textoBusqueda) ||
+                    emp.Correo.ToLower().Contains(textoBusqueda) ||
                     emp.Direccion.ToLower().Contains(textoBusqueda) ||
-                    emp.Ciudad.ToLower().Contains(textoBusqueda) ||
                     emp.Telefono.Contains(textoBusqueda) ||
+                    emp.Sucursal.ToLower().Contains(textoBusqueda) ||
                     emp.ID.ToString().Contains(textoBusqueda)
                 ).ToList();
             }
@@ -303,9 +346,11 @@ namespace TuProyecto.Views
     {
         public int ID { get; set; }
         public string Nombre { get; set; }
-        public string Apellidos { get; set; }
+        public string Correo { get; set; }
         public string Direccion { get; set; }
         public string Ciudad { get; set; }
         public string Telefono { get; set; }
+        public string Sucursal { get; set; }
+        public string Contrasena { get; set; }
     }
 }
