@@ -11,7 +11,6 @@ namespace TuProyecto.Views
         {
             InitializeComponent();
             SetupDashboard();
-            //WireEvents();
         }
 
         private void SetupDashboard()
@@ -19,15 +18,6 @@ namespace TuProyecto.Views
             string fecha = DateTime.Now.ToString("dd MMMM yyyy");
             card6Month.Text = char.ToUpper(fecha[0]) + fecha.Substring(1);
         }
-
-        //private void WireEvents()
-        //{
-        //    // Conectar eventos de botones
-        //    card1Button.Click += (s, e) => MessageBox.Show("Navegando a: Estado del Inventario");
-
-        //    // Conectar eventos de configuración
-        //    card5Button.Click += (s, e) => MessageBox.Show("Navegando a: Gestión de Usuarios");
-        //}
 
         public void UpdateDashboardData(
             int totalMedicines = 298,
