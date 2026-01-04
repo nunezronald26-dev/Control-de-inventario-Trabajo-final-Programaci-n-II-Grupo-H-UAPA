@@ -2,15 +2,19 @@
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TuProyecto.Models;
+using TuProyecto.Services;
 
 namespace TuProyecto.Views
 {
@@ -54,6 +58,7 @@ namespace TuProyecto.Views
                 }
             }
         }
+
 
         private void CargarMedicamentos()
         {
@@ -411,11 +416,77 @@ namespace TuProyecto.Views
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Funcionalidad de exportación a Excel\n(Se implementaría con una librería como EPPlus o ClosedXML)",
-                "Exportar a Excel",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            // Crear menú contextual con opciones de exportación
+            ContextMenuStrip menu = new ContextMenuStrip();
+
+            menu.Items.Add("Exportar a Excel", null, (s, args) => ExportarAExcel());
+            menu.Items.Add("Exportar a PDF", null, (s, args) => ExportarAPDF());
+            menu.Items.Add("-");
+            menu.Items.Add("Cancelar", null, (s, args) => menu.Close());
+
+            menu.Show(btnExportar, new Point(0, btnExportar.Height));
         }
+
+        private void ExportarAExcel()
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Archivo Excel (*.xlsx)|*.xlsx";
+                sfd.FileName = $"Inventario_{DateTime.Now:yyyyMMdd_HHmm}.xlsx";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    ExcelExportService.ExportarDataGridView(
+                        dataGridViewInventario,
+                        sfd.FileName,
+                        ObtenerEstadoDesdeFila
+                    );
+
+                    MessageBox.Show("Inventario exportado a Excel correctamente.",
+                        "Exportación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void ExportarAPDF()
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Archivo PDF (*.pdf)|*.pdf";
+                sfd.FileName = $"Inventario_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var medicamentos = new List<MedicamentoPDF>();
+
+                    foreach (DataGridViewRow row in dataGridViewInventario.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        medicamentos.Add(new MedicamentoPDF
+                        {
+                            Nombre = row.Cells["Nombre"].Value?.ToString(),
+                            Codigo = row.Cells["Codigo"].Value?.ToString(),
+                            Categoria = row.Cells["Categoria"].Value?.ToString(),
+                            Stock = int.Parse(row.Cells["Stock"].Value.ToString()),
+                            Precio = row.Cells["Precio"].Value?.ToString(),
+                            Vencimiento = row.Cells["FechaVencimiento"].Value?.ToString(),
+                            Estado = ObtenerEstadoDesdeFila(row)
+                        });
+                    }
+
+                    PdfExportService.ExportarMedicamentos(medicamentos, sfd.FileName);
+
+                    MessageBox.Show("Inventario exportado a PDF correctamente.",
+                        "Exportación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+        }
+
 
         private void dataGridViewInventario_CellClick(object sender, DataGridViewCellEventArgs e)
         {
