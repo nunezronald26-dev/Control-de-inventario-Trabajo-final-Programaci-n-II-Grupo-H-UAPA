@@ -47,7 +47,6 @@
             this.FechaVencimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelBotones = new System.Windows.Forms.Panel();
             this.btnExportar = new System.Windows.Forms.Button();
-            this.btnReporte = new System.Windows.Forms.Button();
             this.btnFiltrarCriticos = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnNuevoMedicamento = new System.Windows.Forms.Button();
@@ -261,7 +260,6 @@
             // 
             this.panelBotones.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelBotones.Controls.Add(this.btnExportar);
-            this.panelBotones.Controls.Add(this.btnReporte);
             this.panelBotones.Controls.Add(this.btnFiltrarCriticos);
             this.panelBotones.Controls.Add(this.btnActualizar);
             this.panelBotones.Controls.Add(this.btnNuevoMedicamento);
@@ -277,27 +275,13 @@
             this.btnExportar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.btnExportar.ForeColor = System.Drawing.Color.Black;
-            this.btnExportar.Location = new System.Drawing.Point(580, 10);
+            this.btnExportar.Location = new System.Drawing.Point(644, 10);
             this.btnExportar.Name = "btnExportar";
             this.btnExportar.Size = new System.Drawing.Size(100, 30);
             this.btnExportar.TabIndex = 4;
-            this.btnExportar.Text = "Exportar Excel";
+            this.btnExportar.Text = "Exportar";
             this.btnExportar.UseVisualStyleBackColor = false;
             this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
-            // 
-            // btnReporte
-            // 
-            this.btnReporte.BackColor = System.Drawing.Color.LightGreen;
-            this.btnReporte.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.btnReporte.ForeColor = System.Drawing.Color.Black;
-            this.btnReporte.Location = new System.Drawing.Point(450, 10);
-            this.btnReporte.Name = "btnReporte";
-            this.btnReporte.Size = new System.Drawing.Size(120, 30);
-            this.btnReporte.TabIndex = 3;
-            this.btnReporte.Text = "Generar Reporte";
-            this.btnReporte.UseVisualStyleBackColor = false;
-            this.btnReporte.Click += new System.EventHandler(this.btnReporte_Click);
             // 
             // btnFiltrarCriticos
             // 
@@ -649,7 +633,6 @@
         private System.Windows.Forms.DataGridView dataGridViewInventario;
         private System.Windows.Forms.Panel panelBotones;
         private System.Windows.Forms.Button btnExportar;
-        private System.Windows.Forms.Button btnReporte;
         private System.Windows.Forms.Button btnFiltrarCriticos;
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnNuevoMedicamento;

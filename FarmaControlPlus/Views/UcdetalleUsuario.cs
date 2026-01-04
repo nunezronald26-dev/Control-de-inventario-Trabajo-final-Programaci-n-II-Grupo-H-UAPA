@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FarmaControlPlus;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -22,31 +23,82 @@ namespace TuProyecto.Views
             InitializeComponent();
             this.Size = new Size(980, 640);
             ConfigurarEstilos();
+            AgregarTitulo();
+        }
+
+        private void AgregarTitulo()
+        {
+            // Crear y configurar el título
+            Label lblTitulo = new Label
+            {
+                Text = "INFORMACIÓN DEL USUARIO",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                ForeColor = Color.FromArgb(52, 73, 94),
+                Location = new Point(20, 10),
+                Size = new Size(500, 30),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            this.Controls.Add(lblTitulo);
+            lblTitulo.BringToFront();
         }
 
         private void ConfigurarEstilos()
         {
             // Establecer estilos para los controles
 
-            // Configurar estilos de labels
-            //foreach (Control control in this.Controls)
-            //{
-            //    if (control is Label label && label != lblTitulo)
-            //    {
-            //        label.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-            //        label.ForeColor = Color.FromArgb(52, 73, 94);
-            //    }
-            //    else if (control is TextBox textBox)
-            //    {
-            //        textBox.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            //        textBox.ForeColor = Color.FromArgb(70, 70, 70);
-            //        textBox.BackColor = Color.FromArgb(250, 250, 250);
-            //        textBox.BorderStyle = BorderStyle.None;
-            //        textBox.ReadOnly = true;
-            //    }
-            //}
+            // Configurar todos los paneles
+            foreach (Control control in this.Controls)
+            {
+                if (control is Panel panel)
+                {
+                    panel.BackColor = Color.FromArgb(250, 250, 250);
+                    panel.BorderStyle = BorderStyle.FixedSingle;
+                }
+            }
 
-            // Estilo del botón
+            // Configurar labels de campos
+            lblNombre.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblNombre.ForeColor = Color.FromArgb(52, 73, 94);
+
+            lblCorreo.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblCorreo.ForeColor = Color.FromArgb(52, 73, 94);
+
+            lblDireccion.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblDireccion.ForeColor = Color.FromArgb(52, 73, 94);
+
+            lblTelefono.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblTelefono.ForeColor = Color.FromArgb(52, 73, 94);
+
+            lblSucursal.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblSucursal.ForeColor = Color.FromArgb(52, 73, 94);
+
+            lblRol.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblRol.ForeColor = Color.FromArgb(52, 73, 94);
+
+            lblContraseña.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            lblContraseña.ForeColor = Color.FromArgb(52, 73, 94);
+
+            // Configurar textboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is Panel panel)
+                {
+                    foreach (Control child in panel.Controls)
+                    {
+                        if (child is TextBox textBox)
+                        {
+                            textBox.Font = new Font("Segoe UI", 10);
+                            textBox.ForeColor = Color.FromArgb(70, 70, 70);
+                            textBox.BackColor = Color.FromArgb(250, 250, 250);
+                            textBox.BorderStyle = BorderStyle.None;
+                            textBox.ReadOnly = true;
+                        }
+                    }
+                }
+            }
+
+            // Estilo del botón (aunque por ahora lo ignoramos)
             btnModificarContraseña.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             btnModificarContraseña.BackColor = Color.FromArgb(46, 204, 113);
             btnModificarContraseña.ForeColor = Color.White;
@@ -54,22 +106,38 @@ namespace TuProyecto.Views
             btnModificarContraseña.FlatAppearance.BorderSize = 0;
             btnModificarContraseña.Cursor = Cursors.Hand;
 
-            // Estilo de campos de contraseña
-            txtContraseñaActual.BackColor = Color.White;
-            txtContraseñaActual.ForeColor = Color.FromArgb(100, 100, 100);
-            txtContraseñaActual.BorderStyle = BorderStyle.FixedSingle;
-
-            // Color de fondo de los paneles
-            panelNombre.BackColor = Color.FromArgb(250, 250, 250);
-            panelCorreo.BackColor = Color.FromArgb(250, 250, 250);
-            panelDireccion.BackColor = Color.FromArgb(250, 250, 250);
-            panelTelefono.BackColor = Color.FromArgb(250, 250, 250);
-            panelSucursal.BackColor = Color.FromArgb(250, 250, 250);
-            panelRol.BackColor = Color.FromArgb(250, 250, 250);
-            panelContraseña.BackColor = Color.FromArgb(250, 250, 250);
+            // Ocultar sección de contraseña por ahora
+            panelContraseña.Visible = false;
         }
 
         // Método para cargar los datos del usuario
+        public void CargarDatosUsuario(Empleado empleado)
+        {
+            if (empleado == null)
+            {
+                MessageBox.Show("No se recibieron datos del usuario", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Actualizar propiedades
+            Nombre = empleado.NombreCompleto;
+            Correo = empleado.Correo;
+            Direccion = empleado.Direccion;
+            Telefono = empleado.Telefono;
+            Sucursal = empleado.Sucursal;
+            Rol = empleado.Rol;
+
+            // Actualizar controles con los datos reales
+            txtNombre.Text = !string.IsNullOrEmpty(Nombre) ? Nombre : "No disponible";
+            txtCorreo.Text = !string.IsNullOrEmpty(Correo) ? Correo : "No disponible";
+            txtDireccion.Text = !string.IsNullOrEmpty(Direccion) ? Direccion : "No disponible";
+            txtTelefono.Text = !string.IsNullOrEmpty(Telefono) ? Telefono : "No disponible";
+            txtSucursal.Text = !string.IsNullOrEmpty(Sucursal) ? Sucursal : "No disponible";
+            txtRol.Text = !string.IsNullOrEmpty(Rol) ? Rol : "No disponible";
+        }
+
+        // Método sobrecargado para compatibilidad (mantener el anterior)
         public void CargarDatosUsuario(string nombre, string correo, string direccion,
                                        string telefono, string sucursal, string rol)
         {
@@ -81,12 +149,12 @@ namespace TuProyecto.Views
             Rol = rol;
 
             // Actualizar controles
-            txtNombre.Text = Nombre ?? "No disponible";
-            txtCorreo.Text = Correo ?? "No disponible";
-            txtDireccion.Text = Direccion ?? "No disponible";
-            txtTelefono.Text = Telefono ?? "No disponible";
-            txtSucursal.Text = Sucursal ?? "No disponible";
-            txtRol.Text = Rol ?? "No disponible";
+            txtNombre.Text = !string.IsNullOrEmpty(Nombre) ? Nombre : "No disponible";
+            txtCorreo.Text = !string.IsNullOrEmpty(Correo) ? Correo : "No disponible";
+            txtDireccion.Text = !string.IsNullOrEmpty(Direccion) ? Direccion : "No disponible";
+            txtTelefono.Text = !string.IsNullOrEmpty(Telefono) ? Telefono : "No disponible";
+            txtSucursal.Text = !string.IsNullOrEmpty(Sucursal) ? Sucursal : "No disponible";
+            txtRol.Text = !string.IsNullOrEmpty(Rol) ? Rol : "No disponible";
         }
 
         public class FormModificarContraseña : Form
@@ -218,7 +286,11 @@ namespace TuProyecto.Views
         // Evento del botón modificar contraseña
         private void btnModificarContraseña_Click(object sender, EventArgs e)
         {
-            ModificarContraseñaClicked?.Invoke(this, EventArgs.Empty);
+            // Por ahora no hacer nada
+            // ModificarContraseñaClicked?.Invoke(this, EventArgs.Empty);
+
+            MessageBox.Show("La funcionalidad de cambio de contraseña estará disponible próximamente.",
+                "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // Método para mostrar el formulario de modificación de contraseña

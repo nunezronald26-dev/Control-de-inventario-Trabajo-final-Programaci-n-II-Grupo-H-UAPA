@@ -35,12 +35,14 @@ namespace FarmaControlPlus
                 return;
             }
 
-            // Aquí va la lógica de autenticación real contra BD
-            if (AutenticarUsuario(txtUsername.Text, txtPassword.Text))
+            // Autenticación contra BD
+            Empleado usuarioAutenticado = AutenticarUsuario(txtUsername.Text, txtPassword.Text);
+
+            if (usuarioAutenticado != null)
             {
                 // Hide login and open main form
                 this.Hide();
-                Form1 formPrincipal = new Form1();
+                Form1 formPrincipal = new Form1(usuarioAutenticado); // Pasar usuario
                 formPrincipal.Show();
                 formPrincipal.FormClosed += (s, args) => this.Close();
             }
@@ -51,8 +53,8 @@ namespace FarmaControlPlus
             }
         }
 
-        // Método para autenticar usuario contra BD
-        private bool AutenticarUsuario(string username, string password)
+        // Modificar este método para retornar el empleado completo
+        private Empleado AutenticarUsuario(string username, string password)
         {
             try
             {
@@ -60,8 +62,9 @@ namespace FarmaControlPlus
                 {
                     conn.Open();
 
-                    // Consulta para obtener el hash almacenado
-                    string sql = @"SELECT id, nombre_completo, rol, contrasena_hash 
+                    // Consulta para obtener el hash almacenado y datos del usuario
+                    string sql = @"SELECT id, nombre_completo, correo, direccion, 
+                                  telefono, sucursal, rol, contrasena_hash 
                            FROM empleados 
                            WHERE correo = @username";
 
@@ -75,29 +78,40 @@ namespace FarmaControlPlus
                             {
                                 string storedHash = dr["contrasena_hash"]?.ToString();
 
-                                // Si no hay hash almacenado (usuario antiguo)
                                 if (string.IsNullOrEmpty(storedHash))
                                 {
-                                    // Podrías tener un valor por defecto o pedir reset
-                                    return false;
+                                    return null;
                                 }
 
                                 // Generar hash de la contraseña ingresada
                                 string inputHash = CalcularSHA256Hash(password);
 
-                                // Comparar los hashes (comparación segura contra timing attacks)
-                                return string.Equals(storedHash, inputHash, StringComparison.Ordinal);
+                                // Comparar los hashes
+                                if (string.Equals(storedHash, inputHash, StringComparison.Ordinal))
+                                {
+                                    // Retornar objeto Empleado con todos los datos
+                                    return new Empleado
+                                    {
+                                        ID = Convert.ToInt32(dr["id"]),
+                                        NombreCompleto = dr["nombre_completo"].ToString(),
+                                        Correo = dr["correo"].ToString(),
+                                        Direccion = dr["direccion"].ToString(),
+                                        Telefono = dr["telefono"].ToString(),
+                                        Sucursal = dr["sucursal"].ToString(),
+                                        Rol = dr["rol"].ToString()
+                                    };
+                                }
                             }
                         }
                     }
                 }
-                return false;
+                return null;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error de autenticación: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                return null;
             }
         }
 
@@ -284,14 +298,19 @@ namespace FarmaControlPlus
     {
         private readonly Timer _closeTimer;
         private readonly Label _messageLabel;
+        private Color _modalColor;
 
-        public SuccessModal(string message, int milliseconds = 7000)
+        public SuccessModal(string message, int milliseconds = 2000, Color? color = null)
         {
             FormBorderStyle = FormBorderStyle.None;
             StartPosition = FormStartPosition.Manual;
             ShowInTaskbar = false;
             TopMost = true;
-            BackColor = Color.FromArgb(46, 204, 113); // green
+
+            // Usar color personalizado o verde por defecto
+            _modalColor = color ?? Color.FromArgb(46, 204, 113);
+            BackColor = _modalColor;
+
             Width = 360;
             Height = 120;
             Opacity = 0.98;

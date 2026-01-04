@@ -13,7 +13,10 @@ namespace FarmaControlPlus
 {
     public partial class Form1: Form
     {
-        // Referencias a las vistas
+        // Propiedad para almacenar el usuario actual
+        public Empleado UsuarioActual { get; private set; }
+
+        // Referencias a las vistas...
         private Dashboard dashboardView;
         private Inventario inventarioView;
         private Reportes reportesView;
@@ -21,11 +24,41 @@ namespace FarmaControlPlus
         private Usuarios usuariosView;
         private UcdetalleUsuario UcdetalleUsuario;
 
-        public Form1()
+        // Constructor modificado para recibir usuario
+        public Form1(Empleado usuario = null)
         {
             InitializeComponent();
+
+            // Guardar usuario actual
+            UsuarioActual = usuario ?? new Empleado
+            {
+                NombreCompleto = "Admin User",
+                Rol = "Administrador"
+            };
+
             InicializarVistas();
+            ConfigurarUIUsuario();
             MostrarVista(dashboardView);
+        }
+
+        // Método para configurar la UI según el usuario
+        private void ConfigurarUIUsuario()
+        {
+            // 1. Mostrar nombre y rol del usuario
+            lblNombreUsuario.Text = UsuarioActual.NombreCompleto;
+            lblRangoUsuario.Text = UsuarioActual.Rol;
+
+            // 2. Cambiar color del panelUsuario al mismo que btnUsuarios
+            panelUsuario.BackColor = btnUsuarios.BackColor;
+
+            // 3. Ocultar botón "Empleados" si no es administrador
+            if (UsuarioActual.Rol?.ToLower() != "administrador")
+            {
+                btnUsuarios.Visible = false;
+
+                // Reorganizar botones
+                btnReportes.Top = btnUsuarios.Top; // Mover Reportes a la posición de Usuarios
+            }
         }
 
 
@@ -122,6 +155,38 @@ namespace FarmaControlPlus
             lblTitulo.Text = "Gestión de Empleados";
         }
 
+        // Efectos hover para panelUsuario
+        private void panelUsuario_MouseEnter(object sender, EventArgs e)
+        {
+            panelUsuario.BackColor = Color.FromArgb(68, 89, 109); // Color más claro
+            panelUsuario.Cursor = Cursors.Hand;
+        }
+
+        private void panelUsuario_MouseLeave(object sender, EventArgs e)
+        {
+            panelUsuario.BackColor = Color.FromArgb(58, 79, 99); // Color original
+        }
+
+        private void lblNombreUsuario_MouseEnter(object sender, EventArgs e)
+        {
+            panelUsuario_MouseEnter(sender, e);
+        }
+
+        private void lblNombreUsuario_MouseLeave(object sender, EventArgs e)
+        {
+            panelUsuario_MouseLeave(sender, e);
+        }
+
+        private void lblRangoUsuario_MouseEnter(object sender, EventArgs e)
+        {
+            panelUsuario_MouseEnter(sender, e);
+        }
+
+        private void lblRangoUsuario_MouseLeave(object sender, EventArgs e)
+        {
+            panelUsuario_MouseLeave(sender, e);
+        }
+
         private void InformaciónUsuario(object sender, EventArgs e)
         {
             // 1. Ensure instance exists
@@ -130,17 +195,63 @@ namespace FarmaControlPlus
                 UcdetalleUsuario = new UcdetalleUsuario();
             }
 
-            // 2. If not added to the container, configure and add it
+            // 2. Pasar datos del usuario actual al control
+            UcdetalleUsuario.CargarDatosUsuario(UsuarioActual);
+
+            // 3. If not added to the container, configure and add it
             if (!panelContenedor.Controls.Contains(UcdetalleUsuario))
             {
                 ConfigurarVista(UcdetalleUsuario);
             }
 
-            // 3. Show the user control using the existing helper (hides other views)
+            // 4. Show the user control using the existing helper (hides other views)
             MostrarVista(UcdetalleUsuario);
 
-            // 4. Update title
-            lblTitulo.Text = "Información de Empleado";
+            // 5. Update title
+            lblTitulo.Text = "Mi Perfil";
         }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+        "¿Está seguro que desea cerrar sesión?",
+        "Confirmar Cierre de Sesión",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Question,
+        MessageBoxDefaultButton.Button2); // El No como opción por defecto
+
+            if (result == DialogResult.Yes)
+            {
+                CerrarSesion();
+            }
+        }
+
+        private void CerrarSesion()
+        {
+            try
+            {
+                // 1. Mostrar mensaje de despedida
+                using (var modal = new SuccessModal("Sesión finalizada. ¡Hasta pronto!", 1500))
+                {
+                    modal.ShowDialog(this);
+                }
+
+                // 2. Cerrar el formulario principal
+                this.Hide();
+
+                // 3. Mostrar nuevamente el formulario de login
+                Login loginForm = new Login();
+                loginForm.Show();
+
+                // 4. Cerrar este formulario cuando se cierre el login
+                loginForm.FormClosed += (s, args) => this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cerrar sesión: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

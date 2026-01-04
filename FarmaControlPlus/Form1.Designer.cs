@@ -41,6 +41,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnlDashboard = new System.Windows.Forms.Panel();
             this.lblDashboard = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelUsuario.SuspendLayout();
             this.panelLogo.SuspendLayout();
@@ -56,6 +57,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(53)))), ((int)(((byte)(65)))));
+            this.panelMenu.Controls.Add(this.button1);
             this.panelMenu.Controls.Add(this.panelUsuario);
             this.panelMenu.Controls.Add(this.btnUsuarios);
             this.panelMenu.Controls.Add(this.btnReportes);
@@ -70,41 +72,45 @@
             // 
             // panelUsuario
             // 
-            this.panelUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelUsuario.BackColor = System.Drawing.Color.Transparent;
+            this.panelUsuario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(79)))), ((int)(((byte)(99)))));
             this.panelUsuario.Controls.Add(this.lblRangoUsuario);
             this.panelUsuario.Controls.Add(this.lblNombreUsuario);
-            this.panelUsuario.Location = new System.Drawing.Point(12, 640);
+            this.panelUsuario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panelUsuario.Location = new System.Drawing.Point(0, 596);
             this.panelUsuario.Name = "panelUsuario";
-            this.panelUsuario.Size = new System.Drawing.Size(179, 48);
+            this.panelUsuario.Size = new System.Drawing.Size(220, 48);
             this.panelUsuario.TabIndex = 2;
             this.panelUsuario.Click += new System.EventHandler(this.InformaciónUsuario);
+            this.panelUsuario.MouseEnter += new System.EventHandler(this.panelUsuario_MouseEnter);
+            this.panelUsuario.MouseLeave += new System.EventHandler(this.panelUsuario_MouseLeave);
             // 
             // lblRangoUsuario
             // 
             this.lblRangoUsuario.AutoSize = true;
-            this.lblRangoUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRangoUsuario.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRangoUsuario.ForeColor = System.Drawing.Color.LightGray;
-            this.lblRangoUsuario.Location = new System.Drawing.Point(14, 17);
+            this.lblRangoUsuario.Location = new System.Drawing.Point(10, 25);
             this.lblRangoUsuario.Name = "lblRangoUsuario";
-            this.lblRangoUsuario.Size = new System.Drawing.Size(70, 13);
+            this.lblRangoUsuario.Size = new System.Drawing.Size(0, 13);
             this.lblRangoUsuario.TabIndex = 2;
-            this.lblRangoUsuario.Text = "Administrador";
+            this.lblRangoUsuario.MouseEnter += new System.EventHandler(this.lblRangoUsuario_MouseEnter);
+            this.lblRangoUsuario.MouseLeave += new System.EventHandler(this.lblRangoUsuario_MouseLeave);
             // 
             // lblNombreUsuario
             // 
             this.lblNombreUsuario.AutoSize = true;
-            this.lblNombreUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreUsuario.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lblNombreUsuario.Location = new System.Drawing.Point(14, 0);
+            this.lblNombreUsuario.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombreUsuario.ForeColor = System.Drawing.Color.White;
+            this.lblNombreUsuario.Location = new System.Drawing.Point(10, 8);
             this.lblNombreUsuario.Name = "lblNombreUsuario";
-            this.lblNombreUsuario.Size = new System.Drawing.Size(81, 15);
+            this.lblNombreUsuario.Size = new System.Drawing.Size(0, 15);
             this.lblNombreUsuario.TabIndex = 1;
-            this.lblNombreUsuario.Text = "Admin User";
+            this.lblNombreUsuario.MouseEnter += new System.EventHandler(this.lblNombreUsuario_MouseEnter);
+            this.lblNombreUsuario.MouseLeave += new System.EventHandler(this.lblNombreUsuario_MouseLeave);
             // 
             // btnUsuarios
             // 
-            this.btnUsuarios.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(79)))), ((int)(((byte)(99)))));
+            this.btnUsuarios.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(53)))), ((int)(((byte)(65)))));
             this.btnUsuarios.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnUsuarios.FlatAppearance.BorderSize = 0;
             this.btnUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -343,6 +349,24 @@
             this.lblDashboard.TabIndex = 0;
             this.lblDashboard.Text = "Dashboard (Próximo)";
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Red;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(0, 662);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(220, 38);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "SALIR";
+            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,5 +426,6 @@
             private System.Windows.Forms.Label label4;
             private System.Windows.Forms.Panel pnlUsuarios;
             private System.Windows.Forms.Label label3;
-        }
+        private System.Windows.Forms.Button button1;
+    }
     }
