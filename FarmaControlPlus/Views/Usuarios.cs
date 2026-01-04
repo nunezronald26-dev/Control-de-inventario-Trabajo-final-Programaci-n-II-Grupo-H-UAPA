@@ -1,5 +1,8 @@
-﻿using System;
+﻿using FarmaControlPlus;
+using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,45 +13,106 @@ namespace TuProyecto.Views
     {
         private List<Empleado> empleados;
         private List<Empleado> empleadosFiltrados;
+        private Color colorCabecera = Color.FromArgb(52, 152, 219);
+        private Color colorBoton = Color.FromArgb(46, 204, 113);
+        private Color colorBotonBuscar = Color.FromArgb(52, 152, 219);
+        private Color colorBotonLimpiar = Color.FromArgb(149, 165, 166);
+        private Color colorTexto = Color.FromArgb(52, 73, 94);
+        private Color colorFondoBusqueda = Color.FromArgb(245, 246, 250);
+        private Color colorBotonModificar = Color.FromArgb(52, 152, 219); // Azul para modificar
+        private Color colorBotonEliminar = Color.FromArgb(231, 76, 60);   // Rojo para eliminar
 
         public Usuarios()
         {
             InitializeComponent();
-            ConfigurarEstilos();
             ConfigurarGrid();
             CargarEmpleados();
+            ConfigurarEstilos();
         }
 
         private void ConfigurarEstilos()
         {
+            // Panel de búsqueda
             panelBusqueda.BackColor = Color.FromArgb(248, 249, 250);
 
+            // Botón Nuevo Usuario
             btnNuevoUsuario.BackColor = Color.FromArgb(46, 204, 113); // Verde
             btnNuevoUsuario.FlatStyle = FlatStyle.Flat;
             btnNuevoUsuario.FlatAppearance.BorderSize = 0;
             btnNuevoUsuario.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             btnNuevoUsuario.ForeColor = Color.White;
 
+            // Botón Buscar
             btnBuscar.BackColor = Color.FromArgb(70, 130, 180);
             btnBuscar.FlatStyle = FlatStyle.Flat;
             btnBuscar.FlatAppearance.BorderSize = 0;
             btnBuscar.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             btnBuscar.ForeColor = Color.White;
 
+            // Botón Limpiar
             btnLimpiar.BackColor = Color.FromArgb(108, 117, 125);
             btnLimpiar.FlatStyle = FlatStyle.Flat;
             btnLimpiar.FlatAppearance.BorderSize = 0;
             btnLimpiar.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             btnLimpiar.ForeColor = Color.White;
 
-            // DataGridView estilo
+            // Configurar estilos del DataGridView
             dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarios.RowTemplate.Height = 35;
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180);
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvUsuarios.DefaultCellStyle.Padding = new Padding(6, 4, 6, 4);
             dgvUsuarios.DefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 120, 255);
             dgvUsuarios.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180);
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+
+            dgvUsuarios.DefaultCellStyle.ForeColor = colorTexto;
+            dgvUsuarios.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.SelectionBackColor = colorFondoBusqueda;
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.SelectionForeColor = colorTexto;
+        }
+
+        private void CargarEmpleados()
+        {
+            // Limpiar la lista en memoria
+            empleados = new List<Empleado>();
+
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+
+                string sql = @"SELECT id, nombre_completo, correo, direccion, telefono, sucursal, rol
+                       FROM empleados
+                       ORDER BY id";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                using (var dr = cmd.ExecuteReader())
+                {
+                    dgvUsuarios.Rows.Clear();
+
+                    while (dr.Read())
+                    {
+                        var emp = new Empleado
+                        {
+                            ID = dr.GetInt32(0),
+                            Nombre = dr.GetString(1),
+                            Correo = dr.GetString(2),
+                            Direccion = dr.GetString(3),
+                            Telefono = dr.GetString(4),
+                            Sucursal = dr.GetString(5),
+                            Rol = dr.GetString(6)
+                        };
+
+                        // Agregar a la lista en memoria
+                        empleados.Add(emp);
+                    }
+                }
+            }
+
+            empleadosFiltrados = new List<Empleado>(empleados);
+            ActualizarDataGridView();
         }
 
         private void ConfigurarGrid()
@@ -56,62 +120,75 @@ namespace TuProyecto.Views
             dgvUsuarios.AutoGenerateColumns = false;
             dgvUsuarios.Columns.Clear();
 
-            // Columnas
+            // ID
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colID",
                 HeaderText = "ID",
                 DataPropertyName = "ID",
-                Width = 10,
+                Width = 60,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    Font = new Font("Segoe UI", 9)
+                    Font = new Font("Segoe UI", 10, FontStyle.Regular)
                 }
             });
 
+            // Nombre completo
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colNombre",
                 HeaderText = "NOMBRE COMPLETO",
                 DataPropertyName = "Nombre",
-                Width = 180
+                Width = 150
             });
 
+            // Correo
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colCorreo",
                 HeaderText = "CORREO",
                 DataPropertyName = "Correo",
                 Width = 150
             });
 
+            // Dirección
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colDireccion",
                 HeaderText = "DIRECCIÓN",
                 DataPropertyName = "Direccion",
-                Width = 170
+                Width = 180
             });
 
+            // Teléfono
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colTelefono",
                 HeaderText = "TELÉFONO",
                 DataPropertyName = "Telefono",
-                Width = 110
+                Width = 120
             });
 
+            // Sucursal
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colSucursal",
                 HeaderText = "SUCURSAL",
                 DataPropertyName = "Sucursal",
-                Width = 90
+                Width = 100
             });
 
+            // Rol
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colRol",
                 HeaderText = "ROL",
                 DataPropertyName = "Rol",
-                Width = 90
+                Width = 100
             });
 
-            // Botón Modificar
+            // Botón Modificar (icono lápiz)
             var btnModificar = new DataGridViewButtonColumn
             {
                 Name = "Modificar",
@@ -129,7 +206,7 @@ namespace TuProyecto.Views
             };
             dgvUsuarios.Columns.Add(btnModificar);
 
-            // Botón Eliminar
+            // Botón Eliminar (icono zafacón)
             var btnEliminar = new DataGridViewButtonColumn
             {
                 Name = "Eliminar",
@@ -148,49 +225,6 @@ namespace TuProyecto.Views
             dgvUsuarios.Columns.Add(btnEliminar);
         }
 
-        private void CargarEmpleados()
-        {
-            empleados = new List<Empleado>
-            {
-                new Empleado {
-                    ID = 1,
-                    Nombre = "Manuel Ramon Menarguez",
-                    Correo = "manuel@email.com",
-                    Direccion = "Ramon Menarguez 56",
-                    Ciudad = "Murcia",
-                    Telefono = "2344444333",
-                    Sucursal = "Central",
-                    Rol = "Administrador",
-                    Contrasena = "manuel123"
-                },
-                new Empleado {
-                    ID = 2,
-                    Nombre = "Francisco Juper",
-                    Correo = "francisco@email.com",
-                    Direccion = "Nacida 23",
-                    Ciudad = "Bilbao",
-                    Telefono = "34567845678",
-                    Sucursal = "Norte",
-                    Rol = "Vendedor",
-                    Contrasena = "francisco123"
-                },
-                new Empleado {
-                    ID = 3,
-                    Nombre = "Marta Cases",
-                    Correo = "marta@email.com",
-                    Direccion = "Lopez García 23",
-                    Ciudad = "Madrid",
-                    Telefono = "737763632",
-                    Sucursal = "Centro",
-                    Rol = "Vendedor",
-                    Contrasena = "marta123"
-                }
-            };
-
-            empleadosFiltrados = new List<Empleado>(empleados);
-            ActualizarDataGridView();
-        }
-
         private void ActualizarDataGridView()
         {
             dgvUsuarios.DataSource = null;
@@ -199,19 +233,16 @@ namespace TuProyecto.Views
 
         private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
 
-            string columna = dgvUsuarios.Columns[e.ColumnIndex].Name;
             Empleado empleado = (Empleado)dgvUsuarios.Rows[e.RowIndex].DataBoundItem;
+            string columna = dgvUsuarios.Columns[e.ColumnIndex].Name;
 
             if (columna == "Modificar")
-            {
                 ModificarEmpleado(empleado);
-            }
             else if (columna == "Eliminar")
-            {
                 EliminarEmpleado(empleado);
-            }
         }
 
         private void ModificarEmpleado(Empleado empleado)
@@ -228,6 +259,7 @@ namespace TuProyecto.Views
                     if (empleadoOriginal != null)
                     {
                         ActualizarEmpleado(empleadoOriginal, empleadoModificado);
+                        ActualizarEmpleadoBD(empleadoModificado);
                     }
 
                     // Actualizar en la lista filtrada
@@ -260,8 +292,41 @@ namespace TuProyecto.Views
             }
         }
 
+        private void ActualizarEmpleadoBD(Empleado empleado)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+
+                string sql = @"UPDATE empleados 
+                       SET nombre_completo = @nombre,
+                           correo = @correo,
+                           direccion = @direccion,
+                           telefono = @telefono,
+                           sucursal = @sucursal,
+                           rol = @rol
+                       WHERE id = @id";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", empleado.ID);
+                    cmd.Parameters.AddWithValue("@nombre", empleado.Nombre);
+                    cmd.Parameters.AddWithValue("@correo", empleado.Correo);
+                    cmd.Parameters.AddWithValue("@direccion", empleado.Direccion);
+                    cmd.Parameters.AddWithValue("@telefono", empleado.Telefono);
+                    cmd.Parameters.AddWithValue("@sucursal", empleado.Sucursal);
+                    cmd.Parameters.AddWithValue("@rol", empleado.Rol);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         private void EliminarEmpleado(Empleado empleado)
         {
+            if (empleado == null)
+                return;
+
             DialogResult r = MessageBox.Show(
                 $"¿Deseas eliminar al empleado?\n\n" +
                 $"ID: {empleado.ID}\n" +
@@ -272,9 +337,24 @@ namespace TuProyecto.Views
 
             if (r == DialogResult.Yes)
             {
+                // 1️⃣ Eliminar de la BD
+                using (var conn = ConexionBD.ObtenerConexion())
+                {
+                    conn.Open();
+                    using (var cmd = new NpgsqlCommand("DELETE FROM empleados WHERE id = @id", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", empleado.ID);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                // 2️⃣ Eliminar de la lista en memoria
                 empleados.Remove(empleado);
-                empleadosFiltrados.Remove(empleado);
+                empleadosFiltrados?.Remove(empleado);
+
+                // 3️⃣ Actualizar el DataGridView
                 ActualizarDataGridView();
+
                 MessageBox.Show("Empleado eliminado correctamente.", "Eliminado",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -286,15 +366,15 @@ namespace TuProyecto.Views
             {
                 if (formNuevo.ShowDialog() == DialogResult.OK)
                 {
-                    var nuevoEmpleado = formNuevo.EmpleadoCreado;
-                    nuevoEmpleado.ID = empleados.Count > 0 ? empleados.Max(o => o.ID) + 1 : 1;
+                    GuardarEmpleadoBD(formNuevo.EmpleadoCreado);
+                    CargarEmpleados();
 
-                    empleados.Add(nuevoEmpleado);
-                    empleadosFiltrados.Add(nuevoEmpleado);
-                    ActualizarDataGridView();
-
-                    MessageBox.Show($"Empleado {nuevoEmpleado.Nombre} agregado.", "Éxito",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        "Empleado agregado correctamente.",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                 }
             }
         }
@@ -350,6 +430,37 @@ namespace TuProyecto.Views
             {
                 RealizarBusqueda();
                 e.Handled = true;
+            }
+        }
+
+        private void Usuarios_Load(object sender, EventArgs e)
+        {
+            CargarEmpleados();
+        }
+
+        private void GuardarEmpleadoBD(Empleado emp)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+
+                string sql = @"
+            INSERT INTO empleados
+            (nombre_completo, correo, direccion, telefono, sucursal, rol)
+            VALUES
+            (@nombre, @correo, @direccion, @telefono, @sucursal, @rol)";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", emp.Nombre);
+                    cmd.Parameters.AddWithValue("@correo", emp.Correo);
+                    cmd.Parameters.AddWithValue("@direccion", emp.Direccion);
+                    cmd.Parameters.AddWithValue("@telefono", emp.Telefono);
+                    cmd.Parameters.AddWithValue("@sucursal", emp.Sucursal);
+                    cmd.Parameters.AddWithValue("@rol", emp.Rol); // <- aquí agregas el rol
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 

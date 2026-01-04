@@ -36,7 +36,7 @@ namespace TuProyecto.Views
 
         private void GuardarMedicamentoBD(Medicamento med)
         {
-            using (NpgsqlConnection conn = new NpgsqlConnection(ConexionBD.CadenaConexion))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
 
@@ -63,7 +63,7 @@ namespace TuProyecto.Views
         private void CargarMedicamentos()
         {
             dataGridViewInventario.Rows.Clear();
-            using (NpgsqlConnection conn = new NpgsqlConnection(ConexionBD.CadenaConexion))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string sql = "SELECT nombre, codigo, categoria, stock, precio_unitario, fecha_vencimiento FROM medicamentos";

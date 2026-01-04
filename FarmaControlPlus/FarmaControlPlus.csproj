@@ -221,6 +221,12 @@
     <Compile Include="Views\Reportes.Designer.cs">
       <DependentUpon>Reportes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\UcdetalleUsuario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UcdetalleUsuario.Designer.cs">
+      <DependentUpon>UcdetalleUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Usuarios.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -257,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Reportes.resx">
       <DependentUpon>Reportes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UcdetalleUsuario.resx">
+      <DependentUpon>UcdetalleUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Usuarios.resx">
       <DependentUpon>Usuarios.cs</DependentUpon>
