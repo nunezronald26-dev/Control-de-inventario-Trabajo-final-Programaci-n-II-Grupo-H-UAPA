@@ -471,11 +471,11 @@
             this.card6StatLabel.AutoSize = true;
             this.card6StatLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.card6StatLabel.ForeColor = System.Drawing.Color.DimGray;
-            this.card6StatLabel.Location = new System.Drawing.Point(49, 120);
+            this.card6StatLabel.Location = new System.Drawing.Point(34, 120);
             this.card6StatLabel.Name = "card6StatLabel";
-            this.card6StatLabel.Size = new System.Drawing.Size(207, 19);
+            this.card6StatLabel.Size = new System.Drawing.Size(237, 19);
             this.card6StatLabel.TabIndex = 4;
-            this.card6StatLabel.Text = "Cantidad de Medicinas Vendidas";
+            this.card6StatLabel.Text = "Cantidad de Medicamentos Vendidos";
             // 
             // Dashboard
             // 
