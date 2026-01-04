@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using TuProyecto.Views;
 
@@ -8,189 +7,234 @@ namespace FarmaControlPlus.Forms
 {
     public partial class NuevoEmpleado : Form
     {
-        // Propiedades para modo edición
-        public bool ModoEdicion { get; set; } = false;
-        public Empleado EmpleadoAEditar { get; set; }
+        // ===== Propiedades =====
+        public bool ModoEdicion { get; private set; } = false;
+        public Empleado EmpleadoAEditar { get; private set; }
         public Empleado EmpleadoCreado { get; private set; }
 
-        // Variables para verificar si se cambiaron las contraseñas
+        // Control de cambios de contraseña
         private bool contrasenaCambiada = false;
         private bool repetirContrasenaCambiada = false;
 
+        // ===== CONSTRUCTOR PARA NUEVO EMPLEADO =====
         public NuevoEmpleado()
         {
             InitializeComponent();
+            ConfigurarControles();
+            this.Text = "Registrar Nuevo Usuario";
             this.AcceptButton = btnGuardar;
             this.CancelButton = btnCancelar;
         }
 
+        // ===== CONSTRUCTOR PARA EDITAR EMPLEADO =====
+        public NuevoEmpleado(Empleado empleadoExistente)
+        {
+            InitializeComponent();
+            ConfigurarControles();
+
+            ModoEdicion = true;
+            EmpleadoAEditar = empleadoExistente;
+            this.Text = "Modificar Empleado";
+
+            // CARGAR DATOS INMEDIATAMENTE EN EL CONSTRUCTOR
+            CargarDatosEmpleado();
+
+            this.AcceptButton = btnGuardar;
+            this.CancelButton = btnCancelar;
+        }
+
+        private void ConfigurarControles()
+        {
+            // Asegurar que los campos de contraseña estén en modo seguro
+            txtPass.PasswordChar = '•';
+            txtRepeatPass.PasswordChar = '•';
+        }
+
+        private void CargarDatosEmpleado()
+        {
+            if (EmpleadoAEditar == null) return;
+
+            // Cargar los datos en los campos
+            txtNombre.Text = EmpleadoAEditar.Nombre ?? "";
+            txtCorreo.Text = EmpleadoAEditar.Correo ?? "";
+            txtDir.Text = EmpleadoAEditar.Direccion ?? "";
+            txtTelefono.Text = EmpleadoAEditar.Telefono ?? "";
+            textSucursal.Text = EmpleadoAEditar.Sucursal ?? "";
+
+            // Cargar el rol si existe
+            if (dropRol != null && !string.IsNullOrEmpty(EmpleadoAEditar.Rol))
+            {
+                dropRol.Text = EmpleadoAEditar.Rol;
+            }
+
+            // Configurar placeholders para contraseñas
+            txtPass.Text = "••••••••";
+            txtPass.ForeColor = SystemColors.GrayText;
+
+            txtRepeatPass.Text = "••••••••";
+            txtRepeatPass.ForeColor = SystemColors.GrayText;
+
+            // Agregar eventos para los campos de contraseña
+            txtPass.Enter += TxtPass_Enter;
+            txtPass.Leave += TxtPass_Leave;
+            txtPass.TextChanged += TxtPass_TextChanged;
+
+            txtRepeatPass.Enter += TxtRepeatPass_Enter;
+            txtRepeatPass.Leave += TxtRepeatPass_Leave;
+            txtRepeatPass.TextChanged += TxtRepeatPass_TextChanged;
+        }
+
         private void NuevoEmpleado_Load(object sender, EventArgs e)
         {
-            // Si está en modo edición, cargar datos del empleado
-            if (ModoEdicion && EmpleadoAEditar != null)
+            // Si no es modo edición, solo establecer foco
+            if (!ModoEdicion || EmpleadoAEditar == null)
             {
-                txtNombre.Text = EmpleadoAEditar.Nombre;
-                txtCorreo.Text = EmpleadoAEditar.Correo;
-                txtDir.Text = EmpleadoAEditar.Direccion;
-                txtTelefono.Text = EmpleadoAEditar.Telefono;
-                textSucursal.Text = EmpleadoAEditar.Sucursal;
-
-                // Mostrar placeholder para contraseña
-                txtPass.PasswordChar = '•';
-                txtPass.Text = "••••••••";
-                txtPass.ForeColor = SystemColors.GrayText;
-
-                // Mostrar placeholder para repetir contraseña
-                txtRepeatPass.PasswordChar = '•';
-                txtRepeatPass.Text = "••••••••";
-                txtRepeatPass.ForeColor = SystemColors.GrayText;
-
-                // Configurar eventos para detectar cambios en contraseña
-                txtPass.Enter += TxtContrasena_Enter;
-                txtPass.Leave += TxtContrasena_Leave;
-                txtPass.TextChanged += TxtContrasena_TextChanged;
-
-                txtRepeatPass.Enter += TxtRepeatContrasena_Enter;
-                txtRepeatPass.Leave += TxtRepeatContrasena_Leave;
-                txtRepeatPass.TextChanged += TxtRepeatContrasena_TextChanged;
-            }
-            else
-            {
-                // En modo creación, solo mostrar PasswordChar normal
-                txtPass.PasswordChar = '•';
-                txtRepeatPass.PasswordChar = '•';
+                txtNombre.Focus();
+                return;
             }
 
+            // Si ya se cargaron los datos en el constructor, solo establecer foco
             txtNombre.Focus();
         }
 
-        private void TxtContrasena_Enter(object sender, EventArgs e)
+        // ===== Eventos contraseña =====
+        private void TxtPass_Enter(object sender, EventArgs e)
         {
             if (ModoEdicion && txtPass.Text == "••••••••")
             {
-                txtPass.Text = "";
-                txtPass.PasswordChar = '•';
+                txtPass.Clear();
                 txtPass.ForeColor = SystemColors.ControlText;
             }
         }
 
-        private void TxtContrasena_Leave(object sender, EventArgs e)
+        private void TxtPass_Leave(object sender, EventArgs e)
         {
-            if (ModoEdicion && string.IsNullOrEmpty(txtPass.Text))
+            if (ModoEdicion && string.IsNullOrWhiteSpace(txtPass.Text))
             {
                 txtPass.Text = "••••••••";
-                txtPass.PasswordChar = '•';
                 txtPass.ForeColor = SystemColors.GrayText;
                 contrasenaCambiada = false;
             }
         }
 
-        private void TxtContrasena_TextChanged(object sender, EventArgs e)
+        private void TxtPass_TextChanged(object sender, EventArgs e)
         {
             if (ModoEdicion && txtPass.Text != "••••••••")
-            {
                 contrasenaCambiada = true;
-            }
         }
 
-        private void TxtRepeatContrasena_Enter(object sender, EventArgs e)
+        private void TxtRepeatPass_Enter(object sender, EventArgs e)
         {
             if (ModoEdicion && txtRepeatPass.Text == "••••••••")
             {
-                txtRepeatPass.Text = "";
-                txtRepeatPass.PasswordChar = '•';
+                txtRepeatPass.Clear();
                 txtRepeatPass.ForeColor = SystemColors.ControlText;
             }
         }
 
-        private void TxtRepeatContrasena_Leave(object sender, EventArgs e)
+        private void TxtRepeatPass_Leave(object sender, EventArgs e)
         {
-            if (ModoEdicion && string.IsNullOrEmpty(txtRepeatPass.Text))
+            if (ModoEdicion && string.IsNullOrWhiteSpace(txtRepeatPass.Text))
             {
                 txtRepeatPass.Text = "••••••••";
-                txtRepeatPass.PasswordChar = '•';
                 txtRepeatPass.ForeColor = SystemColors.GrayText;
                 repetirContrasenaCambiada = false;
             }
         }
 
-        private void TxtRepeatContrasena_TextChanged(object sender, EventArgs e)
+        private void TxtRepeatPass_TextChanged(object sender, EventArgs e)
         {
             if (ModoEdicion && txtRepeatPass.Text != "••••••••")
-            {
                 repetirContrasenaCambiada = true;
-            }
         }
 
+        // ===== Guardar =====
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validación básica
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("El nombre completo es obligatorio.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("El nombre es obligatorio.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            // Validar contraseñas en modo creación
-            if (!ModoEdicion)
+            // ===== VALIDACIÓN CONTRASEÑAS =====
+            if (!ModoEdicion) // Modo creación
             {
-                if (string.IsNullOrWhiteSpace(txtPass.Text))
+                if (string.IsNullOrWhiteSpace(txtPass.Text) || txtPass.Text == "••••••••")
                 {
-                    MessageBox.Show("La contraseña es obligatoria para nuevos empleados.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    MessageBox.Show("La contraseña es obligatoria para nuevos empleados.", "Validación",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPass.Focus();
                     return;
                 }
 
                 if (txtPass.Text != txtRepeatPass.Text)
                 {
-                    MessageBox.Show("Las contraseñas no coinciden.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    MessageBox.Show("Las contraseñas no coinciden.", "Validación",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPass.Focus();
+                    txtPass.SelectAll();
                     return;
                 }
             }
-
-            // Validar contraseñas en modo edición si se cambiaron
-            if (ModoEdicion && (contrasenaCambiada || repetirContrasenaCambiada))
+            else if (contrasenaCambiada || repetirContrasenaCambiada) // Modo edición con cambio de contraseña
             {
                 if (txtPass.Text != txtRepeatPass.Text)
                 {
-                    MessageBox.Show("Las contraseñas no coinciden.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    MessageBox.Show("Las contraseñas no coinciden.", "Validación",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPass.Focus();
+                    txtPass.SelectAll();
                     return;
                 }
 
-                // Si se cambió la contraseña, validar con administrador
-                if (contrasenaCambiada)
+                using (var admin = new ValidarAdministradorForm())
                 {
-                    // Mostrar formulario para validar contraseña de administrador
-                    using (var formAdmin = new ValidarAdministradorForm())
+                    if (admin.ShowDialog() != DialogResult.OK)
                     {
-                        if (formAdmin.ShowDialog() != DialogResult.OK)
-                        {
-                            MessageBox.Show("La contraseña de administrador es incorrecta. No se puede modificar la contraseña.",
-                                "Validación fallida",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                            return;
-                        }
+                        MessageBox.Show("No autorizado para cambiar contraseña.",
+                            "Acceso denegado",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
                     }
                 }
             }
 
-            // Mapeo de datos al objeto Empleado
+            // ===== MODO EDICIÓN =====
+            if (ModoEdicion)
+            {
+                // Crear un objeto nuevo con los datos actualizados
+                EmpleadoCreado = new Empleado
+                {
+                    ID = EmpleadoAEditar.ID,
+                    Nombre = txtNombre.Text.Trim(),
+                    Correo = txtCorreo.Text.Trim(),
+                    Direccion = txtDir.Text.Trim(),
+                    Telefono = txtTelefono.Text.Trim(),
+                    Sucursal = textSucursal.Text.Trim(),
+                    Rol = dropRol?.Text?.Trim() ?? "",
+                    Ciudad = EmpleadoAEditar.Ciudad // Mantener la ciudad si existe
+                };
+
+                // Manejar la contraseña
+                if (contrasenaCambiada && txtPass.Text != "••••••••" && !string.IsNullOrWhiteSpace(txtPass.Text))
+                {
+                    EmpleadoCreado.Contrasena = txtPass.Text;
+                }
+                else
+                {
+                    EmpleadoCreado.Contrasena = EmpleadoAEditar.Contrasena;
+                }
+
+                DialogResult = DialogResult.OK;
+                Close();
+                return;
+            }
+
+            // ===== MODO CREACIÓN =====
             EmpleadoCreado = new Empleado
             {
                 Nombre = txtNombre.Text.Trim(),
@@ -198,148 +242,99 @@ namespace FarmaControlPlus.Forms
                 Direccion = txtDir.Text.Trim(),
                 Telefono = txtTelefono.Text.Trim(),
                 Sucursal = textSucursal.Text.Trim(),
-                // Si es edición y no se cambió la contraseña, mantener la original
-                Contrasena = ModoEdicion && !contrasenaCambiada ?
-                    EmpleadoAEditar.Contrasena : txtPass.Text
+                Rol = dropRol?.Text?.Trim() ?? "",
+                Contrasena = txtPass.Text
             };
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
-        // Método para manejar la tecla Enter entre campos
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == Keys.Enter)
-            {
-                Control control = this.ActiveControl;
-
-                // Si es un TextBox, mover al siguiente
-                if (control is TextBox)
-                {
-                    // Verificar que no sea el último campo
-                    if (control != textSucursal && control != txtRepeatPass)
-                    {
-                        this.SelectNextControl(control, true, true, true, true);
-                        return true;
-                    }
-                }
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void txtNombre_TextChanged(object sender, EventArgs e)
-        {
-            // Puedes agregar validación en tiempo real aquí si es necesario
-        }
-
-        private void lblCiudad_Click(object sender, EventArgs e)
-        {
-            // Evento del label de dirección (antes era lblCiudad)
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 
-    // Formulario para validar contraseña de administrador
+    // ===== FORM VALIDACIÓN ADMIN =====
     public class ValidarAdministradorForm : Form
     {
-        private TextBox txtContrasenaAdmin;
-        private Button btnAceptar;
-        private Button btnCancelar;
-        private Label lblInstruccion;
+        private TextBox txtPass;
+        private Button btnOk, btnCancel;
+        private Label lblInfo;
 
         public ValidarAdministradorForm()
         {
-            InitializeComponent();
-        }
+            Text = "Validar Administrador";
+            Size = new Size(350, 180);
+            StartPosition = FormStartPosition.CenterParent;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
 
-        private void InitializeComponent()
-        {
-            this.Text = "Validar Administrador";
-            this.Size = new Size(350, 200);
-            this.StartPosition = FormStartPosition.CenterParent;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-
-            lblInstruccion = new Label
+            lblInfo = new Label
             {
-                Text = "Para modificar la contraseña, ingrese la contraseña de administrador:",
+                Text = "Ingrese la contraseña de administrador:",
                 Location = new Point(20, 20),
-                Size = new Size(300, 40),
+                Size = new Size(300, 20),
                 Font = new Font("Segoe UI", 9)
             };
 
-            txtContrasenaAdmin = new TextBox
+            txtPass = new TextBox
             {
-                Location = new Point(20, 70),
-                Size = new Size(300, 25),
                 PasswordChar = '•',
+                Location = new Point(20, 50),
+                Width = 290,
                 Font = new Font("Segoe UI", 10)
             };
 
-            btnAceptar = new Button
+            btnOk = new Button
             {
                 Text = "Aceptar",
-                Location = new Point(145, 110),
-                Size = new Size(85, 30),
+                Location = new Point(140, 90),
+                Size = new Size(80, 30),
                 Font = new Font("Segoe UI", 9, FontStyle.Bold),
                 BackColor = Color.FromArgb(46, 204, 113),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat
             };
-            btnAceptar.Click += (s, e) => ValidarContrasena();
+            btnOk.Click += (s, e) =>
+            {
+                if (txtPass.Text == "admin123") // Cambia esto por tu lógica real
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Contraseña incorrecta", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtPass.Focus();
+                    txtPass.SelectAll();
+                }
+            };
 
-            btnCancelar = new Button
+            btnCancel = new Button
             {
                 Text = "Cancelar",
-                Location = new Point(235, 110),
-                Size = new Size(85, 30),
+                Location = new Point(230, 90),
+                Size = new Size(80, 30),
                 Font = new Font("Segoe UI", 9),
                 BackColor = Color.FromArgb(149, 165, 166),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat
             };
-            btnCancelar.Click += (s, e) =>
+            btnCancel.Click += (s, e) =>
             {
-                this.DialogResult = DialogResult.Cancel;
-                this.Close();
+                DialogResult = DialogResult.Cancel;
+                Close();
             };
 
-            this.Controls.Add(lblInstruccion);
-            this.Controls.Add(txtContrasenaAdmin);
-            this.Controls.Add(btnAceptar);
-            this.Controls.Add(btnCancelar);
+            Controls.AddRange(new Control[] { lblInfo, txtPass, btnOk, btnCancel });
 
-            this.AcceptButton = btnAceptar;
-            this.CancelButton = btnCancelar;
-        }
-
-        private void ValidarContrasena()
-        {
-            // Aquí debes implementar la validación real contra tu sistema
-            // Por ahora, usaré una contraseña hardcodeada como ejemplo
-            string contrasenaAdminValida = "admin123"; // Cambia esto por tu lógica real
-
-            if (txtContrasenaAdmin.Text == contrasenaAdminValida)
-            {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Contraseña incorrecta. Intente nuevamente.",
-                    "Error de validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                txtContrasenaAdmin.Focus();
-                txtContrasenaAdmin.SelectAll();
-            }
+            this.AcceptButton = btnOk;
+            this.CancelButton = btnCancel;
         }
     }
 }

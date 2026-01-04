@@ -21,10 +21,6 @@ namespace TuProyecto.Views
 
         private void ConfigurarEstilos()
         {
-            //panelHeader.BackColor = Color.FromArgb(70, 130, 180); // Azul acero
-            //lblTitulo.Font = new Font("Segoe UI", 18, FontStyle.Bold);
-            //lblTitulo.ForeColor = Color.White;
-
             panelBusqueda.BackColor = Color.FromArgb(248, 249, 250);
 
             btnNuevoUsuario.BackColor = Color.FromArgb(46, 204, 113); // Verde
@@ -45,17 +41,14 @@ namespace TuProyecto.Views
             btnLimpiar.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             btnLimpiar.ForeColor = Color.White;
 
-            // DataGridView estilo Inventario
+            // DataGridView estilo
             dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarios.RowTemplate.Height = 35;
-            //dgvUsuarios.DefaultCellStyle.Font = new Font("Arial", 8);
-            //dgvUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 8, FontStyle.Bold);
             dgvUsuarios.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180);
             dgvUsuarios.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvUsuarios.DefaultCellStyle.Padding = new Padding(6, 4, 6, 4);
             dgvUsuarios.DefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 120, 255);
             dgvUsuarios.DefaultCellStyle.SelectionForeColor = Color.White;
-
         }
 
         private void ConfigurarGrid()
@@ -63,12 +56,12 @@ namespace TuProyecto.Views
             dgvUsuarios.AutoGenerateColumns = false;
             dgvUsuarios.Columns.Clear();
 
-            // Columnas con estilo unificado
+            // Columnas
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "ID",
                 DataPropertyName = "ID",
-                Width = 60,
+                Width = 10,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
@@ -79,14 +72,14 @@ namespace TuProyecto.Views
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "NOMBRE COMPLETO",
-                DataPropertyName = "Nombre", // Solo tenemos nombre completo
+                DataPropertyName = "Nombre",
                 Width = 180
             });
 
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "CORREO",
-                DataPropertyName = "Correo", // Nueva columna para correo
+                DataPropertyName = "Correo",
                 Width = 150
             });
 
@@ -94,21 +87,28 @@ namespace TuProyecto.Views
             {
                 HeaderText = "DIRECCIÓN",
                 DataPropertyName = "Direccion",
-                Width = 180
+                Width = 170
             });
 
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "TELÉFONO",
                 DataPropertyName = "Telefono",
-                Width = 120
+                Width = 110
             });
 
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "SUCURSAL",
-                DataPropertyName = "Sucursal", // Nueva columna para sucursal
-                Width = 100
+                DataPropertyName = "Sucursal",
+                Width = 90
+            });
+
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "ROL",
+                DataPropertyName = "Rol",
+                Width = 90
             });
 
             // Botón Modificar
@@ -151,18 +151,41 @@ namespace TuProyecto.Views
         private void CargarEmpleados()
         {
             empleados = new List<Empleado>
-    {
-        new Empleado { ID = 1, Nombre = "Manuel Ramon Menarguez", Correo = "manuel@email.com",
-                      Direccion = "Ramon Menarguez 56", Ciudad = "Murcia",
-                      Telefono = "2344444333", Sucursal = "Central", Contrasena = "manuel123" },
-        new Empleado { ID = 2, Nombre = "Francisco Juper", Correo = "francisco@email.com",
-                      Direccion = "Nacida 23", Ciudad = "Bilbao",
-                      Telefono = "34567845678", Sucursal = "Norte", Contrasena = "francisco123" },
-        new Empleado { ID = 3, Nombre = "Marta Cases", Correo = "marta@email.com",
-                      Direccion = "Lopez García 23", Ciudad = "Madrid",
-                      Telefono = "737763632", Sucursal = "Centro", Contrasena = "marta123" },
-        // ... añade los demás empleados con la nueva estructura
-    };
+            {
+                new Empleado {
+                    ID = 1,
+                    Nombre = "Manuel Ramon Menarguez",
+                    Correo = "manuel@email.com",
+                    Direccion = "Ramon Menarguez 56",
+                    Ciudad = "Murcia",
+                    Telefono = "2344444333",
+                    Sucursal = "Central",
+                    Rol = "Administrador",
+                    Contrasena = "manuel123"
+                },
+                new Empleado {
+                    ID = 2,
+                    Nombre = "Francisco Juper",
+                    Correo = "francisco@email.com",
+                    Direccion = "Nacida 23",
+                    Ciudad = "Bilbao",
+                    Telefono = "34567845678",
+                    Sucursal = "Norte",
+                    Rol = "Vendedor",
+                    Contrasena = "francisco123"
+                },
+                new Empleado {
+                    ID = 3,
+                    Nombre = "Marta Cases",
+                    Correo = "marta@email.com",
+                    Direccion = "Lopez García 23",
+                    Ciudad = "Madrid",
+                    Telefono = "737763632",
+                    Sucursal = "Centro",
+                    Rol = "Vendedor",
+                    Contrasena = "marta123"
+                }
+            };
 
             empleadosFiltrados = new List<Empleado>(empleados);
             ActualizarDataGridView();
@@ -176,71 +199,64 @@ namespace TuProyecto.Views
 
         private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
+            if (e.RowIndex < 0) return;
 
-            Empleado empleado = (Empleado)dgvUsuarios.Rows[e.RowIndex].DataBoundItem;
             string columna = dgvUsuarios.Columns[e.ColumnIndex].Name;
+            Empleado empleado = (Empleado)dgvUsuarios.Rows[e.RowIndex].DataBoundItem;
 
             if (columna == "Modificar")
+            {
                 ModificarEmpleado(empleado);
+            }
             else if (columna == "Eliminar")
+            {
                 EliminarEmpleado(empleado);
+            }
         }
 
         private void ModificarEmpleado(Empleado empleado)
         {
-            using (var formModificar = new FarmaControlPlus.Forms.NuevoEmpleado())
+            // Usar el constructor que recibe el empleado directamente
+            using (var formModificar = new FarmaControlPlus.Forms.NuevoEmpleado(empleado))
             {
-                // Configurar el formulario para modo edición
-                formModificar.ModoEdicion = true;
-                formModificar.EmpleadoAEditar = empleado;
-                formModificar.Text = "Modificar Empleado"; // Cambiar título
-
                 if (formModificar.ShowDialog() == DialogResult.OK)
                 {
-                    // Actualizar el empleado en las listas
                     var empleadoModificado = formModificar.EmpleadoCreado;
 
-                    // Encontrar y actualizar el empleado original
+                    // Actualizar en la lista principal
                     var empleadoOriginal = empleados.FirstOrDefault(e => e.ID == empleado.ID);
                     if (empleadoOriginal != null)
                     {
-                        empleadoOriginal.Nombre = empleadoModificado.Nombre;
-                        empleadoOriginal.Correo = empleadoModificado.Correo;
-                        empleadoOriginal.Direccion = empleadoModificado.Direccion;
-                        empleadoOriginal.Telefono = empleadoModificado.Telefono;
-                        empleadoOriginal.Sucursal = empleadoModificado.Sucursal;
-
-                        // Si se actualizó la contraseña (no es la placeholder)
-                        if (!string.IsNullOrEmpty(empleadoModificado.Contrasena) &&
-                            empleadoModificado.Contrasena != "••••••••")
-                        {
-                            empleadoOriginal.Contrasena = empleadoModificado.Contrasena;
-                        }
+                        ActualizarEmpleado(empleadoOriginal, empleadoModificado);
                     }
 
-                    // Actualizar también en la lista filtrada
+                    // Actualizar en la lista filtrada
                     var empleadoFiltrado = empleadosFiltrados.FirstOrDefault(e => e.ID == empleado.ID);
                     if (empleadoFiltrado != null)
                     {
-                        empleadoFiltrado.Nombre = empleadoModificado.Nombre;
-                        empleadoFiltrado.Correo = empleadoModificado.Correo;
-                        empleadoFiltrado.Direccion = empleadoModificado.Direccion;
-                        empleadoFiltrado.Telefono = empleadoModificado.Telefono;
-                        empleadoFiltrado.Sucursal = empleadoModificado.Sucursal;
-
-                        if (!string.IsNullOrEmpty(empleadoModificado.Contrasena) &&
-                            empleadoModificado.Contrasena != "••••••••")
-                        {
-                            empleadoFiltrado.Contrasena = empleadoModificado.Contrasena;
-                        }
+                        ActualizarEmpleado(empleadoFiltrado, empleadoModificado);
                     }
 
                     ActualizarDataGridView();
                     MessageBox.Show("Empleado modificado correctamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        private void ActualizarEmpleado(Empleado destino, Empleado origen)
+        {
+            destino.Nombre = origen.Nombre;
+            destino.Correo = origen.Correo;
+            destino.Direccion = origen.Direccion;
+            destino.Telefono = origen.Telefono;
+            destino.Sucursal = origen.Sucursal;
+            destino.Rol = origen.Rol;
+            destino.Ciudad = origen.Ciudad;
+
+            if (!string.IsNullOrEmpty(origen.Contrasena) && origen.Contrasena != "••••••••")
+            {
+                destino.Contrasena = origen.Contrasena;
             }
         }
 
@@ -299,11 +315,12 @@ namespace TuProyecto.Views
             else
             {
                 empleadosFiltrados = empleados.Where(emp =>
-                    emp.Nombre.ToLower().Contains(textoBusqueda) ||
-                    emp.Correo.ToLower().Contains(textoBusqueda) ||
-                    emp.Direccion.ToLower().Contains(textoBusqueda) ||
-                    emp.Telefono.Contains(textoBusqueda) ||
-                    emp.Sucursal.ToLower().Contains(textoBusqueda) ||
+                    (emp.Nombre ?? "").ToLower().Contains(textoBusqueda) ||
+                    (emp.Correo ?? "").ToLower().Contains(textoBusqueda) ||
+                    (emp.Direccion ?? "").ToLower().Contains(textoBusqueda) ||
+                    (emp.Telefono ?? "").Contains(textoBusqueda) ||
+                    (emp.Sucursal ?? "").ToLower().Contains(textoBusqueda) ||
+                    (emp.Rol ?? "").ToLower().Contains(textoBusqueda) ||
                     emp.ID.ToString().Contains(textoBusqueda)
                 ).ToList();
             }
@@ -338,7 +355,7 @@ namespace TuProyecto.Views
 
         private void lblTitulo_Click(object sender, EventArgs e)
         {
-
+            // No hacer nada
         }
     }
 
@@ -352,5 +369,6 @@ namespace TuProyecto.Views
         public string Telefono { get; set; }
         public string Sucursal { get; set; }
         public string Contrasena { get; set; }
+        public string Rol { get; set; }
     }
 }

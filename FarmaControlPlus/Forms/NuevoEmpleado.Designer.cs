@@ -13,6 +13,7 @@
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label1;
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -30,7 +31,20 @@
             this.lblCorreo = new System.Windows.Forms.Label();
             this.textSucursal = new System.Windows.Forms.TextBox();
             this.lblSucursal = new System.Windows.Forms.Label();
+            this.dropRol = new System.Windows.Forms.ComboBox();
+            label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
+            label1.Location = new System.Drawing.Point(33, 322);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(35, 19);
+            label1.TabIndex = 13;
+            label1.Text = "Rol:";
             // 
             // lblTitulo
             // 
@@ -48,7 +62,7 @@
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblNombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblNombre.Location = new System.Drawing.Point(34, 91);
+            this.lblNombre.Location = new System.Drawing.Point(33, 91);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(137, 19);
             this.lblNombre.TabIndex = 1;
@@ -62,14 +76,13 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(260, 25);
             this.txtNombre.TabIndex = 1;
-            this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
             // 
             // lblContra
             // 
             this.lblContra.AutoSize = true;
             this.lblContra.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblContra.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblContra.Location = new System.Drawing.Point(34, 154);
+            this.lblContra.Location = new System.Drawing.Point(33, 157);
             this.lblContra.Name = "lblContra";
             this.lblContra.Size = new System.Drawing.Size(88, 19);
             this.lblContra.TabIndex = 2;
@@ -79,8 +92,9 @@
             // 
             this.txtPass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPass.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPass.Location = new System.Drawing.Point(136, 152);
+            this.txtPass.Location = new System.Drawing.Point(136, 156);
             this.txtPass.Name = "txtPass";
+            this.txtPass.PasswordChar = '•';
             this.txtPass.Size = new System.Drawing.Size(301, 25);
             this.txtPass.TabIndex = 2;
             // 
@@ -89,7 +103,7 @@
             this.lblRepContra.AutoSize = true;
             this.lblRepContra.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblRepContra.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblRepContra.Location = new System.Drawing.Point(32, 185);
+            this.lblRepContra.Location = new System.Drawing.Point(33, 190);
             this.lblRepContra.Name = "lblRepContra";
             this.lblRepContra.Size = new System.Drawing.Size(139, 19);
             this.lblRepContra.TabIndex = 3;
@@ -99,8 +113,9 @@
             // 
             this.txtRepeatPass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtRepeatPass.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtRepeatPass.Location = new System.Drawing.Point(177, 183);
+            this.txtRepeatPass.Location = new System.Drawing.Point(177, 189);
             this.txtRepeatPass.Name = "txtRepeatPass";
+            this.txtRepeatPass.PasswordChar = '•';
             this.txtRepeatPass.Size = new System.Drawing.Size(260, 25);
             this.txtRepeatPass.TabIndex = 3;
             // 
@@ -109,18 +124,17 @@
             this.lblDir.AutoSize = true;
             this.lblDir.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblDir.Location = new System.Drawing.Point(33, 215);
+            this.lblDir.Location = new System.Drawing.Point(33, 223);
             this.lblDir.Name = "lblDir";
             this.lblDir.Size = new System.Drawing.Size(76, 19);
             this.lblDir.TabIndex = 4;
             this.lblDir.Text = "Dirección:";
-            this.lblDir.Click += new System.EventHandler(this.lblCiudad_Click);
             // 
             // txtDir
             // 
             this.txtDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDir.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtDir.Location = new System.Drawing.Point(119, 214);
+            this.txtDir.Location = new System.Drawing.Point(119, 222);
             this.txtDir.Name = "txtDir";
             this.txtDir.Size = new System.Drawing.Size(318, 25);
             this.txtDir.TabIndex = 4;
@@ -130,7 +144,7 @@
             this.lblTelefono.AutoSize = true;
             this.lblTelefono.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblTelefono.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblTelefono.Location = new System.Drawing.Point(33, 247);
+            this.lblTelefono.Location = new System.Drawing.Point(33, 256);
             this.lblTelefono.Name = "lblTelefono";
             this.lblTelefono.Size = new System.Drawing.Size(71, 19);
             this.lblTelefono.TabIndex = 5;
@@ -140,7 +154,7 @@
             // 
             this.txtTelefono.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTelefono.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtTelefono.Location = new System.Drawing.Point(119, 245);
+            this.txtTelefono.Location = new System.Drawing.Point(119, 255);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(318, 25);
             this.txtTelefono.TabIndex = 5;
@@ -152,7 +166,7 @@
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(36, 324);
+            this.btnGuardar.Location = new System.Drawing.Point(36, 362);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(179, 35);
             this.btnGuardar.TabIndex = 6;
@@ -168,7 +182,7 @@
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(258, 324);
+            this.btnCancelar.Location = new System.Drawing.Point(258, 362);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(179, 35);
             this.btnCancelar.TabIndex = 7;
@@ -180,9 +194,9 @@
             // 
             this.txtCorreo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCorreo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtCorreo.Location = new System.Drawing.Point(113, 121);
+            this.txtCorreo.Location = new System.Drawing.Point(99, 123);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(324, 25);
+            this.txtCorreo.Size = new System.Drawing.Size(338, 25);
             this.txtCorreo.TabIndex = 8;
             // 
             // lblCorreo
@@ -190,7 +204,7 @@
             this.lblCorreo.AutoSize = true;
             this.lblCorreo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblCorreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblCorreo.Location = new System.Drawing.Point(37, 122);
+            this.lblCorreo.Location = new System.Drawing.Point(33, 124);
             this.lblCorreo.Name = "lblCorreo";
             this.lblCorreo.Size = new System.Drawing.Size(60, 19);
             this.lblCorreo.TabIndex = 9;
@@ -200,7 +214,7 @@
             // 
             this.textSucursal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textSucursal.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textSucursal.Location = new System.Drawing.Point(119, 280);
+            this.textSucursal.Location = new System.Drawing.Point(119, 288);
             this.textSucursal.Name = "textSucursal";
             this.textSucursal.Size = new System.Drawing.Size(318, 25);
             this.textSucursal.TabIndex = 10;
@@ -210,11 +224,23 @@
             this.lblSucursal.AutoSize = true;
             this.lblSucursal.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblSucursal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblSucursal.Location = new System.Drawing.Point(33, 282);
+            this.lblSucursal.Location = new System.Drawing.Point(33, 289);
             this.lblSucursal.Name = "lblSucursal";
             this.lblSucursal.Size = new System.Drawing.Size(68, 19);
             this.lblSucursal.TabIndex = 11;
             this.lblSucursal.Text = "Sucursal:";
+            // 
+            // dropRol
+            // 
+            this.dropRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dropRol.FormattingEnabled = true;
+            this.dropRol.Items.AddRange(new object[] {
+            "Administrador",
+            "Empleado"});
+            this.dropRol.Location = new System.Drawing.Point(74, 321);
+            this.dropRol.Name = "dropRol";
+            this.dropRol.Size = new System.Drawing.Size(363, 21);
+            this.dropRol.TabIndex = 14;
             // 
             // NuevoEmpleado
             // 
@@ -224,6 +250,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(469, 409);
+            this.Controls.Add(this.dropRol);
+            this.Controls.Add(label1);
             this.Controls.Add(this.textSucursal);
             this.Controls.Add(this.lblSucursal);
             this.Controls.Add(this.txtCorreo);
@@ -269,5 +297,6 @@
         private System.Windows.Forms.Label lblCorreo;
         private System.Windows.Forms.TextBox textSucursal;
         private System.Windows.Forms.Label lblSucursal;
+        private System.Windows.Forms.ComboBox dropRol;
     }
 }
