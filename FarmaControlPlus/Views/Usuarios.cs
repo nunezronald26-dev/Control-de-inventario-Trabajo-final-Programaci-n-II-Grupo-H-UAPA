@@ -1,9 +1,11 @@
-﻿using System;
+﻿using FarmaControlPlus;
+using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-
 namespace TuProyecto.Views
 {
     public partial class Usuarios : UserControl
@@ -43,6 +45,55 @@ namespace TuProyecto.Views
             //dgvUsuarios.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
         }
 
+        private void CargarEmpleados()
+        {
+            // Limpiar la lista en memoria
+            empleados = new List<Empleado>();
+
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+
+                string sql = @"SELECT id, nombre_completo, correo, direccion, telefono, sucursal, rol
+                       FROM empleados
+                       ORDER BY id";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                using (var dr = cmd.ExecuteReader())
+                {
+                    dgvUsuarios.Rows.Clear();
+
+                    while (dr.Read())
+                    {
+                        var emp = new Empleado
+                        {
+                            ID = dr.GetInt32(0),
+                            NombreCompleto = dr.GetString(1),
+                            Correo = dr.GetString(2),
+                            Direccion = dr.GetString(3),
+                            Telefono = dr.GetString(4),
+                            Sucursal = dr.GetString(5),
+                            Rol = dr.GetString(6)
+                        };
+
+                        // Agregar a la lista en memoria
+                        empleados.Add(emp);
+
+                        // Agregar al DataGridView SOLO los datos
+                        dgvUsuarios.Rows.Add(
+                            emp.ID,
+                            emp.NombreCompleto,
+                            emp.Correo,
+                            emp.Direccion,
+                            emp.Telefono,
+                            emp.Sucursal,
+                            emp.Rol
+                        );
+                    }
+                }
+            }
+        }
+
         private void ConfigurarGrid()
         {
             dgvUsuarios.AutoGenerateColumns = false;
@@ -51,6 +102,7 @@ namespace TuProyecto.Views
             // ID
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colID",
                 HeaderText = "ID",
                 DataPropertyName = "ID",
                 Width = 60,
@@ -61,98 +113,93 @@ namespace TuProyecto.Views
                 }
             });
 
-            // Nombre
+            // Nombre completo
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "NOMBRE",
-                DataPropertyName = "Nombre",
-                Width = 120
+                Name = "colNombre",
+                HeaderText = "NOMBRE COMPL",
+                DataPropertyName = "NombreCompleto",
+                Width = 150
             });
 
-            // Apellidos
+            // Correo
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "APELLIDOS",
-                DataPropertyName = "Apellidos",
+                Name = "colCorreo",
+                HeaderText = "CORREO",
+                DataPropertyName = "Correo",
                 Width = 150
             });
 
             // Dirección
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colDireccion",
                 HeaderText = "DIRECCIÓN",
                 DataPropertyName = "Direccion",
                 Width = 180
             });
 
-            // Ciudad
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "CIUDAD",
-                DataPropertyName = "Ciudad",
-                Width = 100
-            });
-
             // Teléfono
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "colTelefono",
                 HeaderText = "TELÉFONO",
                 DataPropertyName = "Telefono",
                 Width = 120
             });
 
-            // Botón Modificar - SIN COLOR DE FONDO
-            var btnModificar = new DataGridViewImageColumn
+            // Sucursal
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colSucursal",
+                HeaderText = "SUCURSAL",
+                DataPropertyName = "Sucursal",
+                Width = 100
+            });
+
+            // Rol
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colRol",
+                HeaderText = "ROL",
+                DataPropertyName = "Rol",
+                Width = 100
+            });
+
+            // Botón Modificar (icono lápiz)
+            var btnModificar = new DataGridViewButtonColumn
             {
                 Name = "Modificar",
                 HeaderText = "Modificar",
-                Image = global::FarmaControlPlus.Properties.Resources._333_usuarios, // Asegúrate de que este recurso existe
-                Width = 70,
+                Text = "\uE70F", // icono de lápiz en Segoe MDL2 Assets
+                UseColumnTextForButtonValue = true,
+                Width = 50,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
+                    Font = new Font("Segoe MDL2 Assets", 16),
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    BackColor = Color.FromArgb(255,109,0),
+                    ForeColor = Color.Blue
                 }
             };
-
             dgvUsuarios.Columns.Add(btnModificar);
 
-            // Botón Eliminar - SIN COLOR DE FONDO
-            var btnEliminar = new DataGridViewImageColumn
+            // Botón Eliminar (icono zafacón)
+            var btnEliminar = new DataGridViewButtonColumn
             {
                 Name = "Eliminar",
                 HeaderText = "Eliminar",
-                Image = global::FarmaControlPlus.Properties.Resources._333_reportes,
-                Width = 70,
+                Text = "\uE74D", // icono zafacón en Segoe MDL2 Assets
+                UseColumnTextForButtonValue = true,
+                Width = 50,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
+                    Font = new Font("Segoe MDL2 Assets", 16),
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    BackColor = Color.FromArgb(255, 0, 0),
-
-                    Padding = new Padding(10),
+                    ForeColor = Color.Red
                 }
             };
-
-
             dgvUsuarios.Columns.Add(btnEliminar);
-        }
-
-        private void CargarEmpleados()
-        {
-            empleados = new List<Empleado>
-            {
-                new Empleado { ID = 1, Nombre = "Manuel", Apellidos = "Ramon Menarguez", Direccion = "Ramon Menarguez 56", Ciudad = "Murcia", Telefono = "2344444333" },
-                new Empleado { ID = 2, Nombre = "Francisco", Apellidos = "Juper", Direccion = "Nacida 23", Ciudad = "Bilbao", Telefono = "34567845678" },
-                new Empleado { ID = 3, Nombre = "Marta", Apellidos = "Cases", Direccion = "Lopez García 23", Ciudad = "Madrid", Telefono = "737763632" },
-                new Empleado { ID = 4, Nombre = "Miguel Angel", Apellidos = "Jumilla", Direccion = "Gemesía Sol 23", Ciudad = "Alicante", Telefono = "34567834567" },
-                new Empleado { ID = 5, Nombre = "Ana", Apellidos = "García López", Direccion = "Principal 45", Ciudad = "Barcelona", Telefono = "934567890" },
-                new Empleado { ID = 6, Nombre = "Carlos", Apellidos = "Martínez Ruiz", Direccion = "Secundaria 78", Ciudad = "Valencia", Telefono = "963456789" },
-                new Empleado { ID = 7, Nombre = "Laura", Apellidos = "Fernández Gómez", Direccion = "Central 12", Ciudad = "Sevilla", Telefono = "954321098" },
-                new Empleado { ID = 8, Nombre = "David", Apellidos = "Sánchez Pérez", Direccion = "Norte 34", Ciudad = "Zaragoza", Telefono = "976543210" }
-            };
-
-            empleadosFiltrados = new List<Empleado>(empleados);
-            ActualizarDataGridView();
         }
 
         private void ActualizarDataGridView()
@@ -180,11 +227,11 @@ namespace TuProyecto.Views
             MessageBox.Show(
                 $"Modificar empleado:\n\n" +
                 $"ID: {empleado.ID}\n" +
-                $"Nombre: {empleado.Nombre}\n" +
-                $"Apellidos: {empleado.Apellidos}\n" +
+                $"Nombre: {empleado.NombreCompleto}\n" +
+                $"Correo: {empleado.Correo}\n" +
                 $"Dirección: {empleado.Direccion}\n" +
-                $"Ciudad: {empleado.Ciudad}\n" +
-                $"Teléfono: {empleado.Telefono}",
+                $"Dirección: {empleado.Direccion}\n" +
+                $"Sucursal: {empleado.Sucursal}",
                 "Modificar Empleado",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -192,19 +239,37 @@ namespace TuProyecto.Views
 
         private void EliminarEmpleado(Empleado empleado)
         {
+            if (empleado == null)
+                return;
+
             DialogResult r = MessageBox.Show(
                 $"¿Deseas eliminar al empleado?\n\n" +
                 $"ID: {empleado.ID}\n" +
-                $"Nombre: {empleado.Nombre} {empleado.Apellidos}",
+                $"Nombre: {empleado.NombreCompleto}\nCorreo: {empleado.Correo}",
                 "Confirmar Eliminación",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
             if (r == DialogResult.Yes)
             {
+                // 1️⃣ Eliminar de la BD
+                using (var conn = ConexionBD.ObtenerConexion())
+                {
+                    conn.Open();
+                    using (var cmd = new NpgsqlCommand("DELETE FROM empleados WHERE id = @id", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", empleado.ID);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                // 2️⃣ Eliminar de la lista en memoria
                 empleados.Remove(empleado);
-                empleadosFiltrados.Remove(empleado);
+                empleadosFiltrados?.Remove(empleado);
+
+                // 3️⃣ Actualizar el DataGridView
                 ActualizarDataGridView();
+
                 MessageBox.Show("Empleado eliminado correctamente.", "Eliminado",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -216,17 +281,15 @@ namespace TuProyecto.Views
             {
                 if (formNuevo.ShowDialog() == DialogResult.OK)
                 {
-                    var nuevoEmpleado = formNuevo.EmpleadoCreado;
+                    GuardarEmpleadoBD(formNuevo.EmpleadoCreado);
+                    CargarEmpleados();
 
-                    // Generar ID incremental
-                    nuevoEmpleado.ID = empleados.Count > 0 ? empleados.Max(o => o.ID) + 1 : 1;
-
-                    // Actualizar listas y Grid
-                    empleados.Add(nuevoEmpleado);
-                    empleadosFiltrados.Add(nuevoEmpleado);
-                    ActualizarDataGridView();
-
-                    MessageBox.Show($"Empleado {nuevoEmpleado.Nombre} agregado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        "Empleado agregado correctamente.",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                 }
             }
         }
@@ -247,10 +310,10 @@ namespace TuProyecto.Views
             else
             {
                 empleadosFiltrados = empleados.Where(emp =>
-                    emp.Nombre.ToLower().Contains(textoBusqueda) ||
-                    emp.Apellidos.ToLower().Contains(textoBusqueda) ||
+                    emp.NombreCompleto.ToLower().Contains(textoBusqueda) ||
+                    emp.Correo.ToLower().Contains(textoBusqueda) ||
                     emp.Direccion.ToLower().Contains(textoBusqueda) ||
-                    emp.Ciudad.ToLower().Contains(textoBusqueda) ||
+                    emp.Direccion.ToLower().Contains(textoBusqueda) ||
                     emp.Telefono.Contains(textoBusqueda) ||
                     emp.ID.ToString().Contains(textoBusqueda)
                 ).ToList();
@@ -281,6 +344,37 @@ namespace TuProyecto.Views
             {
                 RealizarBusqueda();
                 e.Handled = true;
+            }
+        }
+
+        private void Usuarios_Load(object sender, EventArgs e)
+        {
+            CargarEmpleados();
+        }
+
+        private void GuardarEmpleadoBD(Empleado emp)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+
+                string sql = @"
+            INSERT INTO empleados
+            (nombre_completo, correo, direccion, telefono, sucursal, rol)
+            VALUES
+            (@nombre, @correo, @direccion, @telefono, @sucursal, @rol)";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", emp.NombreCompleto);
+                    cmd.Parameters.AddWithValue("@correo", emp.Correo);
+                    cmd.Parameters.AddWithValue("@direccion", emp.Direccion);
+                    cmd.Parameters.AddWithValue("@telefono", emp.Telefono);
+                    cmd.Parameters.AddWithValue("@sucursal", emp.Sucursal);
+                    cmd.Parameters.AddWithValue("@rol", emp.Rol); // <- aquí agregas el rol
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
@@ -431,13 +525,4 @@ namespace TuProyecto.Views
         //}
     }
 
-    public class Empleado
-    {
-        public int ID { get; set; }
-        public string Nombre { get; set; }
-        public string Apellidos { get; set; }
-        public string Direccion { get; set; }
-        public string Ciudad { get; set; }
-        public string Telefono { get; set; }
-    }
 }
