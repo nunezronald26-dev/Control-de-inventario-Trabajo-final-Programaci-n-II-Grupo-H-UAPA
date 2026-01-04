@@ -20,7 +20,6 @@ namespace FarmaControlPlus
         private Dashboard dashboardView;
         private Inventario inventarioView;
         private Reportes reportesView;
-        private Configuracion configuracionView;
         private Usuarios usuariosView;
         private UcdetalleUsuario UcdetalleUsuario;
 
@@ -68,7 +67,6 @@ namespace FarmaControlPlus
             dashboardView = new Dashboard();
             inventarioView = new Inventario();
             reportesView = new Reportes();
-            configuracionView = new Configuracion();
             usuariosView = new Usuarios();
             UcdetalleUsuario = new UcdetalleUsuario();
 
@@ -76,7 +74,6 @@ namespace FarmaControlPlus
             ConfigurarVista(dashboardView);
             ConfigurarVista(inventarioView);
             ConfigurarVista(reportesView);
-            ConfigurarVista(configuracionView);
             ConfigurarVista(usuariosView);
         }
 
@@ -141,12 +138,6 @@ namespace FarmaControlPlus
         {
             MostrarVista(reportesView);
             lblTitulo.Text = "Reportes";
-        }
-
-        private void btnConfiguracion_Click(object sender, EventArgs e)
-        {
-            MostrarVista(configuracionView);
-            lblTitulo.Text = "Configuración";
         }
 
         public void btnUsuarios_Click(object sender, EventArgs e)
