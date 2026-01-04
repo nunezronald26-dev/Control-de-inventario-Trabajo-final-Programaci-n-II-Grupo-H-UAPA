@@ -37,6 +37,8 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.lnkForgot = new System.Windows.Forms.LinkLabel();
             this.panelFooter = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.panelHeader.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,7 +92,7 @@
             // txtUsername
             // 
             this.txtUsername.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtUsername.Location = new System.Drawing.Point(75, 230);
+            this.txtUsername.Location = new System.Drawing.Point(75, 247);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(300, 27);
             this.txtUsername.TabIndex = 2;
@@ -99,7 +101,7 @@
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtPassword.Location = new System.Drawing.Point(75, 280);
+            this.txtPassword.Location = new System.Drawing.Point(75, 316);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(300, 27);
             this.txtPassword.TabIndex = 3;
@@ -113,7 +115,7 @@
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(75, 330);
+            this.btnLogin.Location = new System.Drawing.Point(75, 366);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(300, 40);
             this.btnLogin.TabIndex = 4;
@@ -129,7 +131,7 @@
             this.lnkForgot.AutoSize = true;
             this.lnkForgot.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.lnkForgot.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.lnkForgot.Location = new System.Drawing.Point(169, 393);
+            this.lnkForgot.Location = new System.Drawing.Point(169, 429);
             this.lnkForgot.Name = "lnkForgot";
             this.lnkForgot.Size = new System.Drawing.Size(112, 19);
             this.lnkForgot.TabIndex = 5;
@@ -148,12 +150,32 @@
             this.panelFooter.Size = new System.Drawing.Size(450, 31);
             this.panelFooter.TabIndex = 6;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(75, 228);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Correo Electrónico";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(75, 300);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Contraseña";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(450, 550);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panelFooter);
             this.Controls.Add(this.lnkForgot);
             this.Controls.Add(this.btnLogin);
@@ -184,5 +206,7 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.LinkLabel lnkForgot;
         private System.Windows.Forms.Panel panelFooter;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
