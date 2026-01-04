@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 namespace FarmaControlPlus
@@ -33,22 +35,13 @@ namespace FarmaControlPlus
                 return;
             }
 
-            // Aquí va tu lógica de autenticación real
-            // Ejemplo simple:
-            if (txtUsername.Text == "admin" && txtPassword.Text == "1234")
+            // Aquí va la lógica de autenticación real contra BD
+            if (AutenticarUsuario(txtUsername.Text, txtPassword.Text))
             {
-                // Hide login and open main form. Form1 will show the green modal itself (on Shown).
+                // Hide login and open main form
                 this.Hide();
-
                 Form1 formPrincipal = new Form1();
-
-                // Optional: Pass data to main form
-                // formPrincipal.Usuario = txtUsername.Text;
-
-                // Show the main form; its OnShown will display the green modal for the configured duration.
                 formPrincipal.Show();
-
-                // Close the login form when the main form closes
                 formPrincipal.FormClosed += (s, args) => this.Close();
             }
             else
@@ -58,6 +51,73 @@ namespace FarmaControlPlus
             }
         }
 
+        // Método para autenticar usuario contra BD
+        private bool AutenticarUsuario(string username, string password)
+        {
+            try
+            {
+                using (var conn = ConexionBD.ObtenerConexion())
+                {
+                    conn.Open();
+
+                    // Consulta para obtener el hash almacenado
+                    string sql = @"SELECT id, nombre_completo, rol, contrasena_hash 
+                           FROM empleados 
+                           WHERE correo = @username";
+
+                    using (var cmd = new NpgsqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                string storedHash = dr["contrasena_hash"]?.ToString();
+
+                                // Si no hay hash almacenado (usuario antiguo)
+                                if (string.IsNullOrEmpty(storedHash))
+                                {
+                                    // Podrías tener un valor por defecto o pedir reset
+                                    return false;
+                                }
+
+                                // Generar hash de la contraseña ingresada
+                                string inputHash = CalcularSHA256Hash(password);
+
+                                // Comparar los hashes (comparación segura contra timing attacks)
+                                return string.Equals(storedHash, inputHash, StringComparison.Ordinal);
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error de autenticación: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        // Método para calcular hash SHA256
+        private string CalcularSHA256Hash(string input)
+        {
+            using (System.Security.Cryptography.SHA256 sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(input);
+                byte[] hash = sha256.ComputeHash(bytes);
+
+                // Convertir a string hexadecimal (128 caracteres)
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hash.Length; i++)
+                {
+                    builder.Append(hash[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
         private void lnkForgot_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MessageBox.Show("Please contact system administrator for password reset.",
@@ -77,6 +137,122 @@ namespace FarmaControlPlus
         private void lblWelcome_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnRegistrarNuevo_Click(object sender, EventArgs e)
+        {
+            // Para registro desde login (sin validación de admin)
+            using (var formRegistro = new FarmaControlPlus.Forms.NuevoEmpleadoDesdeLogin(false))
+            {
+                if (formRegistro.ShowDialog() == DialogResult.OK)
+                {
+                    // Guardar el nuevo empleado con hash de contraseña
+                    GuardarEmpleadoConHash(formRegistro.EmpleadoCreado);
+                    MessageBox.Show("Registro exitoso. Ahora puede iniciar sesión.",
+                        "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void GuardarEmpleadoConHash(Empleado emp)
+        {
+            try
+            {
+                using (var conn = ConexionBD.ObtenerConexion())
+                {
+                    conn.Open();
+
+                    // Asegúrate de que la contraseña no esté vacía
+                    if (string.IsNullOrEmpty(emp.Contrasena))
+                    {
+                        MessageBox.Show("La contraseña no puede estar vacía",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Calcular hash de la contraseña
+                    string hashedPassword = CalcularSHA256Hash(emp.Contrasena);
+
+                    string sql = @"
+                INSERT INTO empleados 
+                (nombre_completo, correo, direccion, telefono, sucursal, rol, contrasena_hash)
+                VALUES 
+                (@nombre, @correo, @direccion, @telefono, @sucursal, @rol, @contrasena_hash)";
+
+                    using (var cmd = new NpgsqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@nombre", emp.NombreCompleto);
+                        cmd.Parameters.AddWithValue("@correo", emp.Correo);
+                        cmd.Parameters.AddWithValue("@direccion", emp.Direccion);
+                        cmd.Parameters.AddWithValue("@telefono", emp.Telefono);
+                        cmd.Parameters.AddWithValue("@sucursal", emp.Sucursal);
+                        cmd.Parameters.AddWithValue("@rol", emp.Rol);
+                        cmd.Parameters.AddWithValue("@contrasena_hash", hashedPassword);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al registrar usuario: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GuardarEmpleadoBD(Empleado emp)
+        {
+            try
+            {
+                using (var conn = ConexionBD.ObtenerConexion())
+                {
+                    conn.Open();
+
+                    // IMPORTANTE: Verifica que tu tabla empleados tenga el campo 'contrasena'
+                    string sql = @"
+                INSERT INTO empleados 
+                (nombre_completo, correo, direccion, telefono, sucursal, rol, contrasena_hash)
+                VALUES 
+                (@nombre, @correo, @direccion, @telefono, @sucursal, @rol, @contrasena_hash)";
+
+                    using (var cmd = new NpgsqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@nombre", emp.NombreCompleto);
+                        cmd.Parameters.AddWithValue("@correo", emp.Correo);
+                        cmd.Parameters.AddWithValue("@direccion", emp.Direccion);
+                        cmd.Parameters.AddWithValue("@telefono", emp.Telefono);
+                        cmd.Parameters.AddWithValue("@sucursal", emp.Sucursal);
+                        cmd.Parameters.AddWithValue("@rol", emp.Rol);
+
+                        // IMPORTANTE: Asegúrate que el formulario NuevoEmpleadoDesdeLogin
+                        // esté devolviendo la contraseña en la propiedad EmpleadoCreado.Contrasena
+                        cmd.Parameters.AddWithValue("@contrasena",
+                            !string.IsNullOrEmpty(emp.Contrasena) ?
+                            HashPassword(emp.Contrasena) :
+                            HashPassword("123456")); // Contraseña por defecto
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al registrar usuario: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Método para hashear contraseñas (necesitarás implementar esto)
+        private string HashPassword(string password)
+        {
+            // Implementa tu método de hashing preferido
+            // Ejemplo simple con SHA256 (NO usar en producción sin salting)
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var bytes = Encoding.UTF8.GetBytes(password);
+                var hash = sha256.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
         }
     }
 

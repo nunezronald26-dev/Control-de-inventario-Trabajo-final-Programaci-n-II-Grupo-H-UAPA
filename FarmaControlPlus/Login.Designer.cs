@@ -50,6 +50,7 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(450, 150);
             this.panelHeader.TabIndex = 0;
+            this.panelHeader.Click += new System.EventHandler(this.btnRegistrarNuevo_Click);
             // 
             // lblSystem
             // 
@@ -124,17 +125,19 @@
             // 
             // lnkForgot
             // 
+            this.lnkForgot.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lnkForgot.AutoSize = true;
             this.lnkForgot.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.lnkForgot.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.lnkForgot.Location = new System.Drawing.Point(131, 392);
+            this.lnkForgot.Location = new System.Drawing.Point(169, 393);
             this.lnkForgot.Name = "lnkForgot";
-            this.lnkForgot.Size = new System.Drawing.Size(188, 19);
+            this.lnkForgot.Size = new System.Drawing.Size(112, 19);
             this.lnkForgot.TabIndex = 5;
             this.lnkForgot.TabStop = true;
-            this.lnkForgot.Text = "¿Haz olvidado tu contraseña?";
+            this.lnkForgot.Text = "Registrar usuario";
             this.lnkForgot.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.lnkForgot.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkForgot_LinkClicked);
+            this.lnkForgot.Click += new System.EventHandler(this.btnRegistrarNuevo_Click);
             // 
             // panelFooter
             // 
