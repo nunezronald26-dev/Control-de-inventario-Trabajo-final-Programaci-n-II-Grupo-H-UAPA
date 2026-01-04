@@ -173,6 +173,7 @@
             this.Controls.Add(this.panelHeader);
             this.Name = "Usuarios";
             this.Size = new System.Drawing.Size(820, 600);
+            this.Load += new System.EventHandler(this.Usuarios_Load);
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).EndInit();

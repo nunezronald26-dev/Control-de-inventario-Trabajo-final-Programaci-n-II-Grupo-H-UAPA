@@ -21,30 +21,31 @@ namespace FarmaControlPlus.Forms
         private void NuevoEmpleado_Load(object sender, EventArgs e)
         {
             // Establecer foco en el primer campo
-            txtNombre.Focus();
+            txtNombreCompleto.Focus();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             // Validación básica
-            if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtApellidos.Text))
+            if (string.IsNullOrWhiteSpace(txtNombreCompleto.Text) || string.IsNullOrWhiteSpace(txtCorreo.Text))
             {
                 MessageBox.Show("Nombre y Apellidos son obligatorios.",
                     "Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-                txtNombre.Focus();
+                txtNombreCompleto.Focus();
                 return;
             }
 
             // Mapeo de datos al objeto Empleado
             EmpleadoCreado = new Empleado
             {
-                Nombre = txtNombre.Text.Trim(),
-                Apellidos = txtApellidos.Text.Trim(),
+                NombreCompleto = txtNombreCompleto.Text.Trim(),
+                Correo = txtCorreo.Text.Trim(),
                 Direccion = txtDireccion.Text.Trim(),
-                Ciudad = txtCiudad.Text.Trim(),
-                Telefono = txtTelefono.Text.Trim()
+                Telefono = txtTelefono.Text.Trim(),
+                Sucursal = txtSucursal.Text.Trim(),
+                Rol = txtRol.Text.Trim()
             };
 
             this.DialogResult = DialogResult.OK;
@@ -65,13 +66,18 @@ namespace FarmaControlPlus.Forms
                 Control control = this.ActiveControl;
 
                 // Si es un TextBox, mover al siguiente
-                if (control is TextBox && control != txtTelefono)
+                if (control is TextBox && control != txtSucursal)
                 {
                     this.SelectNextControl(control, true, true, true, true);
                     return true;
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void NuevoEmpleado_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -27,6 +27,7 @@ namespace FarmaControlPlus
             MostrarVista(dashboardView);
         }
 
+
         private void InicializarVistas()
         {
             // Crear instancias de las vistas

@@ -4,7 +4,12 @@ namespace FarmaControlPlus
 {
     public static class ConexionBD
     {
-        public static string CadenaConexion =
-            "Host=localhost;Port=5432;Database=FarmaControlPlus;Username=postgres;Password=admin";
+        private static string cadena =
+            "Host=localhost;Port=5432;Database=FarmaControlPlus;Username=postgres;Password=admin1234";
+
+        public static NpgsqlConnection ObtenerConexion()
+        {
+            return new NpgsqlConnection(cadena);
+        }
     }
 }
