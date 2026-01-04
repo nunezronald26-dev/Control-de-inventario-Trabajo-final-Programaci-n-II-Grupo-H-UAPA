@@ -8,6 +8,8 @@
         public string Direccion { get; set; }
         public string Telefono { get; set; }
         public string Sucursal { get; set; }
-        public string Rol { get; set; }  
+        public string Rol { get; set; }
+        public string Contrasena { get; set; }
+
     }
 }

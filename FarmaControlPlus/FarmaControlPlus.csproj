@@ -174,11 +174,29 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\NuevoEmpleado.cs">
+    <Compile Include="Forms\EditarEmpleado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\NuevoEmpleado.Designer.cs">
-      <DependentUpon>NuevoEmpleado.cs</DependentUpon>
+    <Compile Include="Forms\EditarEmpleado.Designer.cs">
+      <DependentUpon>EditarEmpleado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EmpleadoFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EmpleadoFormBase.Designer.cs">
+      <DependentUpon>EmpleadoFormBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NuevoEmpleadoDesdeLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NuevoEmpleadoDesdeLogin.Designer.cs">
+      <DependentUpon>NuevoEmpleadoDesdeLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ValidarAdministradorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ValidarAdministradorForm.Designer.cs">
+      <DependentUpon>ValidarAdministradorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmAgregarMedicamento.cs">
       <SubType>Form</SubType>
@@ -237,8 +255,8 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\NuevoEmpleado.resx">
-      <DependentUpon>NuevoEmpleado.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ValidarAdministradorForm.resx">
+      <DependentUpon>ValidarAdministradorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmAgregarMedicamento.resx">
       <DependentUpon>FrmAgregarMedicamento.cs</DependentUpon>

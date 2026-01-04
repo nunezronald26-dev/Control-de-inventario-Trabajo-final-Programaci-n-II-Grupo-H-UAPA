@@ -1,4 +1,5 @@
 using FarmaControlPlus;
+using FarmaControlPlus.Forms;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace TuProyecto.Views
                         var emp = new Empleado
                         {
                             ID = dr.GetInt32(0),
-                            Nombre = dr.GetString(1),
+                            NombreCompleto = dr.GetString(1),
                             Correo = dr.GetString(2),
                             Direccion = dr.GetString(3),
                             Telefono = dr.GetString(4),
@@ -112,55 +113,6 @@ namespace TuProyecto.Views
 
             empleadosFiltrados = new List<Empleado>(empleados);
             ActualizarDataGridView();
-        }
-
-        private void CargarEmpleados()
-        {
-            // Limpiar la lista en memoria
-            empleados = new List<Empleado>();
-
-            using (var conn = ConexionBD.ObtenerConexion())
-            {
-                conn.Open();
-
-                string sql = @"SELECT id, nombre_completo, correo, direccion, telefono, sucursal, rol
-                       FROM empleados
-                       ORDER BY id";
-
-                using (var cmd = new NpgsqlCommand(sql, conn))
-                using (var dr = cmd.ExecuteReader())
-                {
-                    dgvUsuarios.Rows.Clear();
-
-                    while (dr.Read())
-                    {
-                        var emp = new Empleado
-                        {
-                            ID = dr.GetInt32(0),
-                            NombreCompleto = dr.GetString(1),
-                            Correo = dr.GetString(2),
-                            Direccion = dr.GetString(3),
-                            Telefono = dr.GetString(4),
-                            Sucursal = dr.GetString(5),
-                            Rol = dr.GetString(6)
-                        };
-
-                        // Agregar a la lista en memoria
-                        empleados.Add(emp);
-
-                        // Agregar al DataGridView SOLO los datos
-                        dgvUsuarios.Rows.Add(
-                            emp.ID,
-                            emp.NombreCompleto,
-                            emp.Correo,
-                            emp.Direccion,
-                            emp.Telefono,
-                            emp.Sucursal,
-                            emp.Rol
-                        );
-                    }
-                }
-            }
         }
 
         private void ConfigurarGrid()
@@ -187,7 +139,7 @@ namespace TuProyecto.Views
             {
                 Name = "colNombre",
                 HeaderText = "NOMBRE COMPLETO",
-                DataPropertyName = "Nombre",
+                DataPropertyName = "NombreCompleto",
                 Width = 150
             });
 
@@ -246,7 +198,6 @@ namespace TuProyecto.Views
                 Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
-                    Font = new Font("Segoe MDL2 Assets", 16),
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
                     BackColor = Color.FromArgb(52, 152, 219),
                     ForeColor = Color.White,
@@ -265,7 +216,6 @@ namespace TuProyecto.Views
                 Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
-                    Font = new Font("Segoe MDL2 Assets", 16),
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
                     BackColor = Color.FromArgb(231, 76, 60),
                     ForeColor = Color.White,
@@ -278,6 +228,7 @@ namespace TuProyecto.Views
         private void ActualizarDataGridView()
         {
             dgvUsuarios.DataSource = null;
+            dgvUsuarios.Rows.Clear();
             dgvUsuarios.DataSource = empleadosFiltrados;
         }
 
@@ -297,8 +248,8 @@ namespace TuProyecto.Views
 
         private void ModificarEmpleado(Empleado empleado)
         {
-            // Usar el constructor que recibe el empleado directamente
-            using (var formModificar = new FarmaControlPlus.Forms.NuevoEmpleado(empleado))
+            // Usar el nuevo formulario de edición
+            using (var formModificar = new EditarEmpleado(empleado))
             {
                 if (formModificar.ShowDialog() == DialogResult.OK)
                 {
@@ -328,13 +279,12 @@ namespace TuProyecto.Views
 
         private void ActualizarEmpleado(Empleado destino, Empleado origen)
         {
-            destino.Nombre = origen.Nombre;
+            destino.NombreCompleto = origen.NombreCompleto;
             destino.Correo = origen.Correo;
             destino.Direccion = origen.Direccion;
             destino.Telefono = origen.Telefono;
             destino.Sucursal = origen.Sucursal;
             destino.Rol = origen.Rol;
-            destino.Ciudad = origen.Ciudad;
 
             if (!string.IsNullOrEmpty(origen.Contrasena) && origen.Contrasena != "••••••••")
             {
@@ -360,7 +310,7 @@ namespace TuProyecto.Views
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", empleado.ID);
-                    cmd.Parameters.AddWithValue("@nombre", empleado.Nombre);
+                    cmd.Parameters.AddWithValue("@nombre", empleado.NombreCompleto);
                     cmd.Parameters.AddWithValue("@correo", empleado.Correo);
                     cmd.Parameters.AddWithValue("@direccion", empleado.Direccion);
                     cmd.Parameters.AddWithValue("@telefono", empleado.Telefono);
@@ -380,7 +330,7 @@ namespace TuProyecto.Views
             DialogResult r = MessageBox.Show(
                 $"¿Deseas eliminar al empleado?\n\n" +
                 $"ID: {empleado.ID}\n" +
-                $"Nombre: {empleado.Nombre}",
+                $"Nombre: {empleado.NombreCompleto}",
                 "Confirmar Eliminación",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -412,19 +362,28 @@ namespace TuProyecto.Views
 
         private void btnNuevoUsuario_Click(object sender, EventArgs e)
         {
-            using (var formNuevo = new FarmaControlPlus.Forms.NuevoEmpleado())
+            // Primero validar administrador
+            using (var admin = new ValidarAdministradorForm("crear nuevo empleado"))
+            {
+                if (admin.ShowDialog() != DialogResult.OK)
+                {
+                    MessageBox.Show("No autorizado para crear empleados.",
+                        "Acceso denegado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // Luego abrir formulario de creación (con validación de admin ya hecha)
+            using (var formNuevo = new NuevoEmpleadoDesdeLogin(false))
             {
                 if (formNuevo.ShowDialog() == DialogResult.OK)
                 {
                     GuardarEmpleadoBD(formNuevo.EmpleadoCreado);
                     CargarEmpleados();
-
-                    MessageBox.Show(
-                        "Empleado agregado correctamente.",
-                        "Éxito",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    MessageBox.Show("Empleado agregado correctamente.", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -445,7 +404,7 @@ namespace TuProyecto.Views
             else
             {
                 empleadosFiltrados = empleados.Where(emp =>
-                    (emp.Nombre ?? "").ToLower().Contains(textoBusqueda) ||
+                    (emp.NombreCompleto ?? "").ToLower().Contains(textoBusqueda) ||
                     (emp.Correo ?? "").ToLower().Contains(textoBusqueda) ||
                     (emp.Direccion ?? "").ToLower().Contains(textoBusqueda) ||
                     (emp.Telefono ?? "").Contains(textoBusqueda) ||
@@ -502,7 +461,7 @@ namespace TuProyecto.Views
 
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@nombre", emp.Nombre);
+                    cmd.Parameters.AddWithValue("@nombre", emp.NombreCompleto);
                     cmd.Parameters.AddWithValue("@correo", emp.Correo);
                     cmd.Parameters.AddWithValue("@direccion", emp.Direccion);
                     cmd.Parameters.AddWithValue("@telefono", emp.Telefono);
@@ -518,18 +477,5 @@ namespace TuProyecto.Views
         {
             // No hacer nada
         }
-    }
-
-    public class Empleado
-    {
-        public int ID { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public string Direccion { get; set; }
-        public string Ciudad { get; set; }
-        public string Telefono { get; set; }
-        public string Sucursal { get; set; }
-        public string Contrasena { get; set; }
-        public string Rol { get; set; }
     }
 }

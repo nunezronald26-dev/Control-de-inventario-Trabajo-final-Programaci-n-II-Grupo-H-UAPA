@@ -1,8 +1,27 @@
-namespace FarmaControlPlus.Forms
+﻿namespace FarmaControlPlus.Forms
 {
-    partial class NuevoEmpleado
+    partial class NuevoEmpleadoDesdeLogin
     {
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.Label lblContra;
+        private System.Windows.Forms.TextBox txtPass;
+        private System.Windows.Forms.Label lblRepContra;
+        private System.Windows.Forms.TextBox txtRepeatPass;
+        private System.Windows.Forms.Label lblDir;
+        private System.Windows.Forms.TextBox txtDir;
+        private System.Windows.Forms.Label lblTelefono;
+        private System.Windows.Forms.TextBox txtTelefono;
+        private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.TextBox txtCorreo;
+        private System.Windows.Forms.Label lblCorreo;
+        private System.Windows.Forms.TextBox textSucursal;
+        private System.Windows.Forms.Label lblSucursal;
+        private System.Windows.Forms.ComboBox dropRol;
+        private System.Windows.Forms.Label lblRol;
 
         protected override void Dispose(bool disposing)
         {
@@ -13,7 +32,6 @@ namespace FarmaControlPlus.Forms
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label1;
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -25,8 +43,6 @@ namespace FarmaControlPlus.Forms
             this.txtDir = new System.Windows.Forms.TextBox();
             this.lblTelefono = new System.Windows.Forms.Label();
             this.txtTelefono = new System.Windows.Forms.TextBox();
-            this.lblSucursal = new System.Windows.Forms.Label();
-            this.txtSucursal = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.txtCorreo = new System.Windows.Forms.TextBox();
@@ -34,19 +50,8 @@ namespace FarmaControlPlus.Forms
             this.textSucursal = new System.Windows.Forms.TextBox();
             this.lblSucursal = new System.Windows.Forms.Label();
             this.dropRol = new System.Windows.Forms.ComboBox();
-            label1 = new System.Windows.Forms.Label();
+            this.lblRol = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            label1.Location = new System.Drawing.Point(33, 322);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(35, 19);
-            label1.TabIndex = 13;
-            label1.Text = "Rol:";
             // 
             // lblTitulo
             // 
@@ -59,7 +64,7 @@ namespace FarmaControlPlus.Forms
             this.lblTitulo.Text = "Registrar Nuevo Empleado";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblNombreCompleto
+            // lblNombre
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -70,7 +75,7 @@ namespace FarmaControlPlus.Forms
             this.lblNombre.TabIndex = 1;
             this.lblNombre.Text = "Nombre completo:";
             // 
-            // txtNombreCompleto
+            // txtNombre
             // 
             this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNombre.Font = new System.Drawing.Font("Segoe UI", 10F);
@@ -78,6 +83,26 @@ namespace FarmaControlPlus.Forms
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(260, 25);
             this.txtNombre.TabIndex = 1;
+            // 
+            // txtCorreo
+            // 
+            this.txtCorreo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCorreo.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtCorreo.Location = new System.Drawing.Point(99, 123);
+            this.txtCorreo.Name = "txtCorreo";
+            this.txtCorreo.Size = new System.Drawing.Size(338, 25);
+            this.txtCorreo.TabIndex = 8;
+            // 
+            // lblCorreo
+            // 
+            this.lblCorreo.AutoSize = true;
+            this.lblCorreo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblCorreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
+            this.lblCorreo.Location = new System.Drawing.Point(33, 124);
+            this.lblCorreo.Name = "lblCorreo";
+            this.lblCorreo.Size = new System.Drawing.Size(60, 19);
+            this.lblCorreo.TabIndex = 9;
+            this.lblCorreo.Text = "Correo:";
             // 
             // lblContra
             // 
@@ -96,7 +121,6 @@ namespace FarmaControlPlus.Forms
             this.txtPass.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtPass.Location = new System.Drawing.Point(136, 156);
             this.txtPass.Name = "txtPass";
-            this.txtPass.PasswordChar = '•';
             this.txtPass.Size = new System.Drawing.Size(301, 25);
             this.txtPass.TabIndex = 2;
             // 
@@ -117,7 +141,6 @@ namespace FarmaControlPlus.Forms
             this.txtRepeatPass.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtRepeatPass.Location = new System.Drawing.Point(177, 189);
             this.txtRepeatPass.Name = "txtRepeatPass";
-            this.txtRepeatPass.PasswordChar = '•';
             this.txtRepeatPass.Size = new System.Drawing.Size(260, 25);
             this.txtRepeatPass.TabIndex = 3;
             // 
@@ -161,77 +184,6 @@ namespace FarmaControlPlus.Forms
             this.txtTelefono.Size = new System.Drawing.Size(318, 25);
             this.txtTelefono.TabIndex = 5;
             // 
-            // lblSucursal
-            // 
-            this.lblSucursal.AutoSize = true;
-            this.lblSucursal.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblSucursal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblSucursal.Location = new System.Drawing.Point(17, 208);
-            this.lblSucursal.Name = "lblSucursal";
-            this.lblSucursal.Size = new System.Drawing.Size(68, 19);
-            this.lblSucursal.TabIndex = 5;
-            this.lblSucursal.Text = "Sucursal:";
-            // 
-            // txtSucursal
-            // 
-            this.txtSucursal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtSucursal.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtSucursal.Location = new System.Drawing.Point(103, 206);
-            this.txtSucursal.Name = "txtSucursal";
-            this.txtSucursal.Size = new System.Drawing.Size(206, 25);
-            this.txtSucursal.TabIndex = 5;
-            // 
-            // btnGuardar
-            // 
-            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
-            this.btnGuardar.FlatAppearance.BorderSize = 0;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(36, 362);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(179, 35);
-            this.btnGuardar.TabIndex = 6;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = false;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-            // 
-            // btnCancelar
-            // 
-            this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
-            this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancelar.FlatAppearance.BorderSize = 0;
-            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(258, 362);
-            this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(179, 35);
-            this.btnCancelar.TabIndex = 7;
-            this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = false;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
-            // 
-            // txtCorreo
-            // 
-            this.txtCorreo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtCorreo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtCorreo.Location = new System.Drawing.Point(99, 123);
-            this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(338, 25);
-            this.txtCorreo.TabIndex = 8;
-            // 
-            // lblCorreo
-            // 
-            this.lblCorreo.AutoSize = true;
-            this.lblCorreo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblCorreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblCorreo.Location = new System.Drawing.Point(33, 124);
-            this.lblCorreo.Name = "lblCorreo";
-            this.lblCorreo.Size = new System.Drawing.Size(60, 19);
-            this.lblCorreo.TabIndex = 9;
-            this.lblCorreo.Text = "Correo:";
-            // 
             // textSucursal
             // 
             this.textSucursal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -264,7 +216,49 @@ namespace FarmaControlPlus.Forms
             this.dropRol.Size = new System.Drawing.Size(363, 21);
             this.dropRol.TabIndex = 14;
             // 
-            // NuevoEmpleado
+            // lblRol
+            // 
+            this.lblRol.AutoSize = true;
+            this.lblRol.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblRol.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
+            this.lblRol.Location = new System.Drawing.Point(33, 322);
+            this.lblRol.Name = "lblRol";
+            this.lblRol.Size = new System.Drawing.Size(35, 19);
+            this.lblRol.TabIndex = 13;
+            this.lblRol.Text = "Rol:";
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnGuardar.FlatAppearance.BorderSize = 0;
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGuardar.ForeColor = System.Drawing.Color.White;
+            this.btnGuardar.Location = new System.Drawing.Point(36, 362);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(179, 35);
+            this.btnGuardar.TabIndex = 6;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
+            this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancelar.FlatAppearance.BorderSize = 0;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCancelar.ForeColor = System.Drawing.Color.White;
+            this.btnCancelar.Location = new System.Drawing.Point(258, 362);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(179, 35);
+            this.btnCancelar.TabIndex = 7;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // NuevoEmpleadoDesdeLogin
             // 
             this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -273,15 +267,13 @@ namespace FarmaControlPlus.Forms
             this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(469, 409);
             this.Controls.Add(this.dropRol);
-            this.Controls.Add(label1);
+            this.Controls.Add(this.lblRol);
             this.Controls.Add(this.textSucursal);
             this.Controls.Add(this.lblSucursal);
             this.Controls.Add(this.txtCorreo);
             this.Controls.Add(this.lblCorreo);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.txtSucursal);
-            this.Controls.Add(this.lblSucursal);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.lblTelefono);
             this.Controls.Add(this.txtDir);
@@ -296,34 +288,11 @@ namespace FarmaControlPlus.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "NuevoEmpleado";
+            this.Name = "NuevoEmpleadoDesdeLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Nuevo Empleado";
-            this.Load += new System.EventHandler(this.NuevoEmpleado_Load_1);
+            this.Text = "Registrar Nuevo Empleado";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-
-        private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.TextBox txtNombre;
-        private System.Windows.Forms.Label lblContra;
-        private System.Windows.Forms.TextBox txtPass;
-        private System.Windows.Forms.Label lblRepContra;
-        private System.Windows.Forms.TextBox txtRepeatPass;
-        private System.Windows.Forms.Label lblDir;
-        private System.Windows.Forms.TextBox txtDir;
-        private System.Windows.Forms.Label lblTelefono;
-        private System.Windows.Forms.TextBox txtTelefono;
-        private System.Windows.Forms.Label lblSucursal;
-        private System.Windows.Forms.TextBox txtSucursal;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.TextBox txtCorreo;
-        private System.Windows.Forms.Label lblCorreo;
-        private System.Windows.Forms.TextBox textSucursal;
-        private System.Windows.Forms.Label lblSucursal;
-        private System.Windows.Forms.ComboBox dropRol;
     }
 }

@@ -12,7 +12,7 @@
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Button btnExportar;
 
-        // Añadir el DateTimePicker
+        // Añadir el DateTimePicker 
         private System.Windows.Forms.DateTimePicker dtpFecha;
 
         // Declarar columnas del DataGridView
@@ -134,57 +134,57 @@
             // 
             // colCodigo
             // 
-            this.colCodigo.FillWeight = 80F;
-            this.colCodigo.HeaderText = "Código";
+            this.colCodigo.FillWeight = 100F;
+            this.colCodigo.HeaderText = "Código Venta";
             this.colCodigo.Name = "colCodigo";
             this.colCodigo.ReadOnly = true;
             // 
             // colNombre
             // 
-            this.colNombre.FillWeight = 120F;
-            this.colNombre.HeaderText = "Nombre";
+            this.colNombre.FillWeight = 80F;
+            this.colNombre.HeaderText = "Hora";
             this.colNombre.Name = "colNombre";
             this.colNombre.ReadOnly = true;
             // 
             // colFabricante
             // 
             this.colFabricante.FillWeight = 120F;
-            this.colFabricante.HeaderText = "Fabricante";
+            this.colFabricante.HeaderText = "Empleado";
             this.colFabricante.Name = "colFabricante";
             this.colFabricante.ReadOnly = true;
             // 
             // colGramos
             // 
-            this.colGramos.FillWeight = 70F;
-            this.colGramos.HeaderText = "Grams";
+            this.colGramos.FillWeight = 100F;
+            this.colGramos.HeaderText = "Método Pago";
             this.colGramos.Name = "colGramos";
             this.colGramos.ReadOnly = true;
             // 
             // colTipo
             // 
-            this.colTipo.FillWeight = 80F;
-            this.colTipo.HeaderText = "Tipo";
+            this.colTipo.FillWeight = 60F;
+            this.colTipo.HeaderText = "Items";
             this.colTipo.Name = "colTipo";
             this.colTipo.ReadOnly = true;
             // 
             // colPrecio
             // 
-            this.colPrecio.FillWeight = 80F;
-            this.colPrecio.HeaderText = "Precio";
+            this.colPrecio.FillWeight = 150F;
+            this.colPrecio.HeaderText = "Medicamentos";
             this.colPrecio.Name = "colPrecio";
             this.colPrecio.ReadOnly = true;
             // 
             // colCantidad
             // 
-            this.colCantidad.FillWeight = 60F;
-            this.colCantidad.HeaderText = "Cant.";
+            this.colCantidad.FillWeight = 90F;
+            this.colCantidad.HeaderText = "Subtotal";
             this.colCantidad.Name = "colCantidad";
             this.colCantidad.ReadOnly = true;
             // 
             // colSubtotal
             // 
             this.colSubtotal.FillWeight = 90F;
-            this.colSubtotal.HeaderText = "Sub Total";
+            this.colSubtotal.HeaderText = "Total";
             this.colSubtotal.Name = "colSubtotal";
             this.colSubtotal.ReadOnly = true;
             // 
