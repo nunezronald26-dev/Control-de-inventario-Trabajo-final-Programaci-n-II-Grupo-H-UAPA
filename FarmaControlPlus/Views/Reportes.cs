@@ -19,8 +19,6 @@ namespace TuProyecto.Views
         public Reportes()
         {
             InitializeComponent();
-
-            // Configurar eventos que deben estar en el archivo .cs
             ConfigurarEventos();
             InicializarControl();
         }
@@ -31,25 +29,19 @@ namespace TuProyecto.Views
             this.dgvReporte.CellFormatting += DgvReporte_CellFormatting;
             this.dgvReporte.RowPostPaint += DgvReporte_RowPostPaint;
 
-            // Comprobar si dtpFecha existe antes de asignar eventos
             if (this.dtpFecha != null)
-            {
                 this.dtpFecha.ValueChanged += DtpFecha_ValueChanged;
-            }
         }
 
         private void InicializarControl()
         {
             ConfigurarEstilos();
-
-            // Cargar datos de ejemplo
             CargarDatosEjemplo();
         }
+
         public void SetFecha(DateTime fecha)
         {
             FechaReporte = fecha;
-
-            // Actualizar dtpFecha si existe
             if (this.dtpFecha != null)
             {
                 this.dtpFecha.ValueChanged -= DtpFecha_ValueChanged;
@@ -64,7 +56,6 @@ namespace TuProyecto.Views
                 return;
 
             dgvReporte.Rows.Clear();
-
             decimal total = 0;
 
             foreach (DataRow fila in datos.Rows)
@@ -96,38 +87,49 @@ namespace TuProyecto.Views
             }
 
             TotalVentas = total;
-            lblTotal.Text = $"TOTAL:\n{total.ToString("F2")}";
+            lblTotal.Text = $"TOTAL: {total.ToString("F2")}";
             lblInfoPaginacion.Text = $"Mostrando 1 a {datos.Rows.Count} de {datos.Rows.Count} registros";
         }
 
         private void ConfigurarEstilos()
         {
-            Color colorPrincipal = Color.FromArgb(52, 152, 219);
-            Color colorSecundario = Color.FromArgb(46, 204, 113);
-            Color colorAccion = Color.FromArgb(155, 89, 182);
+            //pnlEncabezado.BackColor = Color.White;
+            pnlEncabezado.BorderStyle = BorderStyle.FixedSingle;
 
-            pnlEncabezado.BackColor = Color.WhiteSmoke;
+            lblTitulo.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            //lblTitulo.ForeColor = Color.FromArgb(70, 130, 180);
 
-            btnExportar.BackColor = colorAccion;
+            // Configurar DataGridView con estilo de Inventario
+            dgvReporte.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvReporte.RowTemplate.Height = 30;
+            dgvReporte.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 248, 255);
+            dgvReporte.DefaultCellStyle.Font = new Font("Segoe UI", 9);
+            dgvReporte.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvReporte.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(70, 130, 180);
+            dgvReporte.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvReporte.DefaultCellStyle.Padding = new Padding(6, 3, 6, 3);
 
-            btnExportar.ForeColor = Color.White;
-
-            // Configurar botones con estilo plano
+            // Botón Exportar con estilo similar
+            btnExportar.BackColor = Color.FromArgb(46, 204, 113);
+            btnExportar.FlatStyle = FlatStyle.Flat;
             btnExportar.FlatAppearance.BorderSize = 0;
+            btnExportar.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            btnExportar.ForeColor = Color.White;
+            btnExportar.Text = "Exportar Reporte";
 
-            // Estilos para DateTimePicker si existe
+            // Labels con estilo unificado
+            lblTotal.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            //lblTotal.ForeColor = Color.FromArgb(70, 130, 180);
+
+            lblInfoPaginacion.Font = new Font("Segoe UI", 9);
+            lblInfoPaginacion.ForeColor = Color.FromArgb(100, 100, 100);
+
+            // DateTimePicker con estilo
             if (this.dtpFecha != null)
             {
-                this.dtpFecha.CalendarForeColor = Color.Black;
-                this.dtpFecha.CalendarMonthBackground = Color.White;
-                this.dtpFecha.BackColor = Color.White;
-                this.dtpFecha.CalendarTitleBackColor = colorPrincipal;
-                this.dtpFecha.Font = new Font("Segoe UI", 9F);
+                this.dtpFecha.Font = new Font("Segoe UI", 9);
+                //this.dtpFecha.BackColor = Color.White;
             }
-
-            // Estilo alternado filas
-            dgvReporte.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 230, 250);
-            dgvReporte.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
         public void CargarDatosEjemplo()
@@ -161,7 +163,6 @@ namespace TuProyecto.Views
             if (this.dtpFecha == null)
                 return;
 
-            // Actualizar la fecha del reporte y notificar
             FechaReporte = this.dtpFecha.Value.Date;
             FechaCambiada?.Invoke(this, EventArgs.Empty);
         }
@@ -185,17 +186,13 @@ namespace TuProyecto.Views
 
         private void DgvReporte_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            if (e.RowIndex % 2 == 0)
-            {
-                dgvReporte.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Lavender;
-            }
-            else
-            {
-                dgvReporte.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
-            }
+            //// Filas alternadas estilo Inventario
+            //if (e.RowIndex % 2 == 0)
+            //    dgvReporte.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(248, 248, 255);
+            //else
+            //    dgvReporte.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
         }
 
-        // Método para exportar a diferentes formatos
         public bool ExportarReporte(string formato, string rutaArchivo)
         {
             try
@@ -222,13 +219,10 @@ namespace TuProyecto.Views
 
         private bool ExportarCSV(string rutaArchivo)
         {
-            // Implementación básica de exportación a CSV
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(rutaArchivo))
             {
-                // Escribir encabezados
                 writer.WriteLine("Código,Nombre,Fabricante,Grams,Tipo,Precio,Cant.,Sub Total");
 
-                // Escribir datos
                 foreach (DataGridViewRow row in dgvReporte.Rows)
                 {
                     if (!row.IsNewRow)
@@ -251,7 +245,6 @@ namespace TuProyecto.Views
 
         private bool ExportarPDF(string rutaArchivo)
         {
-            // Para PDF necesitarías una librería como iTextSharp
             MessageBox.Show("Exportación a PDF requiere iTextSharp o similar", "Información",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
             return false;

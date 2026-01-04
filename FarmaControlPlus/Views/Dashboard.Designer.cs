@@ -54,15 +54,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.subtitleLabel = new System.Windows.Forms.Label();
             this.card1Panel = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.card1ColorBar = new System.Windows.Forms.Panel();
             this.card1Title = new System.Windows.Forms.Label();
             this.card1Button = new System.Windows.Forms.Button();
             this.card2Panel = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.card2ColorBar = new System.Windows.Forms.Panel();
             this.card2Title = new System.Windows.Forms.Label();
             this.card2StatValue = new System.Windows.Forms.Label();
             this.card2StatLabel = new System.Windows.Forms.Label();
             this.card3Panel = new System.Windows.Forms.Panel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.card3ColorBar = new System.Windows.Forms.Panel();
             this.card3Title = new System.Windows.Forms.Label();
             this.card3Stat1Value = new System.Windows.Forms.Label();
@@ -79,22 +82,19 @@
             this.card5Stat2Value = new System.Windows.Forms.Label();
             this.card5Stat2Label = new System.Windows.Forms.Label();
             this.card6Panel = new System.Windows.Forms.Panel();
+            this.card6Month = new System.Windows.Forms.TextBox();
             this.card6ColorBar = new System.Windows.Forms.Panel();
             this.card6Title = new System.Windows.Forms.Label();
             this.card6StatValue = new System.Windows.Forms.Label();
             this.card6StatLabel = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.card6Month = new System.Windows.Forms.TextBox();
             this.card1Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.card2Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.card3Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.card5Panel.SuspendLayout();
             this.card6Panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // subtitleLabel
@@ -119,6 +119,16 @@
             this.card1Panel.Name = "card1Panel";
             this.card1Panel.Size = new System.Drawing.Size(305, 180);
             this.card1Panel.TabIndex = 2;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(102, 16);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(100, 81);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 5;
+            this.pictureBox2.TabStop = false;
             // 
             // card1ColorBar
             // 
@@ -167,6 +177,16 @@
             this.card2Panel.Name = "card2Panel";
             this.card2Panel.Size = new System.Drawing.Size(305, 180);
             this.card2Panel.TabIndex = 3;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(30, 45);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 81);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
             // 
             // card2ColorBar
             // 
@@ -221,6 +241,16 @@
             this.card3Panel.Name = "card3Panel";
             this.card3Panel.Size = new System.Drawing.Size(305, 180);
             this.card3Panel.TabIndex = 4;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(52, 45);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(100, 81);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox3.TabIndex = 5;
+            this.pictureBox3.TabStop = false;
             // 
             // card3ColorBar
             // 
@@ -335,6 +365,7 @@
             this.card5Button.TabIndex = 2;
             this.card5Button.Text = "Ir a Gestión de Usuarios";
             this.card5Button.UseVisualStyleBackColor = false;
+            this.card5Button.Click += new System.EventHandler(this.btnUsuarios_Click);
             // 
             // card5Stat1Value
             // 
@@ -393,6 +424,18 @@
             this.card6Panel.Size = new System.Drawing.Size(305, 180);
             this.card6Panel.TabIndex = 7;
             // 
+            // card6Month
+            // 
+            this.card6Month.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.card6Month.Font = new System.Drawing.Font("Open Sans", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.card6Month.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.card6Month.Location = new System.Drawing.Point(70, 142);
+            this.card6Month.Name = "card6Month";
+            this.card6Month.Size = new System.Drawing.Size(165, 15);
+            this.card6Month.TabIndex = 5;
+            this.card6Month.Text = "Fecha";
+            this.card6Month.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // card6ColorBar
             // 
             this.card6ColorBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
@@ -428,53 +471,11 @@
             this.card6StatLabel.AutoSize = true;
             this.card6StatLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.card6StatLabel.ForeColor = System.Drawing.Color.DimGray;
-            this.card6StatLabel.Location = new System.Drawing.Point(49, 120);
+            this.card6StatLabel.Location = new System.Drawing.Point(34, 120);
             this.card6StatLabel.Name = "card6StatLabel";
-            this.card6StatLabel.Size = new System.Drawing.Size(207, 19);
+            this.card6StatLabel.Size = new System.Drawing.Size(237, 19);
             this.card6StatLabel.TabIndex = 4;
-            this.card6StatLabel.Text = "Cantidad de Medicinas Vendidas";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(30, 45);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 81);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(102, 16);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(100, 81);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox2.TabIndex = 5;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(52, 45);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(100, 81);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox3.TabIndex = 5;
-            this.pictureBox3.TabStop = false;
-            // 
-            // card6Month
-            // 
-            this.card6Month.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.card6Month.Font = new System.Drawing.Font("Open Sans", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.card6Month.ForeColor = System.Drawing.SystemColors.ScrollBar;
-            this.card6Month.Location = new System.Drawing.Point(70, 142);
-            this.card6Month.Name = "card6Month";
-            this.card6Month.Size = new System.Drawing.Size(165, 15);
-            this.card6Month.TabIndex = 5;
-            this.card6Month.Text = "Fecha";
-            this.card6Month.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.card6StatLabel.Text = "Cantidad de Medicamentos Vendidos";
             // 
             // Dashboard
             // 
@@ -490,17 +491,17 @@
             this.Size = new System.Drawing.Size(980, 640);
             this.card1Panel.ResumeLayout(false);
             this.card1Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.card2Panel.ResumeLayout(false);
             this.card2Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.card3Panel.ResumeLayout(false);
             this.card3Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.card5Panel.ResumeLayout(false);
             this.card5Panel.PerformLayout();
             this.card6Panel.ResumeLayout(false);
             this.card6Panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

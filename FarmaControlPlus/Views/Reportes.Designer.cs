@@ -59,7 +59,7 @@
             // 
             // pnlEncabezado
             // 
-            this.pnlEncabezado.BackColor = System.Drawing.Color.LightGray;
+            this.pnlEncabezado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(246)))), ((int)(((byte)(250)))));
             this.pnlEncabezado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlEncabezado.Controls.Add(this.lblTitulo);
             this.pnlEncabezado.Controls.Add(this.dtpFecha);
@@ -71,10 +71,11 @@
             // lblTitulo
             // 
             this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(20, 15);
+            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
+            this.lblTitulo.Location = new System.Drawing.Point(20, 20);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(139, 25);
+            this.lblTitulo.Size = new System.Drawing.Size(110, 20);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Ventas diarias:";
             // 
@@ -82,7 +83,7 @@
             // 
             this.dtpFecha.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(165, 15);
+            this.dtpFecha.Location = new System.Drawing.Point(136, 19);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(120, 23);
             this.dtpFecha.TabIndex = 2;
@@ -102,6 +103,8 @@
             this.dgvReporte.AllowUserToAddRows = false;
             this.dgvReporte.AllowUserToDeleteRows = false;
             this.dgvReporte.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvReporte.BackgroundColor = System.Drawing.Color.White;
+            this.dgvReporte.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -110,7 +113,7 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvReporte.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvReporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvReporte.ColumnHeadersHeight = 40;
             this.dgvReporte.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCodigo,
             this.colNombre,
@@ -126,7 +129,7 @@
             this.dgvReporte.ReadOnly = true;
             this.dgvReporte.RowHeadersVisible = false;
             this.dgvReporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvReporte.Size = new System.Drawing.Size(964, 403);
+            this.dgvReporte.Size = new System.Drawing.Size(964, 418);
             this.dgvReporte.TabIndex = 2;
             // 
             // colCodigo
@@ -189,7 +192,7 @@
             // 
             this.lblInfoPaginacion.AutoSize = true;
             this.lblInfoPaginacion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInfoPaginacion.Location = new System.Drawing.Point(22, 505);
+            this.lblInfoPaginacion.Location = new System.Drawing.Point(10, 533);
             this.lblInfoPaginacion.Name = "lblInfoPaginacion";
             this.lblInfoPaginacion.Size = new System.Drawing.Size(77, 19);
             this.lblInfoPaginacion.TabIndex = 0;
@@ -199,7 +202,7 @@
             // 
             this.lblTotal.AutoSize = true;
             this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotal.Location = new System.Drawing.Point(801, 504);
+            this.lblTotal.Location = new System.Drawing.Point(801, 532);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(60, 21);
             this.lblTotal.TabIndex = 1;
@@ -210,7 +213,7 @@
             this.btnExportar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportar.ForeColor = System.Drawing.Color.Black;
-            this.btnExportar.Location = new System.Drawing.Point(558, 499);
+            this.btnExportar.Location = new System.Drawing.Point(558, 527);
             this.btnExportar.Name = "btnExportar";
             this.btnExportar.Size = new System.Drawing.Size(100, 30);
             this.btnExportar.TabIndex = 4;

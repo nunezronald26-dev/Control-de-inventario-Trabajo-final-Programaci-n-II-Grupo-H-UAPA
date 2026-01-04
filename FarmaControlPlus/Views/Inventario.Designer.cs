@@ -102,39 +102,49 @@
             // 
             // btnLimpiarBusqueda
             // 
-            this.btnLimpiarBusqueda.Location = new System.Drawing.Point(350, 15);
+            this.btnLimpiarBusqueda.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
+            this.btnLimpiarBusqueda.FlatAppearance.BorderSize = 0;
+            this.btnLimpiarBusqueda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLimpiarBusqueda.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            this.btnLimpiarBusqueda.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnLimpiarBusqueda.Location = new System.Drawing.Point(534, 10);
             this.btnLimpiarBusqueda.Name = "btnLimpiarBusqueda";
-            this.btnLimpiarBusqueda.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiarBusqueda.Size = new System.Drawing.Size(100, 30);
             this.btnLimpiarBusqueda.TabIndex = 3;
             this.btnLimpiarBusqueda.Text = "Limpiar";
-            this.btnLimpiarBusqueda.UseVisualStyleBackColor = true;
+            this.btnLimpiarBusqueda.UseVisualStyleBackColor = false;
             this.btnLimpiarBusqueda.Click += new System.EventHandler(this.btnLimpiarBusqueda_Click);
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(270, 15);
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.btnBuscar.FlatAppearance.BorderSize = 0;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            this.btnBuscar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnBuscar.Location = new System.Drawing.Point(419, 10);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(75, 23);
+            this.btnBuscar.Size = new System.Drawing.Size(100, 30);
             this.btnBuscar.TabIndex = 2;
             this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // txtBuscar
             // 
-            this.txtBuscar.Location = new System.Drawing.Point(80, 16);
+            this.txtBuscar.Location = new System.Drawing.Point(91, 15);
             this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.Size = new System.Drawing.Size(180, 20);
+            this.txtBuscar.Size = new System.Drawing.Size(311, 20);
             this.txtBuscar.TabIndex = 1;
             this.txtBuscar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscar_KeyPress);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(20, 18);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(20, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 15);
+            this.label2.Size = new System.Drawing.Size(61, 20);
             this.label2.TabIndex = 0;
             this.label2.Text = "Buscar:";
             // 
@@ -370,8 +380,6 @@
             this.panelSinStock.Name = "panelSinStock";
             this.panelSinStock.Size = new System.Drawing.Size(181, 42);
             this.panelSinStock.TabIndex = 1;
-
-
             // 
             // label6
             // 

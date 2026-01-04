@@ -78,6 +78,7 @@
             this.panelUsuario.Name = "panelUsuario";
             this.panelUsuario.Size = new System.Drawing.Size(179, 48);
             this.panelUsuario.TabIndex = 2;
+            this.panelUsuario.Click += new System.EventHandler(this.InformaciónUsuario);
             // 
             // lblRangoUsuario
             // 

@@ -1,11 +1,11 @@
-﻿using Npgsql;
+using Npgsql;
 
 namespace FarmaControlPlus
 {
     public static class ConexionBD
     {
         private static string cadena =
-            "Host=localhost;Port=5432;Database=FarmaControlPlus;Username=postgres;Password=admin1234";
+            "Host=localhost;Port=5432;Database=FarmaControlPlus;Username=postgres;Password=admin";
 
         public static NpgsqlConnection ObtenerConexion()
         {

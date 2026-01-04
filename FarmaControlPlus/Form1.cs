@@ -19,6 +19,7 @@ namespace FarmaControlPlus
         private Reportes reportesView;
         private Configuracion configuracionView;
         private Usuarios usuariosView;
+        private UcdetalleUsuario UcdetalleUsuario;
 
         public Form1()
         {
@@ -36,6 +37,7 @@ namespace FarmaControlPlus
             reportesView = new Reportes();
             configuracionView = new Configuracion();
             usuariosView = new Usuarios();
+            UcdetalleUsuario = new UcdetalleUsuario();
 
             // Configurar propiedades comunes
             ConfigurarVista(dashboardView);
@@ -114,10 +116,31 @@ namespace FarmaControlPlus
             lblTitulo.Text = "Configuración";
         }
 
-        private void btnUsuarios_Click(object sender, EventArgs e)
+        public void btnUsuarios_Click(object sender, EventArgs e)
         {
             MostrarVista(usuariosView);
-            lblTitulo.Text = "Gestión de Usuarios";
+            lblTitulo.Text = "Gestión de Empleados";
+        }
+
+        private void InformaciónUsuario(object sender, EventArgs e)
+        {
+            // 1. Ensure instance exists
+            if (UcdetalleUsuario == null)
+            {
+                UcdetalleUsuario = new UcdetalleUsuario();
+            }
+
+            // 2. If not added to the container, configure and add it
+            if (!panelContenedor.Controls.Contains(UcdetalleUsuario))
+            {
+                ConfigurarVista(UcdetalleUsuario);
+            }
+
+            // 3. Show the user control using the existing helper (hides other views)
+            MostrarVista(UcdetalleUsuario);
+
+            // 4. Update title
+            lblTitulo.Text = "Información de Empleado";
         }
     }
 }
