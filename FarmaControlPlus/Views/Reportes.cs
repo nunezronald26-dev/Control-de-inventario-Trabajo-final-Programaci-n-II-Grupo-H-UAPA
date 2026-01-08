@@ -166,7 +166,7 @@ namespace TuProyecto.Views
             }
 
             TotalVentas = totalVentasDia;
-            lblTotal.Text = $"TOTAL DEL DÍA: {totalVentasDia.ToString("C", CultureInfo.CreateSpecificCulture("es-PA"))}";
+            lblTotal.Text = $"TOTAL DEL DÍA: ${totalVentasDia.ToString("F2")}";
             lblInfoPaginacion.Text = $"Mostrando {datos.Rows.Count} ventas del {FechaReporte.ToString("dd/MM/yyyy")}";
             lblTitulo.Text = "Ventas diarias:";
         }
@@ -305,7 +305,7 @@ namespace TuProyecto.Views
             }
 
             TotalVentas = totalVenta;
-            lblTotal.Text = $"TOTAL VENTA: {totalVenta.ToString("C", CultureInfo.CreateSpecificCulture("es-PA"))}";
+            lblTotal.Text = $"TOTAL VENTA: ${totalVenta.ToString("F2")}";
             lblInfoPaginacion.Text = $"Mostrando {datos.Rows.Count} items de la venta {codigoVenta}";
             lblTitulo.Text = $"Detalles de Venta: {codigoVenta}";
         }
@@ -429,7 +429,7 @@ namespace TuProyecto.Views
         {
             if (e.RowIndex < 0) return;
 
-            // Formatear columnas de moneda
+            // Formatear columnas de moneda - CAMBIAR TODAS ESTAS LÍNEAS
             if ((e.ColumnIndex == dgvReporte.Columns["colCantidad"].Index && enModoDetalles) ||
                 (e.ColumnIndex == dgvReporte.Columns["colSubtotal"].Index))
             {
@@ -438,7 +438,8 @@ namespace TuProyecto.Views
                     decimal valor;
                     if (decimal.TryParse(e.Value.ToString(), out valor))
                     {
-                        e.Value = valor.ToString("C", CultureInfo.CreateSpecificCulture("es-PA"));
+                        // CAMBIAR ESTA LÍNEA:
+                        e.Value = valor.ToString("$#,##0.00");
                         e.FormattingApplied = true;
                     }
                 }
@@ -452,7 +453,8 @@ namespace TuProyecto.Views
                     decimal valor;
                     if (decimal.TryParse(e.Value.ToString(), out valor))
                     {
-                        e.Value = valor.ToString("C", CultureInfo.CreateSpecificCulture("es-PA"));
+                        // CAMBIAR ESTA LÍNEA:
+                        e.Value = valor.ToString("$#,##0.00");
                         e.FormattingApplied = true;
                     }
                 }
@@ -466,7 +468,8 @@ namespace TuProyecto.Views
                     decimal valor;
                     if (decimal.TryParse(e.Value.ToString(), out valor))
                     {
-                        e.Value = valor.ToString("C", CultureInfo.CreateSpecificCulture("es-PA"));
+                        // CAMBIAR ESTA LÍNEA:
+                        e.Value = valor.ToString("$#,##0.00");
                         e.FormattingApplied = true;
                     }
                 }
@@ -522,7 +525,7 @@ namespace TuProyecto.Views
                     {
                         writer.WriteLine("Reporte de Ventas Diarias");
                         writer.WriteLine($"Fecha: {FechaReporte.ToString("dd/MM/yyyy")}");
-                        writer.WriteLine($"Total del día: {TotalVentas.ToString("C", CultureInfo.CreateSpecificCulture("es-PA"))}");
+                        writer.WriteLine($"Total del día: ${TotalVentas.ToString("F2")}");
                         writer.WriteLine();
                         writer.WriteLine("Código Venta,Hora,Empleado,Método Pago,Items,Medicamentos,Subtotal,Total");
                     }
