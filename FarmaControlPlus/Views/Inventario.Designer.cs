@@ -96,7 +96,7 @@
             this.panelBusqueda.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelBusqueda.Location = new System.Drawing.Point(0, 0);
             this.panelBusqueda.Name = "panelBusqueda";
-            this.panelBusqueda.Size = new System.Drawing.Size(984, 50);
+            this.panelBusqueda.Size = new System.Drawing.Size(1005, 50);
             this.panelBusqueda.TabIndex = 1;
             // 
             // btnLimpiarBusqueda
@@ -155,7 +155,7 @@
             this.panelContenido.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContenido.Location = new System.Drawing.Point(0, 50);
             this.panelContenido.Name = "panelContenido";
-            this.panelContenido.Size = new System.Drawing.Size(754, 521);
+            this.panelContenido.Size = new System.Drawing.Size(775, 337);
             this.panelContenido.TabIndex = 2;
             // 
             // groupBoxInventario
@@ -166,7 +166,7 @@
             this.groupBoxInventario.Location = new System.Drawing.Point(0, 0);
             this.groupBoxInventario.Name = "groupBoxInventario";
             this.groupBoxInventario.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBoxInventario.Size = new System.Drawing.Size(754, 471);
+            this.groupBoxInventario.Size = new System.Drawing.Size(775, 287);
             this.groupBoxInventario.TabIndex = 2;
             this.groupBoxInventario.TabStop = false;
             this.groupBoxInventario.Text = "Inventario de Medicamentos";
@@ -212,7 +212,7 @@
             this.dataGridViewInventario.RowHeadersVisible = false;
             this.dataGridViewInventario.RowTemplate.Height = 35;
             this.dataGridViewInventario.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewInventario.Size = new System.Drawing.Size(734, 437);
+            this.dataGridViewInventario.Size = new System.Drawing.Size(755, 253);
             this.dataGridViewInventario.TabIndex = 0;
             this.dataGridViewInventario.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewInventario_CellClick);
             // 
@@ -264,9 +264,9 @@
             this.panelBotones.Controls.Add(this.btnActualizar);
             this.panelBotones.Controls.Add(this.btnNuevoMedicamento);
             this.panelBotones.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBotones.Location = new System.Drawing.Point(0, 471);
+            this.panelBotones.Location = new System.Drawing.Point(0, 287);
             this.panelBotones.Name = "panelBotones";
-            this.panelBotones.Size = new System.Drawing.Size(754, 50);
+            this.panelBotones.Size = new System.Drawing.Size(775, 50);
             this.panelBotones.TabIndex = 1;
             // 
             // btnExportar
@@ -541,9 +541,9 @@
             this.panelDetalles.Controls.Add(this.label12);
             this.panelDetalles.Controls.Add(this.label13);
             this.panelDetalles.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelDetalles.Location = new System.Drawing.Point(754, 50);
+            this.panelDetalles.Location = new System.Drawing.Point(775, 50);
             this.panelDetalles.Name = "panelDetalles";
-            this.panelDetalles.Size = new System.Drawing.Size(230, 521);
+            this.panelDetalles.Size = new System.Drawing.Size(230, 337);
             this.panelDetalles.TabIndex = 3;
             // 
             // lblDetalles
@@ -584,7 +584,7 @@
             this.Controls.Add(this.panelDetalles);
             this.Controls.Add(this.panelBusqueda);
             this.Name = "Inventario";
-            this.Size = new System.Drawing.Size(984, 571);
+            this.Size = new System.Drawing.Size(1005, 387);
             this.Load += new System.EventHandler(this.Inventario_Load);
             this.panelBusqueda.ResumeLayout(false);
             this.panelBusqueda.PerformLayout();

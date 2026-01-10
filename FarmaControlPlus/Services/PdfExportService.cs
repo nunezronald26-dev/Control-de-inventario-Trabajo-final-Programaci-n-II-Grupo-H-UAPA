@@ -154,6 +154,124 @@ namespace TuProyecto.Services
             }
         }
 
+        public static void ExportarFacturaVenta(
+    List<DetalleFacturaPDF> detalles,
+    string total,
+    string filePath)
+        {
+            try
+            {
+                QuestPDF.Settings.License = LicenseType.Community;
+
+                var document = Document.Create(container =>
+                {
+                    container.Page(page =>
+                    {
+                        page.Size(PageSizes.A4);
+                        page.Margin(50);
+
+                        // ================= ENCABEZADO =================
+                        page.Header()
+                            .Column(col =>
+                            {
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text("FACTURA DE VENTA")
+                                    .SemiBold().FontSize(20).FontColor(PdfColors.BlueDarken3);
+
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text("FarmaControlPlus")
+                                    .FontSize(12).FontColor(PdfColors.GreyDarken1);
+
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text($"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}")
+                                    .FontSize(9).FontColor(PdfColors.GreyMedium);
+
+                                col.Item().PaddingBottom(10).LineHorizontal(1);
+                            });
+
+                        // ================= CONTENIDO =================
+                        page.Content()
+                            .PaddingVertical(10)
+                            .Column(column =>
+                            {
+                                column.Item().Table(table =>
+                                {
+                                    table.ColumnsDefinition(columns =>
+                                    {
+                                        columns.RelativeColumn(3); // Medicamento
+                                        columns.RelativeColumn(1); // Cantidad
+                                        columns.RelativeColumn(1.5f); // Precio
+                                        columns.RelativeColumn(1.5f); // Subtotal
+                                    });
+
+                                    // Encabezados
+                                    table.Header(header =>
+                                    {
+                                        header.Cell().Background(PdfColors.BlueDarken3).Padding(5)
+                                            .Text("MEDICAMENTO").FontColor(PdfColors.White).Bold().AlignCenter();
+
+                                        header.Cell().Background(PdfColors.BlueDarken3).Padding(5)
+                                            .Text("CANT.").FontColor(PdfColors.White).Bold().AlignCenter();
+
+                                        header.Cell().Background(PdfColors.BlueDarken3).Padding(5)
+                                            .Text("PRECIO").FontColor(PdfColors.White).Bold().AlignCenter();
+
+                                        header.Cell().Background(PdfColors.BlueDarken3).Padding(5)
+                                            .Text("SUBTOTAL").FontColor(PdfColors.White).Bold().AlignCenter();
+                                    });
+
+                                    // Detalle
+                                    for (int i = 0; i < detalles.Count; i++)
+                                    {
+                                        var item = detalles[i];
+                                        var rowColor = i % 2 == 0 ? PdfColors.GreyLighten4 : PdfColors.White;
+
+                                        table.Cell().Background(rowColor).Padding(4).Border(1)
+                                            .Text(item.Medicamento).FontSize(9);
+
+                                        table.Cell().Background(rowColor).Padding(4).Border(1)
+                                            .Text(item.Cantidad.ToString()).FontSize(9).AlignCenter();
+
+                                        table.Cell().Background(rowColor).Padding(4).Border(1)
+                                            .Text(item.Precio).FontSize(9).AlignRight();
+
+                                        table.Cell().Background(rowColor).Padding(4).Border(1)
+                                            .Text(item.Subtotal).FontSize(9).AlignRight();
+                                    }
+                                });
+
+                                // TOTAL
+                                column.Item().PaddingTop(10)
+                                    .AlignRight()
+                                    .Text($"TOTAL: {total}")
+                                    .Bold().FontSize(12).FontColor(PdfColors.Black);
+                            });
+
+                        // ================= PIE =================
+                        page.Footer()
+                            .AlignCenter()
+                            .Text(text =>
+                            {
+                                text.Span("Página ");
+                                text.CurrentPageNumber();
+                                text.Span(" de ");
+                                text.TotalPages();
+                                text.Span(" • FarmaControlPlus © 2024");
+                            });
+                    });
+                });
+
+                document.GeneratePdf(filePath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al generar factura PDF: {ex.Message}", ex);
+            }
+        }
+
         private static string ObtenerColorEstado(string estado)
         {
             switch (estado)

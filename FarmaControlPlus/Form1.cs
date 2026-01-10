@@ -38,6 +38,7 @@ namespace FarmaControlPlus
             InicializarVistas();
             ConfigurarUIUsuario();
             MostrarVista(dashboardView);
+
         }
 
         // Método para configurar la UI según el usuario
@@ -63,14 +64,14 @@ namespace FarmaControlPlus
 
         private void InicializarVistas()
         {
-            // Crear instancias de las vistas
+            // Crear instancias
             dashboardView = new Dashboard();
             inventarioView = new Inventario();
             reportesView = new Reportes();
             usuariosView = new Usuarios();
             UcdetalleUsuario = new UcdetalleUsuario();
 
-            // Configurar propiedades comunes
+            // Configurar todas (incluyendo venta)
             ConfigurarVista(dashboardView);
             ConfigurarVista(inventarioView);
             ConfigurarVista(reportesView);
@@ -244,5 +245,16 @@ namespace FarmaControlPlus
             }
         }
 
+        private Venta ventaView;
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnNuevaVentaDashboard_Click(object sender, EventArgs e)
+        {
+            var venta = new Venta();
+            venta.Show();
+        }
     }
 }

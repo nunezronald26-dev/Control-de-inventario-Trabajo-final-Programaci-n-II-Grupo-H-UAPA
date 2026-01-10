@@ -2,7 +2,6 @@
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -33,6 +32,7 @@ namespace TuProyecto.Views
                 med.FechaVencimiento.ToString("dd/MM/yyyy") // Cambiado a formato consistente
             );
         }
+
 
         private void GuardarMedicamentoBD(Medicamento med)
         {

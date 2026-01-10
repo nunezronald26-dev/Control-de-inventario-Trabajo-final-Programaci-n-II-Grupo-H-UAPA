@@ -19,6 +19,8 @@
             {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnNuevaVenta = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelUsuario = new System.Windows.Forms.Panel();
             this.lblRangoUsuario = new System.Windows.Forms.Label();
             this.lblNombreUsuario = new System.Windows.Forms.Label();
@@ -41,7 +43,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnlDashboard = new System.Windows.Forms.Panel();
             this.lblDashboard = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelUsuario.SuspendLayout();
             this.panelLogo.SuspendLayout();
@@ -57,6 +58,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(53)))), ((int)(((byte)(65)))));
+            this.panelMenu.Controls.Add(this.btnNuevaVenta);
             this.panelMenu.Controls.Add(this.button1);
             this.panelMenu.Controls.Add(this.panelUsuario);
             this.panelMenu.Controls.Add(this.btnUsuarios);
@@ -69,6 +71,40 @@
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(220, 700);
             this.panelMenu.TabIndex = 0;
+            // 
+            // btnNuevaVenta
+            // 
+            this.btnNuevaVenta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNuevaVenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnNuevaVenta.ForeColor = System.Drawing.Color.White;
+            this.btnNuevaVenta.Image = ((System.Drawing.Image)(resources.GetObject("btnNuevaVenta.Image")));
+            this.btnNuevaVenta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNuevaVenta.Location = new System.Drawing.Point(3, 306);
+            this.btnNuevaVenta.Name = "btnNuevaVenta";
+            this.btnNuevaVenta.Size = new System.Drawing.Size(217, 50);
+            this.btnNuevaVenta.TabIndex = 7;
+            this.btnNuevaVenta.Text = "   Nueva Venta";
+            this.btnNuevaVenta.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnNuevaVenta.UseVisualStyleBackColor = true;
+            this.btnNuevaVenta.Click += new System.EventHandler(this.btnNuevaVentaDashboard_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Red;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(0, 662);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(220, 38);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "SALIR";
+            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // panelUsuario
             // 
@@ -349,24 +385,6 @@
             this.lblDashboard.TabIndex = 0;
             this.lblDashboard.Text = "Dashboard (Próximo)";
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Red;
-            this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(0, 662);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(220, 38);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "SALIR";
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.btnLogout_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,10 +393,11 @@
             this.Controls.Add(this.panelContenedor);
             this.Controls.Add(this.panelSuperior);
             this.Controls.Add(this.panelMenu);
-            this.MinimumSize = new System.Drawing.Size(1216, 739);
+            this.MinimumSize = new System.Drawing.Size(1216, 726);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sistema de Gestión";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panelMenu.ResumeLayout(false);
             this.panelUsuario.ResumeLayout(false);
             this.panelUsuario.PerformLayout();
@@ -427,5 +446,6 @@
             private System.Windows.Forms.Panel pnlUsuarios;
             private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnNuevaVenta;
     }
     }
